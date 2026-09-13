@@ -21,7 +21,7 @@
   </div>
 
   <div class="content-body">
-    <% event.fullContent.split('\n').forEach(para => { if(para.trim()) { %><p><%= para %></p><% } }); %>
+    <%- event.fullContent || '' %>
   </div>
 
   <div style="margin-top:40px;padding-top:24px;border-top:1px solid var(--border);display:flex;gap:12px;flex-wrap:wrap;">

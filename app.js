@@ -97,7 +97,7 @@ function makeSlug(text, suffix) {
 app.get('/', async (req, res) => {
   const [mainExecs, featuredEvents, latestNews] = await Promise.all([
     Executive.find({ type: 'main' }).sort({ order: 1 }).limit(3),
-    Event.find({ published: true, featured: true }).sort({ date: -1 }).limit(4),
+    Event.find({ published: true, featured: true }).sort({ date: -1 }),
     News.find({ published: true }).sort({ date: -1 }).limit(3)
   ]);
   res.render('index', { site: res.locals.site, page: 'home', executives: mainExecs, featuredEvents, latestNews });
