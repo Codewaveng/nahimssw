@@ -4,16 +4,16 @@ const connectDB = require('../config/db');
 const { News } = require('../models');
 
 const imageMap = {
-  'due-notice-2025':                   '/images/news/due-notice.png',
-  'world-blood-donor-day-2026':        '/images/news/blood-donor.png',
-  'world-no-tobacco-day-2026':         '/images/news/no-tobacco.png',
-  'who-global-health-statistics-2026': '/images/news/who-stats.png',
-  'world-hypertension-day-2026':       '/images/news/hypertension.png',
-  'world-malaria-day-2026':            '/images/news/malaria.png',
-  'world-health-day-2026':             '/images/news/world-health.png',
-  'nigeria-nhia-expansion-2026':       '/images/news/nhia.png',
-  'dhis2-nigeria-rollout-2026':        '/images/news/dhis2.png',
-  'due-registration-2026':             '/images/news/due-notice.png',
+  'due-notice-2025':                   '/images/news/due-notice.svg',
+  'world-blood-donor-day-2026':        '/images/news/blood-donor.svg',
+  'world-no-tobacco-day-2026':         '/images/news/no-tobacco.svg',
+  'who-global-health-statistics-2026': '/images/news/who-stats.svg',
+  'world-hypertension-day-2026':       '/images/news/hypertension.svg',
+  'world-malaria-day-2026':            '/images/news/malaria.svg',
+  'world-health-day-2026':             '/images/news/world-health.svg',
+  'nigeria-nhia-expansion-2026':       '/images/news/nhia.svg',
+  'dhis2-nigeria-rollout-2026':        '/images/news/dhis2.svg',
+  'due-registration-2026':             '/images/news/due-notice.svg',
   'nahims-sw-gen-sec-pledges-100k-ai-web3-launchpad-1781500000000': '/techevnt.jpg',
 };
 
