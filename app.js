@@ -300,7 +300,8 @@ app.post('/admin/executives/update/:id', requireAdmin,
 );
 
 app.post('/admin/executives/delete/:id', requireAdmin, async (req, res) => {
-  await Executive.findByIdAndDelete(req.params.id);
+  const doc = await Executive.findByIdAndDelete(req.params.id);
+  if (doc?.image) fs.remove(path.join(__dirname, 'public', doc.image)).catch(() => {});
   res.redirect('/admin/executives?success=Executive removed');
 });
 
@@ -360,7 +361,10 @@ app.post('/admin/events/update/:id', requireAdmin,
       ev.fullContent   = req.body.fullContent;
       ev.featured      = req.body.featured === 'on';
       ev.published     = req.body.published === 'on';
-      if (req.file) ev.image = '/images/events/' + req.file.filename;
+      if (req.file) {
+        if (ev.image) fs.remove(path.join(__dirname, 'public', ev.image)).catch(() => {});
+        ev.image = '/images/events/' + req.file.filename;
+      }
       await ev.save();
     }
     res.redirect('/admin/events?success=Event updated');
@@ -368,7 +372,8 @@ app.post('/admin/events/update/:id', requireAdmin,
 );
 
 app.post('/admin/events/delete/:id', requireAdmin, async (req, res) => {
-  await Event.findByIdAndDelete(req.params.id);
+  const doc = await Event.findByIdAndDelete(req.params.id);
+  if (doc?.image) fs.remove(path.join(__dirname, 'public', doc.image)).catch(() => {});
   res.redirect('/admin/events?success=Event deleted');
 });
 
@@ -420,7 +425,10 @@ app.post('/admin/news/update/:id', requireAdmin,
       article.excerpt   = req.body.excerpt;
       article.content   = req.body.content;
       article.published = req.body.published === 'on';
-      if (req.file) article.image = '/images/news/' + req.file.filename;
+      if (req.file) {
+        if (article.image) fs.remove(path.join(__dirname, 'public', article.image)).catch(() => {});
+        article.image = '/images/news/' + req.file.filename;
+      }
       await article.save();
     }
     res.redirect('/admin/news?success=Article updated');
@@ -428,7 +436,8 @@ app.post('/admin/news/update/:id', requireAdmin,
 );
 
 app.post('/admin/news/delete/:id', requireAdmin, async (req, res) => {
-  await News.findByIdAndDelete(req.params.id);
+  const doc = await News.findByIdAndDelete(req.params.id);
+  if (doc?.image) fs.remove(path.join(__dirname, 'public', doc.image)).catch(() => {});
   res.redirect('/admin/news?success=Article deleted');
 });
 
@@ -487,7 +496,8 @@ app.post('/admin/materials/add', requireAdmin,
 );
 
 app.post('/admin/materials/delete/:id', requireAdmin, async (req, res) => {
-  await Material.findByIdAndDelete(req.params.id);
+  const doc = await Material.findByIdAndDelete(req.params.id);
+  if (doc?.file) fs.remove(path.join(__dirname, 'public', doc.file)).catch(() => {});
   res.redirect('/admin/materials?success=Material deleted');
 });
 
