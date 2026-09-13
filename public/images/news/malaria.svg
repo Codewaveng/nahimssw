@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="420" viewBox="0 0 800 420">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#065f46"/>
+      <stop offset="100%" stop-color="#022c22"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="420" fill="url(#bg)"/>
+  <!-- shield -->
+  <path d="M400 90 L490 120 L490 220 C490 265 450 295 400 315 C350 295 310 265 310 220 L310 120 Z" fill="white" opacity="0.15" stroke="white" stroke-width="3" stroke-opacity="0.6"/>
+  <!-- mosquito body (simple) -->
+  <ellipse cx="400" cy="195" rx="22" ry="9" fill="white" opacity="0.85"/>
+  <!-- wings -->
+  <ellipse cx="365" cy="180" rx="38" ry="16" fill="white" opacity="0.45" transform="rotate(-15,365,180)"/>
+  <ellipse cx="435" cy="180" rx="38" ry="16" fill="white" opacity="0.45" transform="rotate(15,435,180)"/>
+  <!-- legs -->
+  <line x1="385" y1="200" x2="355" y2="225" stroke="white" stroke-width="2" opacity="0.7"/>
+  <line x1="395" y1="203" x2="375" y2="232" stroke="white" stroke-width="2" opacity="0.7"/>
+  <line x1="405" y1="203" x2="425" y2="232" stroke="white" stroke-width="2" opacity="0.7"/>
+  <line x1="415" y1="200" x2="445" y2="225" stroke="white" stroke-width="2" opacity="0.7"/>
+  <!-- proboscis -->
+  <line x1="400" y1="195" x2="400" y2="155" stroke="white" stroke-width="2.5" opacity="0.8"/>
+  <!-- check inside shield -->
+  <polyline points="370,200 393,222 435,178" stroke="#4ade80" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+  <!-- label -->
+  <rect x="0" y="360" width="800" height="60" fill="rgba(0,0,0,0.4)"/>
+  <text x="400" y="399" font-family="Arial,sans-serif" font-size="22" font-weight="bold" fill="white" text-anchor="middle" letter-spacing="2">HEALTH AWARENESS · NAHIMS SW</text>
+</svg>

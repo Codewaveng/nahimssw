@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="420" viewBox="0 0 800 420">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0B6E4F"/>
+      <stop offset="100%" stop-color="#052e1c"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="420" fill="url(#bg)"/>
+  <!-- document -->
+  <rect x="310" y="100" width="180" height="230" rx="10" fill="white" opacity="0.92"/>
+  <!-- dog-ear -->
+  <polygon points="450,100 490,140 450,140" fill="#d1fae5" opacity="0.9"/>
+  <polygon points="450,100 490,100 490,140" fill="#6ee7b7" opacity="0.7"/>
+  <!-- lines on document -->
+  <rect x="330" y="155" width="120" height="8" rx="4" fill="#0B6E4F" opacity="0.35"/>
+  <rect x="330" y="175" width="100" height="8" rx="4" fill="#0B6E4F" opacity="0.25"/>
+  <rect x="330" y="195" width="110" height="8" rx="4" fill="#0B6E4F" opacity="0.25"/>
+  <rect x="330" y="215" width="90" height="8" rx="4" fill="#0B6E4F" opacity="0.25"/>
+  <rect x="330" y="235" width="120" height="8" rx="4" fill="#0B6E4F" opacity="0.25"/>
+  <rect x="330" y="255" width="80" height="8" rx="4" fill="#0B6E4F" opacity="0.25"/>
+  <!-- naira coin -->
+  <circle cx="390" cy="300" r="28" fill="#fbbf24" opacity="0.95"/>
+  <text x="390" y="308" font-family="Arial,sans-serif" font-size="22" font-weight="bold" fill="#78350f" text-anchor="middle">₦</text>
+  <!-- label -->
+  <rect x="0" y="360" width="800" height="60" fill="rgba(0,0,0,0.4)"/>
+  <text x="400" y="399" font-family="Arial,sans-serif" font-size="22" font-weight="bold" fill="white" text-anchor="middle" letter-spacing="2">OFFICIAL NOTICE · NAHIMS SW</text>
+</svg>

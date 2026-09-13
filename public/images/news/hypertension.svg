@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="420" viewBox="0 0 800 420">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#9f1239"/>
+      <stop offset="100%" stop-color="#450a20"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="420" fill="url(#bg)"/>
+  <!-- heart shape -->
+  <path d="M400 290 L270 175 C240 145 240 100 270 80 C300 60 340 70 360 95 L400 130 L440 95 C460 70 500 60 530 80 C560 100 560 145 530 175 Z" fill="white" opacity="0.88"/>
+  <!-- ECG line across heart -->
+  <polyline points="160,210 230,210 260,175 285,245 310,160 340,245 370,210 430,210 450,190 465,230 480,210 640,210" stroke="#f87171" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- label -->
+  <rect x="0" y="360" width="800" height="60" fill="rgba(0,0,0,0.38)"/>
+  <text x="400" y="399" font-family="Arial,sans-serif" font-size="22" font-weight="bold" fill="white" text-anchor="middle" letter-spacing="2">HEALTH AWARENESS · NAHIMS SW</text>
+</svg>

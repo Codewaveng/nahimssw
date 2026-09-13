@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="420" viewBox="0 0 800 420">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1e3a5f"/>
+      <stop offset="100%" stop-color="#0f2027"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="420" fill="url(#bg)"/>
+  <!-- cigarette body -->
+  <rect x="220" y="196" width="340" height="28" rx="14" fill="white" opacity="0.85"/>
+  <rect x="520" y="196" width="40" height="28" rx="4" fill="#f97316" opacity="0.9"/>
+  <!-- filter -->
+  <rect x="220" y="196" width="60" height="28" rx="14" fill="#e2c17a" opacity="0.9"/>
+  <!-- smoke wisps -->
+  <path d="M555 190 Q565 170 555 155 Q545 140 555 125" stroke="white" stroke-width="3" fill="none" opacity="0.4" stroke-linecap="round"/>
+  <path d="M545 190 Q530 168 542 150 Q554 132 540 115" stroke="white" stroke-width="2.5" fill="none" opacity="0.3" stroke-linecap="round"/>
+  <!-- NO circle -->
+  <circle cx="390" cy="210" r="90" stroke="#ef4444" stroke-width="14" fill="none" opacity="0.95"/>
+  <line x1="327" y1="147" x2="453" y2="273" stroke="#ef4444" stroke-width="14" stroke-linecap="round" opacity="0.95"/>
+  <!-- label -->
+  <rect x="0" y="360" width="800" height="60" fill="rgba(0,0,0,0.45)"/>
+  <text x="400" y="399" font-family="Arial,sans-serif" font-size="22" font-weight="bold" fill="white" text-anchor="middle" letter-spacing="2">HEALTH AWARENESS · NAHIMS SW</text>
+</svg>

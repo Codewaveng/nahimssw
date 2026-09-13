@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="420" viewBox="0 0 800 420">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0B6E4F"/>
+      <stop offset="100%" stop-color="#052e1c"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="420" fill="url(#bg)"/>
+  <!-- caduceus staff -->
+  <rect x="393" y="95" width="14" height="220" rx="7" fill="white" opacity="0.88"/>
+  <!-- snake 1 -->
+  <path d="M400 130 Q440 150 420 175 Q400 200 440 220 Q460 235 440 255 Q420 270 400 265" stroke="white" stroke-width="6" fill="none" opacity="0.75" stroke-linecap="round"/>
+  <!-- snake 2 -->
+  <path d="M400 130 Q360 150 380 175 Q400 200 360 220 Q340 235 360 255 Q380 270 400 265" stroke="white" stroke-width="6" fill="none" opacity="0.75" stroke-linecap="round"/>
+  <!-- wings -->
+  <path d="M400 110 Q450 90 470 110 Q450 125 400 118Z" fill="white" opacity="0.6"/>
+  <path d="M400 110 Q350 90 330 110 Q350 125 400 118Z" fill="white" opacity="0.6"/>
+  <!-- globe ring -->
+  <circle cx="400" cy="200" r="130" stroke="white" stroke-width="2" fill="none" opacity="0.12"/>
+  <!-- label -->
+  <rect x="0" y="360" width="800" height="60" fill="rgba(0,0,0,0.4)"/>
+  <text x="400" y="399" font-family="Arial,sans-serif" font-size="22" font-weight="bold" fill="white" text-anchor="middle" letter-spacing="2">HEALTH AWARENESS · NAHIMS SW</text>
+</svg>

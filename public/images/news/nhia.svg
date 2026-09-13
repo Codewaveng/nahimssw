@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="420" viewBox="0 0 800 420">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1e40af"/>
+      <stop offset="100%" stop-color="#0a1535"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="420" fill="url(#bg)"/>
+  <!-- building outline -->
+  <rect x="310" y="155" width="180" height="160" rx="4" fill="white" opacity="0.12" stroke="white" stroke-width="2.5" stroke-opacity="0.5"/>
+  <!-- columns -->
+  <rect x="325" y="175" width="18" height="130" rx="3" fill="white" opacity="0.45"/>
+  <rect x="356" y="175" width="18" height="130" rx="3" fill="white" opacity="0.45"/>
+  <rect x="387" y="175" width="18" height="130" rx="3" fill="white" opacity="0.45"/>
+  <rect x="418" y="175" width="18" height="130" rx="3" fill="white" opacity="0.45"/>
+  <rect x="449" y="175" width="18" height="130" rx="3" fill="white" opacity="0.45"/>
+  <!-- pediment -->
+  <polygon points="300,155 500,155 400,110" fill="white" opacity="0.55"/>
+  <!-- flag -->
+  <rect x="396" y="75" width="3" height="38" fill="white" opacity="0.8"/>
+  <polygon points="399,76 430,84 399,92" fill="#22c55e" opacity="0.9"/>
+  <!-- shield overlay -->
+  <path d="M400 200 L430 212 L430 240 C430 258 417 268 400 274 C383 268 370 258 370 240 L370 212 Z" fill="white" opacity="0.2" stroke="white" stroke-width="2" stroke-opacity="0.6"/>
+  <!-- plus inside shield -->
+  <rect x="396" y="220" width="8" height="28" rx="3" fill="white" opacity="0.8"/>
+  <rect x="386" y="230" width="28" height="8" rx="3" fill="white" opacity="0.8"/>
+  <!-- label -->
+  <rect x="0" y="360" width="800" height="60" fill="rgba(0,0,0,0.4)"/>
+  <text x="400" y="399" font-family="Arial,sans-serif" font-size="22" font-weight="bold" fill="white" text-anchor="middle" letter-spacing="2">NIGERIA HEALTH NEWS · NAHIMS SW</text>
+</svg>
