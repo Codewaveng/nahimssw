@@ -1,402 +1,332 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Register — AI & Web3 Launchpad | NAHIMS SW Tech Hub</title>
-  <meta name="description" content="Register for the AI & Web3 Launchpad virtual event. ₦100,000 in prizes for top 3 students! Sept 16–19, 2026.">
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
-  <style>
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{
-      --green:#0B6E4F;--neon:#4ade80;--purple:#7c3aed;--gold:#f59e0b;
-      --cyan:#22d3ee;--pink:#f472b6;--dark:#070d1f;--card:rgba(255,255,255,0.05);
-    }
-    html{scroll-behavior:smooth}
-    body{background:var(--dark);color:#fff;font-family:'Plus Jakarta Sans',sans-serif;overflow-x:hidden;min-height:100vh}
+<%- include('partials/head', {title: 'Register — AI & Web3 Launchpad'}) %>
+<%- include('partials/navbar') %>
 
-    /* ── CANVAS STARS ── */
-    #stars-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+<style>
+  /* ── Form field styles (complement main.css) ── */
+  .reg-field { margin-bottom: 20px; }
+  .reg-field label { display: block; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .6px; color: var(--gray); margin-bottom: 8px; }
+  .reg-field input, .reg-field select {
+    width: 100%; padding: 13px 16px;
+    border: 1.5px solid var(--border); border-radius: var(--radius);
+    font-family: inherit; font-size: 15px; color: var(--dark);
+    background: #fff; transition: var(--transition); outline: none; -webkit-appearance: none; appearance: none;
+  }
+  .reg-field select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: calc(100% - 14px) center; padding-right: 40px; cursor: pointer;
+  }
+  .reg-field input::placeholder { color: #9CA3AF; }
+  .reg-field input:focus, .reg-field select:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(11,110,79,0.1); }
+  .reg-field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media(max-width: 560px) { .reg-field-row { grid-template-columns: 1fr; } }
 
-    /* ── ORBS ── */
-    .orb{position:fixed;border-radius:50%;filter:blur(80px);z-index:0;pointer-events:none;animation:orbFloat 8s ease-in-out infinite}
-    .orb1{width:500px;height:500px;background:rgba(124,58,237,0.18);top:-100px;right:-100px;animation-delay:0s}
-    .orb2{width:400px;height:400px;background:rgba(11,110,79,0.2);bottom:-80px;left:-80px;animation-delay:-3s}
-    .orb3{width:300px;height:300px;background:rgba(245,158,11,0.1);top:40%;left:50%;transform:translateX(-50%);animation-delay:-6s}
-    @keyframes orbFloat{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-30px) scale(1.05)}}
+  /* ── Yes/No toggles ── */
+  .toggle-block { border: 1.5px solid var(--border); border-radius: var(--radius); padding: 16px 20px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; gap: 16px; transition: var(--transition); }
+  .toggle-block:hover { border-color: var(--green-mid); background: var(--gray-light); }
+  .toggle-block-label { font-size: 14px; font-weight: 600; color: var(--dark); }
+  .toggle-block-sub { font-size: 12px; color: var(--gray); margin-top: 3px; line-height: 1.4; }
+  .yn-wrap { display: flex; gap: 8px; flex-shrink: 0; }
+  .yn-opt { position: relative; }
+  .yn-opt input { position: absolute; opacity: 0; width: 0; height: 0; }
+  .yn-opt label { display: block; padding: 8px 18px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 700; cursor: pointer; border: 1.5px solid var(--border); color: var(--gray); transition: var(--transition); white-space: nowrap; }
+  .yn-opt input:checked + label { color: #fff; border-color: transparent; }
+  .yn-yes input:checked + label { background: var(--green); }
+  .yn-no  input:checked + label { background: #DC2626; }
+  .yn-opt label:hover { border-color: var(--gray); color: var(--dark); }
 
-    /* ── LAYOUT ── */
-    .page{position:relative;z-index:1;max-width:700px;margin:0 auto;padding:20px 20px 60px}
+  /* ── Prize positions ── */
+  .prize-pos { display: flex; justify-content: center; gap: 14px; margin-top: 20px; flex-wrap: wrap; }
+  .prize-pos-item { text-align: center; padding: 14px 18px; border-radius: var(--radius); border: 1.5px solid; min-width: 90px; }
+  .prize-pos-item.gold { border-color: var(--gold-mid); background: var(--gold-light); }
+  .prize-pos-item.silver { border-color: #9CA3AF; background: #F9FAFB; }
+  .prize-pos-item.bronze { border-color: #B45309; background: #FFF7ED; }
+  .prize-pos-rank { font-size: 13px; font-weight: 700; color: var(--gray); }
+  .prize-pos-amount { font-size: 22px; font-weight: 900; margin: 4px 0; font-family: Tahoma, sans-serif; }
+  .gold .prize-pos-amount { color: var(--gold-dark); }
+  .silver .prize-pos-amount { color: #4B5563; }
+  .bronze .prize-pos-amount { color: #B45309; }
+  .prize-pos-label { font-size: 11px; color: var(--gray); }
 
-    /* ── BACK LINK ── */
-    .back{display:inline-flex;align-items:center;gap:8px;color:rgba(255,255,255,0.5);font-size:13px;text-decoration:none;margin-bottom:32px;transition:color .2s}
-    .back:hover{color:#fff}
-    .back svg{width:14px;height:14px}
+  /* ── Host card ── */
+  .host-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+  .host-card { background: #fff; border: 1.5px solid var(--border); border-radius: var(--radius); padding: 20px; display: flex; align-items: center; gap: 14px; transition: var(--transition); }
+  .host-card:hover { border-color: var(--green-mid); transform: translateY(-2px); box-shadow: var(--shadow); }
+  .host-av { width: 46px; height: 46px; border-radius: 50%; background: linear-gradient(135deg, var(--green-deeper), var(--green)); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; flex-shrink: 0; font-family: Tahoma, sans-serif; }
+  .host-name { font-size: 13px; font-weight: 700; color: var(--dark); line-height: 1.3; }
+  .host-role { font-size: 11px; color: var(--gray); margin-top: 3px; }
 
-    /* ── HEADER BADGES ── */
-    .header-badges{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-bottom:28px}
-    .hbadge{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:999px;font-size:12px;font-weight:700;letter-spacing:.5px;animation:badgePop .6s cubic-bezier(.34,1.56,.64,1) both}
-    .hbadge-green{background:rgba(74,222,128,0.15);border:1px solid rgba(74,222,128,0.4);color:#4ade80}
-    .hbadge-purple{background:rgba(124,58,237,0.2);border:1px solid rgba(124,58,237,0.5);color:#a78bfa;animation-delay:.1s}
-    .hbadge-gold{background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.4);color:#fbbf24;animation-delay:.2s}
-    @keyframes badgePop{0%{opacity:0;transform:scale(.5)}100%{opacity:1;transform:scale(1)}}
+  /* ── Collab strip ── */
+  .collab-strip { display: flex; justify-content: center; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 24px; }
+  .collab-pill { display: inline-flex; align-items: center; gap: 7px; padding: 8px 18px; border-radius: 100px; font-size: 12px; font-weight: 700; letter-spacing: .3px; }
+  .collab-pill.green { background: var(--green-light); color: var(--green); border: 1.5px solid rgba(11,110,79,0.2); }
+  .collab-pill.gold { background: var(--gold-light); color: var(--gold-dark); border: 1.5px solid rgba(239,159,39,0.3); }
+  .collab-pill svg { width: 13px; height: 13px; }
 
-    /* ── HERO TITLE ── */
-    .hero-eyebrow{text-align:center;font-size:12px;font-weight:700;letter-spacing:3px;color:rgba(255,255,255,0.4);text-transform:uppercase;margin-bottom:12px;animation:fadeUp .6s .2s both}
-    .hero-title{text-align:center;font-family:'Space Grotesk',sans-serif;font-size:clamp(42px,9vw,82px);font-weight:700;line-height:1;margin-bottom:8px;animation:fadeUp .7s .3s both}
-    .hero-title .line1{background:linear-gradient(135deg,#4ade80,#22d3ee);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:block}
-    .hero-title .line2{background:linear-gradient(135deg,#a78bfa,#f472b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:block}
-    .hero-sub{text-align:center;font-size:18px;font-weight:600;color:rgba(255,255,255,0.7);margin-bottom:32px;animation:fadeUp .7s .4s both}
+  /* ── Cert notice ── */
+  .cert-notice { display: flex; align-items: center; gap: 14px; background: #EFF6FF; border: 1.5px solid #BFDBFE; border-radius: var(--radius); padding: 16px 20px; margin-bottom: 24px; }
+  .cert-notice svg { width: 20px; height: 20px; color: #1D4ED8; flex-shrink: 0; }
+  .cert-notice-text { font-size: 13px; color: #1E40AF; line-height: 1.5; }
+  .cert-notice-text strong { color: #1E3A8A; }
 
-    /* ── DATE STRIP ── */
-    .date-strip{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:36px;animation:fadeUp .7s .45s both}
-    .date-pill{display:flex;align-items:center;gap:8px;padding:10px 20px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:999px;font-size:14px;font-weight:600}
-    .date-pill .dot{width:8px;height:8px;border-radius:50%;background:#4ade80;box-shadow:0 0 8px #4ade80;animation:pulse 1.5s infinite}
-    @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.4)}}
+  /* ── Submit ── */
+  .reg-submit { width: 100%; padding: 16px; background: var(--green); border: none; border-radius: var(--radius); color: #fff; font-family: inherit; font-size: 16px; font-weight: 700; cursor: pointer; transition: var(--transition); display: flex; align-items: center; justify-content: center; gap: 10px; }
+  .reg-submit:hover { background: var(--green-dark); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(11,110,79,0.3); }
+  .reg-submit:disabled { opacity: .6; cursor: not-allowed; transform: none; box-shadow: none; }
+  .reg-submit svg { width: 18px; height: 18px; }
+</style>
 
-    /* ── PRIZE CARD ── */
-    .prize-card{background:linear-gradient(135deg,rgba(245,158,11,0.15),rgba(124,58,237,0.15));border:1px solid rgba(245,158,11,0.35);border-radius:20px;padding:24px 28px;text-align:center;margin-bottom:36px;position:relative;overflow:hidden;animation:fadeUp .7s .5s both}
-    .prize-card::before{content:'';position:absolute;top:-1px;left:10%;right:10%;height:2px;background:linear-gradient(90deg,transparent,#f59e0b,transparent)}
-    .prize-amount{font-family:'Space Grotesk',sans-serif;font-size:clamp(36px,7vw,60px);font-weight:700;background:linear-gradient(135deg,#fbbf24,#f59e0b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;animation:glow 2s ease-in-out infinite alternate}
-    @keyframes glow{from{filter:drop-shadow(0 0 8px rgba(245,158,11,0.3))}to{filter:drop-shadow(0 0 20px rgba(245,158,11,0.7))}}
-    .prize-label{font-size:15px;font-weight:700;color:rgba(255,255,255,0.8);margin-top:6px}
-    .prize-sub{font-size:13px;color:rgba(255,255,255,0.5);margin-top:4px}
-    .prize-positions{display:flex;justify-content:center;gap:16px;margin-top:16px}
-    .pos{text-align:center;padding:10px 16px;border-radius:12px}
-    .pos-1{background:rgba(251,191,36,0.2);border:1px solid rgba(251,191,36,0.4)}
-    .pos-2{background:rgba(156,163,175,0.15);border:1px solid rgba(156,163,175,0.3)}
-    .pos-3{background:rgba(180,83,9,0.15);border:1px solid rgba(180,83,9,0.3)}
-    .pos-rank{font-size:20px;display:block;margin-bottom:2px}
-    .pos-prize{font-size:14px;font-weight:800;color:#fbbf24}
-    .pos-name{font-size:11px;color:rgba(255,255,255,0.5);margin-top:2px}
-
-    /* ── HOSTS ── */
-    .hosts-section{margin-bottom:36px;animation:fadeUp .7s .55s both}
-    .hosts-label{text-align:center;font-size:11px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,0.35);text-transform:uppercase;margin-bottom:16px}
-    .hosts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
-    .host-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px;transition:border-color .2s,background .2s}
-    .host-card:hover{background:rgba(255,255,255,0.07);border-color:rgba(74,222,128,0.3)}
-    .host-av{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--green),var(--purple));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;flex-shrink:0}
-    .host-name{font-size:13px;font-weight:700;line-height:1.3}
-    .host-role{font-size:11px;color:rgba(255,255,255,0.45);margin-top:3px}
-    .collab-logos{display:flex;justify-content:center;align-items:center;gap:12px;margin-top:14px;flex-wrap:wrap}
-    .collab-badge{padding:7px 16px;border-radius:999px;font-size:12px;font-weight:700;letter-spacing:.3px}
-    .collab-n{background:rgba(11,110,79,0.2);border:1px solid rgba(11,110,79,0.5);color:#4ade80}
-    .collab-sw{background:rgba(124,58,237,0.2);border:1px solid rgba(124,58,237,0.4);color:#a78bfa}
-    .collab-sep{color:rgba(255,255,255,0.2);font-size:18px}
-
-    /* ── FORM CARD ── */
-    .form-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:24px;padding:36px 32px;backdrop-filter:blur(20px);animation:fadeUp .8s .6s both;position:relative;overflow:hidden}
-    .form-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#4ade80,#22d3ee,#a78bfa,#f472b6,#fbbf24)}
-    .form-title{font-size:22px;font-weight:800;margin-bottom:6px}
-    .form-title span{background:linear-gradient(90deg,#4ade80,#22d3ee);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-    .form-sub{font-size:13px;color:rgba(255,255,255,0.45);margin-bottom:28px}
-
-    /* ── ERROR ── */
-    .form-error{background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.4);border-radius:10px;padding:12px 16px;font-size:13px;color:#fca5a5;margin-bottom:20px}
-
-    /* ── FIELD GROUP ── */
-    .field-group{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
-    @media(max-width:540px){.field-group{grid-template-columns:1fr}}
-    .field{margin-bottom:16px}
-    .field label{display:block;font-size:12px;font-weight:700;letter-spacing:.5px;color:rgba(255,255,255,0.5);text-transform:uppercase;margin-bottom:8px}
-    .field input,.field select{width:100%;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:14px 16px;color:#fff;font-family:inherit;font-size:15px;transition:border-color .2s,background .2s,box-shadow .2s;outline:none;-webkit-appearance:none;appearance:none}
-    .field select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.4)' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:calc(100% - 14px) center;padding-right:40px;cursor:pointer}
-    .field select option{background:#0f172a;color:#fff}
-    .field input::placeholder{color:rgba(255,255,255,0.25)}
-    .field input:focus,.field select:focus{border-color:rgba(74,222,128,0.6);background:rgba(255,255,255,0.08);box-shadow:0 0 0 3px rgba(74,222,128,0.1)}
-    .field input:focus{caret-color:#4ade80}
-
-    /* ── TOGGLE YES/NO ── */
-    .knowledge-section{margin-bottom:28px}
-    .knowledge-title{font-size:13px;font-weight:700;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:.5px;margin-bottom:16px;display:flex;align-items:center;gap:8px}
-    .knowledge-title::after{content:'';flex:1;height:1px;background:rgba(255,255,255,0.08)}
-    .toggle-row{display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:14px 18px;margin-bottom:10px;transition:border-color .2s}
-    .toggle-row:hover{border-color:rgba(255,255,255,0.15)}
-    .toggle-label{font-size:14px;font-weight:600;color:rgba(255,255,255,0.85)}
-    .toggle-label small{display:block;font-size:11px;font-weight:500;color:rgba(255,255,255,0.4);margin-top:2px}
-    .yn-group{display:flex;gap:8px}
-    .yn-btn{position:relative}
-    .yn-btn input{position:absolute;opacity:0;width:0;height:0}
-    .yn-btn label{display:flex;align-items:center;gap:5px;padding:7px 16px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;border:1.5px solid transparent;transition:all .2s;white-space:nowrap}
-    .yn-yes label{border-color:rgba(74,222,128,0.3);color:rgba(74,222,128,0.6)}
-    .yn-no  label{border-color:rgba(239,68,68,0.3);color:rgba(239,68,68,0.6)}
-    .yn-btn input:checked + label{transform:scale(1.05)}
-    .yn-yes input:checked + label{background:rgba(74,222,128,0.2);border-color:#4ade80;color:#4ade80;box-shadow:0 0 12px rgba(74,222,128,0.25)}
-    .yn-no  input:checked + label{background:rgba(239,68,68,0.15);border-color:#ef4444;color:#f87171;box-shadow:0 0 12px rgba(239,68,68,0.2)}
-
-    /* ── CERT NOTICE ── */
-    .cert-notice{display:flex;align-items:center;gap:12px;background:rgba(34,211,238,0.08);border:1px solid rgba(34,211,238,0.2);border-radius:12px;padding:14px 18px;margin-bottom:24px}
-    .cert-icon{font-size:22px;flex-shrink:0}
-    .cert-text{font-size:13px;color:rgba(255,255,255,0.7);line-height:1.5}
-    .cert-text strong{color:#22d3ee}
-
-    /* ── SUBMIT BUTTON ── */
-    .submit-btn{width:100%;padding:18px;background:linear-gradient(135deg,#0B6E4F,#7c3aed);border:none;border-radius:14px;color:#fff;font-family:inherit;font-size:17px;font-weight:800;cursor:pointer;position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s;letter-spacing:.3px;display:flex;align-items:center;justify-content:center;gap:10px}
-    .submit-btn:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(124,58,237,0.4)}
-    .submit-btn:active{transform:translateY(0)}
-    .submit-btn::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.1),transparent);pointer-events:none}
-    .submit-btn .rocket{display:inline-block;animation:rocketBounce 1s ease-in-out infinite}
-    @keyframes rocketBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
-    .submit-btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
-
-    /* ── FOOTER ── */
-    .reg-footer{text-align:center;margin-top:28px;font-size:12px;color:rgba(255,255,255,0.3);animation:fadeUp .7s .8s both}
-    .reg-footer a{color:rgba(255,255,255,0.5);text-decoration:none}
-    .reg-footer a:hover{color:#4ade80}
-
-    /* ── ANIMATIONS ── */
-    @keyframes fadeUp{0%{opacity:0;transform:translateY(24px)}100%{opacity:1;transform:translateY(0)}}
-    @keyframes slideIn{0%{opacity:0;transform:translateX(-20px)}100%{opacity:1;transform:translateX(0)}}
-
-    /* ── FLOATING PARTICLES (CSS) ── */
-    .particles{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;overflow:hidden}
-    .particle{position:absolute;border-radius:50%;animation:floatUp linear infinite;opacity:0}
-    @keyframes floatUp{0%{opacity:0;transform:translateY(100vh) scale(0)}10%{opacity:.6}90%{opacity:.4}100%{opacity:0;transform:translateY(-10vh) scale(1)}}
-  </style>
-</head>
-<body>
-
-<canvas id="stars-canvas"></canvas>
-<div class="particles" id="particles"></div>
-<div class="orb orb1"></div>
-<div class="orb orb2"></div>
-<div class="orb orb3"></div>
-
-<div class="page">
-
-  <a href="/" class="back">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
-    Back to NAHIMS SW
-  </a>
-
-  <!-- Badges -->
-  <div class="header-badges">
-    <span class="hbadge hbadge-green">🌿 NAHIMS National Body</span>
-    <span class="hbadge hbadge-purple">⚡ NAHIMS SW Tech Hub</span>
-    <span class="hbadge hbadge-gold">🏆 ₦100,000 in Prizes</span>
+<!-- ═══ HERO ═══════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-bg-shapes">
+    <div class="shape"></div><div class="shape"></div><div class="shape"></div>
   </div>
-
-  <!-- Hero -->
-  <div class="hero-eyebrow">Virtual Tech Event · Registration Open</div>
-  <h1 class="hero-title">
-    <span class="line1">AI & WEB3</span>
-    <span class="line2">LAUNCHPAD</span>
-  </h1>
-  <p class="hero-sub">Your gateway into the future of technology 🚀</p>
-
-  <!-- Dates -->
-  <div class="date-strip">
-    <div class="date-pill"><span class="dot"></span> <strong>Sept 16 – 19, 2026</strong></div>
-    <div class="date-pill">🌐 100% Virtual &amp; Free</div>
-    <div class="date-pill">📜 Certificate for ALL Attendees</div>
-  </div>
-
-  <!-- Prize -->
-  <div class="prize-card">
-    <div class="prize-amount">₦100,000</div>
-    <div class="prize-label">Total Prize Pool — Top 3 Students WIN BIG 🔥</div>
-    <div class="prize-sub">Sponsored personally by Comrade Abdulfatah Abdullahi, NAHIMS SW Gen Sec</div>
-    <div class="prize-positions">
-      <div class="pos pos-1"><span class="pos-rank">🥇</span><div class="pos-prize">₦50,000</div><div class="pos-name">1st Place</div></div>
-      <div class="pos pos-2"><span class="pos-rank">🥈</span><div class="pos-prize">₦30,000</div><div class="pos-name">2nd Place</div></div>
-      <div class="pos pos-3"><span class="pos-rank">🥉</span><div class="pos-prize">₦20,000</div><div class="pos-name">3rd Place</div></div>
+  <div class="hero-inner">
+    <div class="hero-badge">
+      <i data-feather="calendar"></i>
+      September 16 – 19, 2026 · Virtual Event · Free to Attend
+    </div>
+    <h1>AI &amp; Web3 Launchpad<br><span>Registration</span></h1>
+    <p class="hero-sub">
+      The first-ever virtual tech event under the NAHIMS SW New Dawn Administration.
+      Open to all Nigerian students — earn a certificate and compete for N100,000 in prizes.
+    </p>
+    <div class="hero-btns">
+      <span class="btn btn-primary">
+        <i data-feather="award"></i> N100,000 Total Prize Pool
+      </span>
+      <span class="btn btn-outline">
+        <i data-feather="file-text"></i> Certificate for All Attendees
+      </span>
     </div>
   </div>
+</section>
 
-  <!-- Hosts -->
-  <div class="hosts-section">
-    <div class="hosts-label">Brought to you by</div>
-    <div class="collab-logos">
-      <span class="collab-badge collab-n">🌿 NAHIMS National Body</span>
-      <span class="collab-sep">&times;</span>
-      <span class="collab-badge collab-sw">⚡ NAHIMS SW Tech Hub</span>
+<!-- ═══ PRIZE + INFO ════════════════════════════════════════════ -->
+<div style="background: var(--gray-light); padding: 70px 0;">
+  <div class="section" style="padding: 0 1.5rem;">
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start;">
+
+      <!-- Prize card -->
+      <div style="background:#fff; border:1.5px solid var(--border); border-radius: var(--radius-lg); padding: 32px; text-align:center;">
+        <div class="section-tag" style="margin: 0 auto 16px;"><i data-feather="award"></i> Prize Pool</div>
+        <div style="font-size: 52px; font-weight: 900; color: var(--gold-dark); font-family: Tahoma, sans-serif; line-height: 1; margin-bottom: 6px;">N100,000</div>
+        <div style="font-size: 14px; color: var(--gray); margin-bottom: 4px;">For the Top 3 Best Students</div>
+        <div style="font-size: 12px; color: var(--gray);">Sponsored by Comrade Abdulfatah Abdullahi, NAHIMS SW Gen Sec</div>
+        <div class="prize-pos">
+          <div class="prize-pos-item gold">
+            <div class="prize-pos-rank">1st Place</div>
+            <div class="prize-pos-amount">N50k</div>
+            <div class="prize-pos-label">Winner</div>
+          </div>
+          <div class="prize-pos-item silver">
+            <div class="prize-pos-rank">2nd Place</div>
+            <div class="prize-pos-amount">N30k</div>
+            <div class="prize-pos-label">Runner-up</div>
+          </div>
+          <div class="prize-pos-item bronze">
+            <div class="prize-pos-rank">3rd Place</div>
+            <div class="prize-pos-amount">N20k</div>
+            <div class="prize-pos-label">2nd Runner</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Event info -->
+      <div style="background:#fff; border:1.5px solid var(--border); border-radius: var(--radius-lg); padding: 32px;">
+        <div class="section-tag" style="margin-bottom:16px;"><i data-feather="info"></i> Event Details</div>
+        <div style="display:flex;flex-direction:column;gap:14px;">
+          <div style="display:flex;gap:14px;align-items:flex-start;">
+            <div style="width:36px;height:36px;background:var(--green-light);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i data-feather="calendar" style="width:16px;height:16px;color:var(--green)"></i></div>
+            <div><div style="font-size:12px;color:var(--gray);font-weight:600;text-transform:uppercase;letter-spacing:.5px">Date</div><div style="font-size:15px;font-weight:700;color:var(--dark);">September 16 – 19, 2026</div></div>
+          </div>
+          <div style="display:flex;gap:14px;align-items:flex-start;">
+            <div style="width:36px;height:36px;background:var(--green-light);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i data-feather="globe" style="width:16px;height:16px;color:var(--green)"></i></div>
+            <div><div style="font-size:12px;color:var(--gray);font-weight:600;text-transform:uppercase;letter-spacing:.5px">Format</div><div style="font-size:15px;font-weight:700;color:var(--dark);">100% Virtual (Telegram)</div></div>
+          </div>
+          <div style="display:flex;gap:14px;align-items:flex-start;">
+            <div style="width:36px;height:36px;background:var(--green-light);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i data-feather="users" style="width:16px;height:16px;color:var(--green)"></i></div>
+            <div><div style="font-size:12px;color:var(--gray);font-weight:600;text-transform:uppercase;letter-spacing:.5px">Open To</div><div style="font-size:15px;font-weight:700;color:var(--dark);">All Nigerian Students</div></div>
+          </div>
+          <div style="display:flex;gap:14px;align-items:flex-start;">
+            <div style="width:36px;height:36px;background:var(--green-light);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i data-feather="tag" style="width:16px;height:16px;color:var(--green)"></i></div>
+            <div><div style="font-size:12px;color:var(--gray);font-weight:600;text-transform:uppercase;letter-spacing:.5px">Theme</div><div style="font-size:15px;font-weight:700;color:var(--dark);">AI &amp; Web3 Launchpad</div></div>
+          </div>
+        </div>
+      </div>
+
     </div>
-    <div style="height:16px"></div>
-    <div class="hosts-grid">
+  </div>
+</div>
+
+<!-- ═══ HOSTS ════════════════════════════════════════════════════ -->
+<div style="background:#fff; padding: 70px 0;">
+  <div class="section" style="padding: 0 1.5rem;">
+    <div class="section-header animate-on-scroll" style="margin-bottom:32px;">
+      <div class="section-tag"><i data-feather="users"></i> Organizers</div>
+      <h2>Brought to You By</h2>
+      <p>In partnership between NAHIMS National Body and NAHIMS SW Tech Hub</p>
+    </div>
+    <div class="collab-strip animate-on-scroll">
+      <span class="collab-pill green"><i data-feather="globe"></i> NAHIMS National Body</span>
+      <span style="color:var(--border);font-size:20px;">&times;</span>
+      <span class="collab-pill gold"><i data-feather="zap"></i> NAHIMS SW Tech Hub</span>
+    </div>
+    <div class="host-grid animate-on-scroll">
       <div class="host-card">
         <div class="host-av">AM</div>
         <div>
-          <div class="host-name">Comrade Adedayo Mayowa</div>
-          <div class="host-role">MAYOR · NAHIMS National Gen Sec</div>
+          <div class="host-name">Comrade Adedayo Mayowa (MAYOR)</div>
+          <div class="host-role">General Secretary, NAHIMS National</div>
         </div>
       </div>
       <div class="host-card">
         <div class="host-av">AA</div>
         <div>
           <div class="host-name">Comrade Abdulfatah Abdullahi</div>
-          <div class="host-role">NAHIMS SW General Secretary</div>
+          <div class="host-role">General Secretary, NAHIMS SW</div>
         </div>
       </div>
       <div class="host-card">
         <div class="host-av">KA</div>
         <div>
-          <div class="host-name">Comrade Kolawole A. Adeshina</div>
-          <div class="host-role">Director of Tech, NAHIMS SW</div>
+          <div class="host-name">Comrade Kolawole Abdullahi Adeshina</div>
+          <div class="host-role">Director of Technology, NAHIMS SW</div>
         </div>
       </div>
     </div>
   </div>
-
-  <!-- Form -->
-  <div class="form-card">
-    <div class="form-title"><span>Register</span> for the Event</div>
-    <div class="form-sub">Fill in your details below — it takes less than 60 seconds ⚡</div>
-
-    <% if (typeof error !== 'undefined' && error) { %>
-    <div class="form-error">⚠️ <%= error %></div>
-    <% } %>
-
-    <form method="POST" action="/register/ai-web3-launchpad" id="regForm" onsubmit="handleSubmit(event)">
-
-      <div class="field-group">
-        <div class="field">
-          <label>Full Name *</label>
-          <input type="text" name="fullName" placeholder="e.g. Abdulfatah Abdullahi" required autocomplete="name">
-        </div>
-        <div class="field">
-          <label>School / University *</label>
-          <input type="text" name="school" placeholder="e.g. LAUTECH, UI, OAU..." required>
-        </div>
-      </div>
-
-      <div class="field-group">
-        <div class="field">
-          <label>Region *</label>
-          <select name="region" id="regionSelect" required onchange="updateStates()">
-            <option value="" disabled selected>— Select Region —</option>
-            <option value="Southwest (Zone D)">Southwest (Zone D)</option>
-            <option value="South-South">South-South</option>
-            <option value="Southeast">Southeast</option>
-            <option value="North Central">North Central</option>
-            <option value="Northwest">Northwest</option>
-            <option value="Northeast">Northeast</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>State *</label>
-          <select name="state" id="stateSelect" required>
-            <option value="" disabled selected>— Select State —</option>
-          </select>
-        </div>
-      </div>
-
-      <!-- Knowledge Toggles -->
-      <div class="knowledge-section">
-        <div class="knowledge-title">Your Background</div>
-
-        <div class="toggle-row">
-          <div class="toggle-label">
-            ⛓️ Web3 / Blockchain Knowledge
-            <small>Have you ever used a crypto wallet, dApp, or learnt about blockchain?</small>
-          </div>
-          <div class="yn-group">
-            <div class="yn-btn yn-yes">
-              <input type="radio" name="knowsWeb3" id="web3yes" value="yes" required>
-              <label for="web3yes">✓ Yes</label>
-            </div>
-            <div class="yn-btn yn-no">
-              <input type="radio" name="knowsWeb3" id="web3no" value="no">
-              <label for="web3no">✕ No</label>
-            </div>
-          </div>
-        </div>
-
-        <div class="toggle-row">
-          <div class="toggle-label">
-            🤖 Artificial Intelligence (AI) Knowledge
-            <small>Have you used or studied AI tools, models, or machine learning?</small>
-          </div>
-          <div class="yn-group">
-            <div class="yn-btn yn-yes">
-              <input type="radio" name="knowsAI" id="aiyes" value="yes" required>
-              <label for="aiyes">✓ Yes</label>
-            </div>
-            <div class="yn-btn yn-no">
-              <input type="radio" name="knowsAI" id="aino" value="no">
-              <label for="aino">✕ No</label>
-            </div>
-          </div>
-        </div>
-
-        <div class="toggle-row">
-          <div class="toggle-label">
-            💻 Tech / Programming Background
-            <small>Do you code, build apps, or have any programming knowledge?</small>
-          </div>
-          <div class="yn-group">
-            <div class="yn-btn yn-yes">
-              <input type="radio" name="knowsTech" id="techyes" value="yes" required>
-              <label for="techyes">✓ Yes</label>
-            </div>
-            <div class="yn-btn yn-no">
-              <input type="radio" name="knowsTech" id="techno" value="no">
-              <label for="techno">✕ No</label>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Certificate notice -->
-      <div class="cert-notice">
-        <div class="cert-icon">📜</div>
-        <div class="cert-text"><strong>Certificate of Participation</strong> issued to ALL attendees who complete the event — regardless of background or experience level.</div>
-      </div>
-
-      <button type="submit" class="submit-btn" id="submitBtn">
-        <span class="rocket">🚀</span>
-        <span id="btnText">Launch Me In — Register FREE</span>
-      </button>
-    </form>
-  </div>
-
-  <div class="reg-footer">
-    Free to attend · Open to all Nigerian students · <a href="/">← Back to NAHIMS SW</a>
-  </div>
-
 </div>
 
+<!-- ═══ REGISTRATION FORM ═══════════════════════════════════════ -->
+<div style="background: var(--gray-light); padding: 70px 0;">
+  <div class="section" style="padding: 0 1.5rem;">
+    <div class="section-header animate-on-scroll" style="margin-bottom:36px;">
+      <div class="section-tag"><i data-feather="edit-3"></i> Register</div>
+      <h2>Secure Your Spot</h2>
+      <p>Fill in your details — takes less than a minute</p>
+    </div>
+
+    <div style="max-width: 640px; margin: 0 auto; background:#fff; border:1.5px solid var(--border); border-radius: var(--radius-lg); padding: 40px 36px; box-shadow: var(--shadow);" class="animate-on-scroll">
+
+      <% if (typeof error !== 'undefined' && error) { %>
+      <div style="background:#FEF2F2;border:1.5px solid #FECACA;border-radius:var(--radius);padding:14px 18px;color:#DC2626;font-size:14px;font-weight:600;margin-bottom:24px;display:flex;gap:10px;align-items:center;">
+        <i data-feather="alert-circle" style="width:16px;height:16px;flex-shrink:0;"></i> <%= error %>
+      </div>
+      <% } %>
+
+      <form method="POST" action="/register/ai-web3-launchpad" onsubmit="handleSubmit(event)">
+
+        <div class="reg-field-row">
+          <div class="reg-field">
+            <label>Full Name</label>
+            <input type="text" name="fullName" placeholder="Your full name" required autocomplete="name">
+          </div>
+          <div class="reg-field">
+            <label>School / University</label>
+            <input type="text" name="school" placeholder="e.g. LAUTECH, UI, OAU" required>
+          </div>
+        </div>
+
+        <div class="reg-field-row">
+          <div class="reg-field">
+            <label>Region</label>
+            <select name="region" id="regionSelect" required onchange="updateStates()">
+              <option value="" disabled selected>Select region</option>
+              <option value="Southwest (Zone D)">Southwest (Zone D)</option>
+              <option value="South-South">South-South</option>
+              <option value="Southeast">Southeast</option>
+              <option value="North Central">North Central</option>
+              <option value="Northwest">Northwest</option>
+              <option value="Northeast">Northeast</option>
+            </select>
+          </div>
+          <div class="reg-field">
+            <label>State</label>
+            <select name="state" id="stateSelect" required>
+              <option value="" disabled selected>Select state</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Knowledge section -->
+        <div style="margin-bottom: 24px;">
+          <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--gray);margin-bottom:14px;display:flex;align-items:center;gap:8px;">
+            <i data-feather="bar-chart-2" style="width:14px;height:14px;"></i> Your Background (helps us tailor the sessions)
+          </div>
+
+          <div class="toggle-block">
+            <div>
+              <div class="toggle-block-label">Web3 / Blockchain Knowledge</div>
+              <div class="toggle-block-sub">Have you used a crypto wallet, dApp, or studied blockchain?</div>
+            </div>
+            <div class="yn-wrap">
+              <div class="yn-opt yn-yes">
+                <input type="radio" name="knowsWeb3" id="web3yes" value="yes" required>
+                <label for="web3yes">Yes</label>
+              </div>
+              <div class="yn-opt yn-no">
+                <input type="radio" name="knowsWeb3" id="web3no" value="no">
+                <label for="web3no">No</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="toggle-block">
+            <div>
+              <div class="toggle-block-label">Artificial Intelligence (AI) Knowledge</div>
+              <div class="toggle-block-sub">Have you used AI tools or studied machine learning?</div>
+            </div>
+            <div class="yn-wrap">
+              <div class="yn-opt yn-yes">
+                <input type="radio" name="knowsAI" id="aiyes" value="yes" required>
+                <label for="aiyes">Yes</label>
+              </div>
+              <div class="yn-opt yn-no">
+                <input type="radio" name="knowsAI" id="aino" value="no">
+                <label for="aino">No</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="toggle-block">
+            <div>
+              <div class="toggle-block-label">Tech / Programming Background</div>
+              <div class="toggle-block-sub">Do you code or have any programming knowledge?</div>
+            </div>
+            <div class="yn-wrap">
+              <div class="yn-opt yn-yes">
+                <input type="radio" name="knowsTech" id="techyes" value="yes" required>
+                <label for="techyes">Yes</label>
+              </div>
+              <div class="yn-opt yn-no">
+                <input type="radio" name="knowsTech" id="techno" value="no">
+                <label for="techno">No</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cert-notice">
+          <i data-feather="award"></i>
+          <div class="cert-notice-text"><strong>Certificate of Participation</strong> will be issued to every attendee who completes the event — no prior experience required.</div>
+        </div>
+
+        <button type="submit" class="reg-submit" id="submitBtn">
+          <i data-feather="send"></i>
+          <span id="btnText">Register Now — It is Free</span>
+        </button>
+
+        <p style="text-align:center;font-size:12px;color:var(--gray);margin-top:14px;">
+          By registering you agree to join our Telegram channel where all sessions are hosted.
+        </p>
+      </form>
+    </div>
+  </div>
+</div>
+
+<%- include('partials/footer') %>
+
 <script>
-// ── Stars Canvas ──────────────────────────────────────────────
-const canvas = document.getElementById('stars-canvas');
-const ctx = canvas.getContext('2d');
-let stars = [];
-function resize() { canvas.width = innerWidth; canvas.height = innerHeight; initStars(); }
-function initStars() {
-  stars = [];
-  for (let i = 0; i < 180; i++) {
-    stars.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height,
-      r: Math.random()*1.4+.2, speed: Math.random()*.3+.05, opacity: Math.random()*.7+.1, phase: Math.random()*Math.PI*2 });
-  }
-}
-let t = 0;
-function drawStars() {
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  t += 0.01;
-  stars.forEach(s => {
-    s.y -= s.speed;
-    if (s.y < -2) { s.y = canvas.height+2; s.x = Math.random()*canvas.width; }
-    const op = s.opacity*(0.6+0.4*Math.sin(t+s.phase));
-    ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
-    ctx.fillStyle = `rgba(255,255,255,${op})`; ctx.fill();
-  });
-  requestAnimationFrame(drawStars);
-}
-window.addEventListener('resize', resize);
-resize(); drawStars();
-
-// ── CSS Particles ─────────────────────────────────────────────
-const colors = ['#4ade80','#22d3ee','#a78bfa','#f472b6','#fbbf24'];
-const container = document.getElementById('particles');
-for (let i = 0; i < 20; i++) {
-  const p = document.createElement('div');
-  p.className = 'particle';
-  const size = Math.random()*4+2;
-  p.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}%;background:${colors[Math.floor(Math.random()*colors.length)]};animation-duration:${Math.random()*15+8}s;animation-delay:${Math.random()*10}s;filter:blur(${Math.random()*1}px)`;
-  container.appendChild(p);
-}
-
-// ── Region → State map ────────────────────────────────────────
 const STATES = {
   'Southwest (Zone D)':['Ekiti','Kwara','Lagos','Ogun','Ondo','Osun','Oyo'],
   'South-South':['Akwa Ibom','Bayelsa','Cross River','Delta','Edo','Rivers'],
@@ -406,22 +336,15 @@ const STATES = {
   'Northeast':['Adamawa','Bauchi','Borno','Gombe','Taraba','Yobe']
 };
 function updateStates() {
-  const region = document.getElementById('regionSelect').value;
-  const sel = document.getElementById('stateSelect');
-  sel.innerHTML = '<option value="" disabled selected>— Select State —</option>';
-  (STATES[region]||[]).forEach(s => {
-    const o = document.createElement('option'); o.value=s; o.textContent=s; sel.appendChild(o);
-  });
+  const r = document.getElementById('regionSelect').value;
+  const s = document.getElementById('stateSelect');
+  s.innerHTML = '<option value="" disabled selected>Select state</option>';
+  (STATES[r]||[]).forEach(v => { const o = document.createElement('option'); o.value=v; o.textContent=v; s.appendChild(o); });
 }
-
-// ── Submit ────────────────────────────────────────────────────
-function handleSubmit(e) {
+function handleSubmit() {
   const btn = document.getElementById('submitBtn');
   const txt = document.getElementById('btnText');
   btn.disabled = true;
-  txt.textContent = 'Launching… ⚡';
-  document.querySelector('.rocket').textContent = '⏳';
+  txt.textContent = 'Submitting...';
 }
 </script>
-</body>
-</html>
