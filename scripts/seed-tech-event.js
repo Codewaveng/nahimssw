@@ -8,7 +8,7 @@ const SLUG_SUFFIX = '1781500000000';
 const eventData = {
   title: 'AI & Web3 Launchpad — NAHIMS Tech Hub Virtual Event',
   slug: 'ai-web3-launchpad-nahims-tech-hub-virtual-event-' + SLUG_SUFFIX,
-  category: 'Technology',
+  category: 'Convention',
   eventType: 'general',
   organizer: 'Comrade Adedayo Mayowa & Comrade Abdulfatah Abdullahi',
   organizerRole: 'General Secretary, NAHIMS & General Secretary, NAHIMS SW',
