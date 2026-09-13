@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700;1,800&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,600;1,700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -26,202 +27,187 @@
     .chrome-bar {
       background: linear-gradient(135deg, var(--green-deep), var(--green));
       padding: 14px 28px; display: flex; align-items: center;
-      justify-content: space-between; gap: 16px; flex-wrap: wrap;
+      justify-content: space-between; gap: 12px; flex-wrap: wrap;
       box-shadow: 0 2px 12px rgba(0,0,0,0.2);
     }
-    .chrome-bar-left { display: flex; align-items: center; gap: 10px; color: rgba(255,255,255,0.9); font-size: 14px; font-weight: 600; }
-    .chrome-bar-left svg { width: 18px; height: 18px; color: var(--gold-light); }
-    .chrome-bar-right { display: flex; gap: 10px; }
-    .btn-print { display: flex; align-items: center; gap: 7px; padding: 10px 22px; background: var(--gold-light); color: #fff; border: none; border-radius: 8px; font-family: inherit; font-size: 14px; font-weight: 800; cursor: pointer; transition: all .2s; letter-spacing: .3px; }
-    .btn-print:hover { background: var(--gold); transform: translateY(-1px); box-shadow: 0 4px 14px rgba(200,148,42,0.4); }
-    .btn-print svg { width: 15px; height: 15px; }
-    .btn-back { display: flex; align-items: center; gap: 7px; padding: 10px 18px; background: rgba(255,255,255,0.12); color: #fff; border: 1px solid rgba(255,255,255,0.25); border-radius: 8px; font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer; text-decoration: none; transition: all .2s; }
+    .chrome-bar-left { display: flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.9); font-size: 13px; font-weight: 600; }
+    .chrome-bar-left svg { width: 16px; height: 16px; color: var(--gold-light); flex-shrink: 0; }
+    .chrome-bar-right { display: flex; gap: 8px; }
+    .btn-pdf { display: flex; align-items: center; gap: 7px; padding: 10px 20px; background: var(--gold-light); color: #fff; border: none; border-radius: 8px; font-family: inherit; font-size: 14px; font-weight: 800; cursor: pointer; transition: all .2s; white-space: nowrap; }
+    .btn-pdf:hover { background: var(--gold); transform: translateY(-1px); box-shadow: 0 4px 14px rgba(200,148,42,0.4); }
+    .btn-pdf:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+    .btn-pdf svg { width: 15px; height: 15px; flex-shrink: 0; }
+    .btn-back { display: flex; align-items: center; gap: 6px; padding: 10px 16px; background: rgba(255,255,255,0.12); color: #fff; border: 1px solid rgba(255,255,255,0.25); border-radius: 8px; font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer; text-decoration: none; transition: all .2s; white-space: nowrap; }
     .btn-back:hover { background: rgba(255,255,255,0.22); }
-    .btn-back svg { width: 14px; height: 14px; }
+    .btn-back svg { width: 13px; height: 13px; }
 
     /* ── STAGE ── */
-    .cert-stage { padding: 48px 24px 72px; display: flex; justify-content: center; }
+    .cert-stage { padding: 40px 20px 60px; display: flex; justify-content: center; }
 
-    /* ── CERTIFICATE SHELL ── */
+    /* ── CERTIFICATE ── */
     .cert {
       width: 100%;
       max-width: 1060px;
-      min-height: 720px;
       background: #fff;
       position: relative;
       overflow: hidden;
-      box-shadow: 0 28px 80px rgba(0,0,0,0.22), 0 6px 20px rgba(0,0,0,0.12);
+      box-shadow: 0 24px 70px rgba(0,0,0,0.2), 0 6px 18px rgba(0,0,0,0.1);
     }
 
-    /* Triple border frame */
+    /* Triple border */
     .frame-1 { position: absolute; inset: 10px; border: 3px solid var(--gold); pointer-events: none; z-index: 10; }
-    .frame-2 { position: absolute; inset: 16px; border: 1px solid rgba(200,148,42,0.4); pointer-events: none; z-index: 10; }
-    .frame-3 { position: absolute; inset: 20px; border: 1px solid rgba(11,110,79,0.2); pointer-events: none; z-index: 10; }
+    .frame-2 { position: absolute; inset: 17px; border: 1px solid rgba(200,148,42,0.4); pointer-events: none; z-index: 10; }
+    .frame-3 { position: absolute; inset: 22px; border: 1px solid rgba(11,110,79,0.18); pointer-events: none; z-index: 10; }
 
-    /* Corner ornaments */
-    .corner { position: absolute; width: 70px; height: 70px; z-index: 12; }
+    /* Corners */
+    .corner { position: absolute; width: 72px; height: 72px; z-index: 12; }
     .c-tl { top: 4px; left: 4px; }
     .c-tr { top: 4px; right: 4px; transform: scaleX(-1); }
     .c-bl { bottom: 4px; left: 4px; transform: scaleY(-1); }
     .c-br { bottom: 4px; right: 4px; transform: scale(-1,-1); }
 
-    /* BG decoration */
+    /* BG */
     .cert-bg {
       position: absolute; inset: 0; z-index: 0;
       background:
-        radial-gradient(ellipse at 10% 50%, rgba(11,110,79,0.04) 0%, transparent 55%),
-        radial-gradient(ellipse at 90% 50%, rgba(200,148,42,0.05) 0%, transparent 55%),
-        radial-gradient(ellipse at 50% 5%,  rgba(11,110,79,0.04) 0%, transparent 40%),
+        radial-gradient(ellipse at 8% 50%, rgba(11,110,79,0.04) 0%, transparent 50%),
+        radial-gradient(ellipse at 92% 50%, rgba(200,148,42,0.05) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 5%, rgba(11,110,79,0.04) 0%, transparent 40%),
         radial-gradient(ellipse at 50% 95%, rgba(200,148,42,0.04) 0%, transparent 40%);
     }
     .cert-wm {
       position: absolute; top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      width: 480px; height: 480px;
-      background: radial-gradient(circle, rgba(11,110,79,0.04) 0%, transparent 65%);
+      transform: translate(-50%,-50%);
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(11,110,79,0.035) 0%, transparent 65%);
       border-radius: 50%; z-index: 0;
     }
 
     /* ── CONTENT ── */
     .cert-content {
       position: relative; z-index: 5;
-      padding: 42px 80px 38px;
+      padding: 44px 80px 40px;
       display: flex; flex-direction: column;
-      align-items: center; gap: 18px;
+      align-items: center; gap: 20px;
       text-align: center;
     }
 
-    /* ── HEADER ── */
-    .cert-header {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 32px;
-    }
-    .cert-logo { width: 66px; height: 66px; object-fit: contain; flex-shrink: 0; }
-    .cert-header-center { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 5px; }
+    /* HEADER */
+    .cert-header { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 28px; }
+    .cert-logo { width: 68px; height: 68px; object-fit: contain; flex-shrink: 0; }
+    .cert-header-center { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; }
     .cert-org-line {
-      font-size: 14px; font-weight: 900; color: var(--green-deep);
-      letter-spacing: 1.5px; text-transform: uppercase;
-      display: flex; align-items: center; gap: 10px; white-space: nowrap;
+      font-size: 15px; font-weight: 900; color: var(--green-deep);
+      letter-spacing: 1.8px; text-transform: uppercase;
+      display: flex; align-items: center; gap: 12px;
     }
-    .cert-org-amp {
-      font-size: 13px; font-weight: 700; color: var(--gold);
-      font-family: 'Cormorant Garamond', serif; font-style: italic;
-    }
-    .cert-header-sub {
-      font-size: 9px; font-weight: 600; color: #6B7280;
-      letter-spacing: 2px; text-transform: uppercase;
-    }
-    .cert-header-rule {
-      width: 100%; height: 1.5px;
-      background: linear-gradient(90deg, transparent, var(--gold), transparent);
-    }
+    .cert-org-amp { font-size: 16px; font-weight: 700; color: var(--gold); font-family: 'Cormorant Garamond', serif; font-style: italic; }
+    .cert-header-sub { font-size: 9px; font-weight: 600; color: #6B7280; letter-spacing: 2.5px; text-transform: uppercase; }
+    .cert-header-rule { width: 100%; height: 1.5px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
 
-    /* ── RIBBON ── */
+    /* RIBBON */
     .cert-ribbon {
-      background: linear-gradient(135deg, var(--green-deep) 0%, var(--green) 100%);
+      background: linear-gradient(135deg, var(--green-deep), var(--green));
       color: #fff; font-size: 9px; font-weight: 800;
       letter-spacing: 4px; text-transform: uppercase;
       padding: 6px 36px; border-radius: 100px;
-      box-shadow: 0 3px 10px rgba(11,110,79,0.3);
+      box-shadow: 0 3px 12px rgba(11,110,79,0.3);
     }
 
-    /* ── TITLE ── */
+    /* TITLE */
     .cert-event-title {
       font-family: 'Playfair Display', serif;
-      font-size: 38px; font-weight: 900;
-      color: var(--green-deep); line-height: 1.1;
-      letter-spacing: .5px;
+      font-size: 40px; font-weight: 900;
+      color: var(--green-deep); line-height: 1.1; letter-spacing: .5px;
     }
-    .cert-event-title span {
-      display: block; width: 90px; height: 2.5px;
-      background: linear-gradient(90deg, transparent, var(--gold), transparent);
-      margin: 10px auto 0;
-    }
+    .cert-title-rule { display: block; width: 90px; height: 2.5px; background: linear-gradient(90deg, transparent, var(--gold), transparent); margin: 10px auto 0; }
 
-    /* ── PRESENTED TO ── */
-    .cert-presented {
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic; font-size: 15px; color: #6B7280;
-    }
+    /* PRESENTED */
+    .cert-presented { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 15px; color: #6B7280; }
 
-    /* ── NAME ── */
+    /* NAME */
     .cert-name {
       font-family: 'Playfair Display', serif;
-      font-size: 58px; font-weight: 800; font-style: italic;
-      line-height: 1;
+      font-size: 60px; font-weight: 800; font-style: italic;
+      line-height: 1; margin: 0 -20px;
       background: linear-gradient(135deg, var(--green-deep) 0%, var(--green-mid) 60%);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       background-clip: text;
-      margin: 0 -20px;
     }
-    .cert-name-rule {
-      width: 55%; height: 1.5px;
-      background: linear-gradient(90deg, transparent, var(--gold), transparent);
-    }
+    .cert-name-rule { width: 55%; height: 1.5px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
 
-    /* ── SCHOOL ── */
-    .cert-school {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 15px; color: #4B5563;
-      letter-spacing: .3px;
-    }
+    /* SCHOOL */
+    .cert-school { font-family: 'Cormorant Garamond', serif; font-size: 16px; color: #4B5563; letter-spacing: .3px; }
     .cert-school strong { color: var(--dark); font-weight: 700; font-style: normal; }
 
-    /* ── BODY TEXT ── */
-    .cert-body {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 14.5px; color: #4B5563;
-      line-height: 1.7; max-width: 600px;
-    }
+    /* BODY */
+    .cert-body { font-family: 'Cormorant Garamond', serif; font-size: 14.5px; color: #4B5563; line-height: 1.7; max-width: 620px; }
     .cert-body strong { color: var(--green-deep); font-weight: 700; }
 
-    /* ── EVENT BADGE ── */
+    /* BADGE */
     .cert-badge {
       display: inline-flex; align-items: center; gap: 14px;
       background: var(--gold-pale); border: 1.5px solid rgba(200,148,42,0.4);
       border-radius: 10px; padding: 10px 24px;
     }
-    .cert-badge-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gold); }
+    .cert-badge-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
     .cert-badge-event { font-size: 14px; font-weight: 800; color: var(--gold); letter-spacing: .3px; }
     .cert-badge-date { font-size: 11px; color: #92400E; font-weight: 600; margin-top: 2px; }
 
-    /* ── SIGNATORIES (stamps) ── */
-    .cert-sigs {
-      width: 100%; display: grid;
-      grid-template-columns: 1fr auto 1fr;
-      gap: 0; align-items: start; margin-top: 8px;
-    }
-    .cert-sig-divider-v {
-      width: 1px; background: linear-gradient(to bottom, transparent, rgba(11,110,79,0.25), transparent);
-      margin: 0 24px; align-self: stretch;
-    }
-    .cert-sig { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 0 20px; }
+    /* STAMPS / SIGNATORIES */
+    .cert-sigs { width: 100%; display: grid; grid-template-columns: 1fr auto 1fr; align-items: start; margin-top: 6px; }
+    .cert-sig-div { width: 1px; background: linear-gradient(to bottom, transparent, rgba(11,110,79,0.25), transparent); margin: 0 28px; align-self: stretch; }
+    .cert-sig { display: flex; flex-direction: column; align-items: center; gap: 10px; }
 
-    /* Stamp circle */
     .cert-stamp {
-      width: 90px; height: 90px; border-radius: 50%;
-      border: 2px dashed var(--gold);
+      width: 96px; height: 96px; border-radius: 50%;
+      border: 2.5px dashed var(--gold);
       background: radial-gradient(circle, rgba(200,148,42,0.07) 0%, rgba(11,110,79,0.04) 100%);
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      gap: 2px; position: relative;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+      position: relative;
     }
-    .cert-stamp::after {
-      content: '';
-      position: absolute; inset: 5px; border-radius: 50%;
-      border: 1px solid rgba(11,110,79,0.2);
+    .cert-stamp::after { content: ''; position: absolute; inset: 6px; border-radius: 50%; border: 1px solid rgba(11,110,79,0.2); }
+    .cert-stamp-org { font-size: 7.5px; font-weight: 800; color: var(--green); letter-spacing: 1px; text-transform: uppercase; text-align: center; line-height: 1.3; position: relative; z-index: 1; }
+    .cert-stamp-year { font-size: 10px; font-weight: 900; color: var(--gold); position: relative; z-index: 1; }
+    .cert-stamp-star { font-size: 11px; color: var(--gold); position: relative; z-index: 1; }
+
+    .cert-sig-name { font-size: 12.5px; font-weight: 800; color: var(--green-deep); text-align: center; line-height: 1.3; }
+    .cert-sig-role { font-size: 10.5px; color: #6B7280; text-align: center; line-height: 1.4; }
+    .cert-sig-issued { font-size: 9px; color: #9CA3AF; }
+
+    /* ── MOBILE ── */
+    @media(max-width: 700px) {
+      .cert-content { padding: 32px 28px 28px; gap: 16px; }
+      .cert-logo { width: 48px; height: 48px; }
+      .cert-header { gap: 14px; }
+      .cert-org-line { font-size: 10px; letter-spacing: .8px; gap: 6px; flex-wrap: wrap; justify-content: center; }
+      .cert-org-amp { font-size: 12px; }
+      .cert-event-title { font-size: 24px; }
+      .cert-name { font-size: 36px; margin: 0; }
+      .cert-name-rule { width: 70%; }
+      .cert-school { font-size: 13px; }
+      .cert-body { font-size: 12.5px; }
+      .cert-badge { padding: 8px 16px; gap: 10px; }
+      .cert-badge-event { font-size: 12px; }
+      .cert-sigs { grid-template-columns: 1fr; gap: 20px; }
+      .cert-sig-div { display: none; }
+      .cert-stamp { width: 76px; height: 76px; }
+      .cert-stamp-org { font-size: 6.5px; }
+      .cert-ribbon { font-size: 8px; letter-spacing: 2.5px; padding: 5px 24px; }
+      .frame-1, .frame-2, .frame-3 { display: none; }
+      .frame-1 { display: block; }
+      .corner { width: 48px; height: 48px; }
     }
-    .cert-stamp-org { font-size: 7px; font-weight: 800; color: var(--green); letter-spacing: 1px; text-transform: uppercase; text-align: center; line-height: 1.3; position: relative; z-index: 1; }
-    .cert-stamp-year { font-size: 9px; font-weight: 900; color: var(--gold); position: relative; z-index: 1; }
-    .cert-stamp-star { font-size: 10px; color: var(--gold); position: relative; z-index: 1; }
+    @media(max-width: 420px) {
+      .cert-content { padding: 28px 18px 24px; gap: 13px; }
+      .cert-name { font-size: 28px; }
+      .cert-event-title { font-size: 20px; }
+      .chrome-bar-left span { display: none; }
+      .btn-pdf span { display: none; }
+      .btn-pdf svg { width: 18px; height: 18px; }
+    }
 
-    .cert-sig-name { font-size: 12px; font-weight: 800; color: var(--green-deep); text-align: center; line-height: 1.3; }
-    .cert-sig-role { font-size: 10px; color: #6B7280; text-align: center; line-height: 1.4; }
-    .cert-sig-issued { font-size: 9px; color: #9CA3AF; margin-top: 2px; }
-
-    /* ── PRINT ── */
+    /* ── PRINT (fallback) ── */
     @media print {
       body { background: #fff !important; }
       .chrome-bar { display: none !important; }
@@ -233,77 +219,74 @@
 </head>
 <body>
 
-<!-- Top chrome -->
 <div class="chrome-bar">
   <div class="chrome-bar-left">
     <i data-feather="award"></i>
-    Certificate of Participation — AI &amp; Web3 Launchpad
+    <span>Certificate of Participation — AI &amp; Web3 Launchpad</span>
   </div>
   <div class="chrome-bar-right">
     <a href="/certificate" class="btn-back"><i data-feather="arrow-left"></i> Back</a>
-    <button onclick="window.print()" class="btn-print"><i data-feather="printer"></i> Print / Save PDF</button>
+    <button onclick="downloadPDF(this)" class="btn-pdf" id="dlBtn">
+      <i data-feather="download"></i> <span>Download PDF</span>
+    </button>
   </div>
 </div>
 
 <div class="cert-stage">
-  <div class="cert">
+  <div class="cert" id="cert">
 
-    <!-- BG decoration -->
     <div class="cert-bg"></div>
     <div class="cert-wm"></div>
-
-    <!-- Frames -->
     <div class="frame-1"></div>
     <div class="frame-2"></div>
     <div class="frame-3"></div>
 
     <!-- Corners -->
     <div class="corner c-tl">
-      <svg viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M5 5 L5 35 Q5 5 35 5 Z" fill="none" stroke="#C8942A" stroke-width="2"/>
-        <path d="M12 12 L12 30 Q12 12 30 12 Z" fill="none" stroke="rgba(11,110,79,0.35)" stroke-width="1"/>
-        <circle cx="5" cy="5" r="4" fill="#C8942A"/>
-        <circle cx="35" cy="5" r="2.5" fill="rgba(200,148,42,0.5)"/>
-        <circle cx="5" cy="35" r="2.5" fill="rgba(200,148,42,0.5)"/>
-        <circle cx="5" cy="20" r="1.5" fill="rgba(200,148,42,0.35)"/>
-        <circle cx="20" cy="5" r="1.5" fill="rgba(200,148,42,0.35)"/>
+      <svg viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M5 5 L5 38 Q5 5 38 5 Z" fill="none" stroke="#C8942A" stroke-width="2.5"/>
+        <path d="M13 13 L13 32 Q13 13 32 13 Z" fill="none" stroke="rgba(11,110,79,0.35)" stroke-width="1.2"/>
+        <circle cx="5" cy="5" r="4.5" fill="#C8942A"/>
+        <circle cx="38" cy="5" r="2.5" fill="rgba(200,148,42,0.5)"/>
+        <circle cx="5" cy="38" r="2.5" fill="rgba(200,148,42,0.5)"/>
+        <circle cx="5" cy="22" r="1.5" fill="rgba(200,148,42,0.35)"/>
+        <circle cx="22" cy="5" r="1.5" fill="rgba(200,148,42,0.35)"/>
       </svg>
     </div>
     <div class="corner c-tr">
-      <svg viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M5 5 L5 35 Q5 5 35 5 Z" fill="none" stroke="#C8942A" stroke-width="2"/>
-        <path d="M12 12 L12 30 Q12 12 30 12 Z" fill="none" stroke="rgba(11,110,79,0.35)" stroke-width="1"/>
-        <circle cx="5" cy="5" r="4" fill="#C8942A"/>
-        <circle cx="35" cy="5" r="2.5" fill="rgba(200,148,42,0.5)"/>
-        <circle cx="5" cy="35" r="2.5" fill="rgba(200,148,42,0.5)"/>
-        <circle cx="5" cy="20" r="1.5" fill="rgba(200,148,42,0.35)"/>
-        <circle cx="20" cy="5" r="1.5" fill="rgba(200,148,42,0.35)"/>
+      <svg viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M5 5 L5 38 Q5 5 38 5 Z" fill="none" stroke="#C8942A" stroke-width="2.5"/>
+        <path d="M13 13 L13 32 Q13 13 32 13 Z" fill="none" stroke="rgba(11,110,79,0.35)" stroke-width="1.2"/>
+        <circle cx="5" cy="5" r="4.5" fill="#C8942A"/>
+        <circle cx="38" cy="5" r="2.5" fill="rgba(200,148,42,0.5)"/>
+        <circle cx="5" cy="38" r="2.5" fill="rgba(200,148,42,0.5)"/>
+        <circle cx="5" cy="22" r="1.5" fill="rgba(200,148,42,0.35)"/>
+        <circle cx="22" cy="5" r="1.5" fill="rgba(200,148,42,0.35)"/>
       </svg>
     </div>
     <div class="corner c-bl">
-      <svg viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M5 5 L5 35 Q5 5 35 5 Z" fill="none" stroke="#C8942A" stroke-width="2"/>
-        <path d="M12 12 L12 30 Q12 12 30 12 Z" fill="none" stroke="rgba(11,110,79,0.35)" stroke-width="1"/>
-        <circle cx="5" cy="5" r="4" fill="#C8942A"/>
-        <circle cx="35" cy="5" r="2.5" fill="rgba(200,148,42,0.5)"/>
-        <circle cx="5" cy="35" r="2.5" fill="rgba(200,148,42,0.5)"/>
-        <circle cx="5" cy="20" r="1.5" fill="rgba(200,148,42,0.35)"/>
-        <circle cx="20" cy="5" r="1.5" fill="rgba(200,148,42,0.35)"/>
+      <svg viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M5 5 L5 38 Q5 5 38 5 Z" fill="none" stroke="#C8942A" stroke-width="2.5"/>
+        <path d="M13 13 L13 32 Q13 13 32 13 Z" fill="none" stroke="rgba(11,110,79,0.35)" stroke-width="1.2"/>
+        <circle cx="5" cy="5" r="4.5" fill="#C8942A"/>
+        <circle cx="38" cy="5" r="2.5" fill="rgba(200,148,42,0.5)"/>
+        <circle cx="5" cy="38" r="2.5" fill="rgba(200,148,42,0.5)"/>
+        <circle cx="5" cy="22" r="1.5" fill="rgba(200,148,42,0.35)"/>
+        <circle cx="22" cy="5" r="1.5" fill="rgba(200,148,42,0.35)"/>
       </svg>
     </div>
     <div class="corner c-br">
-      <svg viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M5 5 L5 35 Q5 5 35 5 Z" fill="none" stroke="#C8942A" stroke-width="2"/>
-        <path d="M12 12 L12 30 Q12 12 30 12 Z" fill="none" stroke="rgba(11,110,79,0.35)" stroke-width="1"/>
-        <circle cx="5" cy="5" r="4" fill="#C8942A"/>
-        <circle cx="35" cy="5" r="2.5" fill="rgba(200,148,42,0.5)"/>
-        <circle cx="5" cy="35" r="2.5" fill="rgba(200,148,42,0.5)"/>
-        <circle cx="5" cy="20" r="1.5" fill="rgba(200,148,42,0.35)"/>
-        <circle cx="20" cy="5" r="1.5" fill="rgba(200,148,42,0.35)"/>
+      <svg viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M5 5 L5 38 Q5 5 38 5 Z" fill="none" stroke="#C8942A" stroke-width="2.5"/>
+        <path d="M13 13 L13 32 Q13 13 32 13 Z" fill="none" stroke="rgba(11,110,79,0.35)" stroke-width="1.2"/>
+        <circle cx="5" cy="5" r="4.5" fill="#C8942A"/>
+        <circle cx="38" cy="5" r="2.5" fill="rgba(200,148,42,0.5)"/>
+        <circle cx="5" cy="38" r="2.5" fill="rgba(200,148,42,0.5)"/>
+        <circle cx="5" cy="22" r="1.5" fill="rgba(200,148,42,0.35)"/>
+        <circle cx="22" cy="5" r="1.5" fill="rgba(200,148,42,0.35)"/>
       </svg>
     </div>
 
-    <!-- Content -->
     <div class="cert-content">
 
       <!-- HEADER -->
@@ -311,11 +294,9 @@
         <img src="/nahimsss.jpg" alt="NAHIMS Tech Hub" class="cert-logo">
         <div class="cert-header-center">
           <div class="cert-org-line">
-            NAHIMS TECH HUB
-            <span class="cert-org-amp">&amp;</span>
-            NAHIMS SW
+            NAHIMS TECH HUB <span class="cert-org-amp">&amp;</span> NAHIMS SW
           </div>
-          <div class="cert-header-sub">In Partnership · Virtual Event · 2026</div>
+          <div class="cert-header-sub">In Partnership &nbsp;·&nbsp; Virtual Event &nbsp;·&nbsp; 2026</div>
           <div class="cert-header-rule"></div>
         </div>
         <img src="/logo.png" alt="NAHIMS SW" class="cert-logo">
@@ -324,18 +305,18 @@
       <!-- RIBBON + TITLE -->
       <div>
         <div class="cert-ribbon">Certificate of Participation</div>
-        <div style="margin-top:14px;" class="cert-event-title">
+        <div class="cert-event-title" style="margin-top:14px;">
           AI &amp; Web3 Launchpad
-          <span></span>
+          <span class="cert-title-rule"></span>
         </div>
       </div>
 
       <!-- RECIPIENT -->
-      <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:7px;">
         <div class="cert-presented">This is to certify that</div>
         <div class="cert-name"><%= reg.fullName %></div>
         <div class="cert-name-rule"></div>
-        <div class="cert-school">of <strong><%= reg.school %></strong></div>
+        <div class="cert-school">of &nbsp;<strong><%= reg.school %></strong></div>
       </div>
 
       <!-- BODY -->
@@ -345,7 +326,7 @@
         held virtually from <strong>September 16 – 19, 2026</strong>.
       </div>
 
-      <!-- EVENT BADGE -->
+      <!-- BADGE -->
       <div class="cert-badge">
         <div class="cert-badge-dot"></div>
         <div>
@@ -355,10 +336,8 @@
         <div class="cert-badge-dot"></div>
       </div>
 
-      <!-- SIGNATORIES WITH STAMPS -->
+      <!-- STAMPS -->
       <div class="cert-sigs">
-
-        <!-- NAHIMS Gen Sec -->
         <div class="cert-sig">
           <div class="cert-stamp">
             <div class="cert-stamp-star">&#9733;</div>
@@ -369,9 +348,8 @@
           <div class="cert-sig-role">General Secretary<br>NAHIMS National</div>
         </div>
 
-        <div class="cert-sig-divider-v"></div>
+        <div class="cert-sig-div"></div>
 
-        <!-- NAHIMS SW Gen Sec -->
         <div class="cert-sig">
           <div class="cert-stamp">
             <div class="cert-stamp-star">&#9733;</div>
@@ -382,13 +360,42 @@
           <div class="cert-sig-role">General Secretary<br>NAHIMS SW</div>
           <div class="cert-sig-issued">Issued <%= new Date().toLocaleDateString('en-NG',{day:'numeric',month:'long',year:'numeric'}) %></div>
         </div>
-
       </div>
 
     </div>
   </div>
 </div>
 
-<script>feather.replace();</script>
+<script>
+feather.replace();
+
+function downloadPDF(btn) {
+  btn.disabled = true;
+  const icon = btn.querySelector('svg');
+  const label = btn.querySelector('span');
+  if (label) label.textContent = 'Generating…';
+
+  // Capture at desktop size for a clean A4 output
+  const el = document.getElementById('cert');
+
+  const opt = {
+    margin: 0,
+    filename: 'NAHIMS-Certificate-<%= reg.fullName.replace(/[^a-zA-Z0-9\s]/g, "").trim().replace(/\s+/g, "-") %>.pdf',
+    image:      { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2, useCORS: true, logging: false, allowTaint: true },
+    jsPDF:      { unit: 'mm', format: 'a4', orientation: 'landscape' }
+  };
+
+  html2pdf().set(opt).from(el).save().then(() => {
+    btn.disabled = false;
+    if (label) label.textContent = 'Download PDF';
+    feather.replace();
+  }).catch(() => {
+    btn.disabled = false;
+    if (label) label.textContent = 'Download PDF';
+    feather.replace();
+  });
+}
+</script>
 </body>
 </html>

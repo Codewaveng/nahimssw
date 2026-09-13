@@ -68,6 +68,24 @@
   .cert-notice-text { font-size: 13px; color: #1E40AF; line-height: 1.5; }
   .cert-notice-text strong { color: #1E3A8A; }
 
+  /* ── Prize/Info two-col grid ── */
+  .reg-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
+  @media(max-width: 700px) { .reg-two-col { grid-template-columns: 1fr; } }
+
+  /* ── Section mobile padding ── */
+  @media(max-width: 600px) {
+    .hero { padding: 56px 1rem 48px; }
+    .hero h1 { font-size: 28px; }
+    .hero-btns { flex-direction: column; align-items: stretch; }
+    .hero-btns .btn { justify-content: center; }
+    .host-grid { grid-template-columns: 1fr !important; }
+    .prize-pos { gap: 8px; }
+    .prize-pos-item { min-width: 70px; padding: 10px 10px; }
+    .prize-pos-amount { font-size: 18px; }
+    .section-header h2 { font-size: 22px; }
+    .collab-strip { gap: 8px; }
+  }
+
   /* ── Submit ── */
   .reg-submit { width: 100%; padding: 16px; background: var(--green); border: none; border-radius: var(--radius); color: #fff; font-family: inherit; font-size: 16px; font-weight: 700; cursor: pointer; transition: var(--transition); display: flex; align-items: center; justify-content: center; gap: 10px; }
   .reg-submit:hover { background: var(--green-dark); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(11,110,79,0.3); }
@@ -104,7 +122,7 @@
 <!-- ═══ PRIZE + INFO ════════════════════════════════════════════ -->
 <div style="background: var(--gray-light); padding: 70px 0;">
   <div class="section" style="padding: 0 1.5rem;">
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start;">
+    <div class="reg-two-col">
 
       <!-- Prize card -->
       <div style="background:#fff; border:1.5px solid var(--border); border-radius: var(--radius-lg); padding: 32px; text-align:center;">
