@@ -12,7 +12,7 @@ const eventData = {
   eventType: 'general',
   organizer: 'Comrade Adedayo Mayowa & Comrade Abdulfatah Abdullahi',
   organizerRole: 'General Secretary, NAHIMS & General Secretary, NAHIMS SW',
-  date: '13th September 2026',
+  date: '2026-09-13',
   location: 'Virtual (Online)',
   description:
     'The first-ever virtual tech event under the NAHIMS SW New Dawn administration, co-hosted by NAHIMS Techub and NAHIMS SW Tech Hub. Themed "AI & Web3 Launchpad", this landmark event is co-hosted by Comrade Adedayo Mayowa (Gen Sec, NAHIMS), Comrade Abdulfatah Abdullahi (Gen Sec, NAHIMS SW), and Comrade Kolawole Abdullahi Adeshina (Director of Technology). Comrade Abdulfatah is personally sponsoring N100,000 to encourage student participation and foster collaboration.',
