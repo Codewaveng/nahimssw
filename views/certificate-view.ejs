@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700;1,800&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,600;1,700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -207,12 +207,13 @@
       .btn-pdf svg { width: 18px; height: 18px; }
     }
 
-    /* ── PRINT (fallback) ── */
+    /* ── PRINT / PDF fallback ── */
     @media print {
-      body { background: #fff !important; }
+      * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      body { background: #fff !important; margin: 0; padding: 0; }
       .chrome-bar { display: none !important; }
-      .cert-stage { padding: 0 !important; }
-      .cert { max-width: 100% !important; box-shadow: none !important; }
+      .cert-stage { padding: 0 !important; display: block !important; }
+      .cert { max-width: 100% !important; width: 100% !important; box-shadow: none !important; }
       @page { size: A4 landscape; margin: 0; }
     }
   </style>
@@ -369,32 +370,42 @@
 <script>
 feather.replace();
 
+var CERT_FILENAME = 'NAHIMS-Certificate-<%= reg.fullName.replace(/[^a-zA-Z0-9 ]/g, "").trim().replace(/ +/g, "-") %>.pdf';
+
 function downloadPDF(btn) {
+  var label = btn.querySelector('span');
+
+  // Fallback: open print dialog if library not ready
+  if (typeof html2pdf === 'undefined') {
+    window.print();
+    return;
+  }
+
   btn.disabled = true;
-  const icon = btn.querySelector('svg');
-  const label = btn.querySelector('span');
   if (label) label.textContent = 'Generating…';
 
-  // Capture at desktop size for a clean A4 output
-  const el = document.getElementById('cert');
+  var el = document.getElementById('cert');
 
-  const opt = {
-    margin: 0,
-    filename: 'NAHIMS-Certificate-<%= reg.fullName.replace(/[^a-zA-Z0-9\s]/g, "").trim().replace(/\s+/g, "-") %>.pdf',
-    image:      { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 2, useCORS: true, logging: false, allowTaint: true },
-    jsPDF:      { unit: 'mm', format: 'a4', orientation: 'landscape' }
+  var opt = {
+    margin:      0,
+    filename:    CERT_FILENAME,
+    image:       { type: 'jpeg', quality: 0.97 },
+    html2canvas: { scale: 2, useCORS: true, logging: false, scrollX: 0, scrollY: 0, windowWidth: 1060 },
+    jsPDF:       { unit: 'mm', format: 'a4', orientation: 'landscape' }
   };
 
-  html2pdf().set(opt).from(el).save().then(() => {
-    btn.disabled = false;
-    if (label) label.textContent = 'Download PDF';
-    feather.replace();
-  }).catch(() => {
-    btn.disabled = false;
-    if (label) label.textContent = 'Download PDF';
-    feather.replace();
-  });
+  html2pdf().set(opt).from(el).save()
+    .then(function() {
+      btn.disabled = false;
+      if (label) label.textContent = 'Download PDF';
+    })
+    .catch(function(err) {
+      console.error('PDF error:', err);
+      btn.disabled = false;
+      if (label) label.textContent = 'Download PDF';
+      // Fallback to print dialog
+      window.print();
+    });
 }
 </script>
 </body>
