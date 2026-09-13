@@ -804,6 +804,24 @@ app.post('/admin/registrations/delete/:id', requireAdmin, async (req, res) => {
   res.redirect('/admin/registrations?success=Registration deleted');
 });
 
+// ── Certificate ───────────────────────────────────────────────
+app.get('/certificate', (req, res) => {
+  res.render('certificate', { page: 'certificate', error: null });
+});
+
+app.post('/certificate', async (req, res) => {
+  const name = (req.body.fullName || '').trim();
+  if (!name) {
+    return res.render('certificate', { page: 'certificate', error: 'Please enter your full name.' });
+  }
+  const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const reg = await Registration.findOne({ fullName: { $regex: new RegExp('^' + escaped + '$', 'i') } });
+  if (!reg) {
+    return res.render('certificate', { page: 'certificate', error: 'No registration found for that name. Please check your spelling exactly as you registered.' });
+  }
+  res.render('certificate-view', { page: 'certificate', reg });
+});
+
 // ── Error handler ─────────────────────────────────────────────
 app.use((err, req, res, next) => {
   console.error(err);

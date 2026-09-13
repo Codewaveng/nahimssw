@@ -1,0 +1,48 @@
+<%- include('partials/head', {title: 'Get Your Certificate'}) %>
+<%- include('partials/navbar') %>
+
+<style>
+  .cert-lookup-wrap { min-height: 70vh; display: flex; align-items: center; justify-content: center; padding: 80px 1.5rem; background: var(--gray-light); }
+  .cert-lookup-card { background: #fff; border: 1.5px solid var(--border); border-radius: var(--radius-lg); padding: 48px 40px; max-width: 520px; width: 100%; box-shadow: var(--shadow-lg); text-align: center; }
+  @media(max-width:560px){ .cert-lookup-card{ padding: 32px 20px; } }
+  .cert-icon-ring { width: 72px; height: 72px; border-radius: 50%; background: var(--green-light); border: 2px solid rgba(11,110,79,0.2); display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; }
+  .cert-icon-ring svg { width: 30px; height: 30px; color: var(--green); }
+  .cert-lookup-card h1 { font-size: 26px; font-weight: 900; color: var(--dark); margin-bottom: 8px; }
+  .cert-lookup-card p { font-size: 14px; color: var(--gray); line-height: 1.6; margin-bottom: 32px; }
+  .cl-field { margin-bottom: 18px; text-align: left; }
+  .cl-field label { display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .6px; color: var(--gray); margin-bottom: 7px; }
+  .cl-field input { width: 100%; padding: 13px 16px; border: 1.5px solid var(--border); border-radius: var(--radius); font-family: inherit; font-size: 15px; color: var(--dark); background: #fff; outline: none; transition: var(--transition); }
+  .cl-field input:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(11,110,79,0.1); }
+  .cl-field input::placeholder { color: #9CA3AF; }
+  .cl-submit { width: 100%; padding: 15px; background: var(--green); border: none; border-radius: var(--radius); color: #fff; font-family: inherit; font-size: 16px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 9px; transition: var(--transition); margin-top: 8px; }
+  .cl-submit:hover { background: var(--green-dark); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(11,110,79,0.25); }
+  .cl-submit svg { width: 16px; height: 16px; }
+  .cl-error { background: #FEF2F2; border: 1.5px solid #FECACA; border-radius: var(--radius); padding: 12px 16px; color: #DC2626; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 8px; margin-bottom: 20px; text-align: left; }
+  .cl-error svg { width: 15px; height: 15px; flex-shrink: 0; }
+  .cl-note { font-size: 12px; color: var(--gray); margin-top: 16px; line-height: 1.5; }
+</style>
+
+<div class="cert-lookup-wrap">
+  <div class="cert-lookup-card">
+    <div class="cert-icon-ring"><i data-feather="award"></i></div>
+    <h1>Get Your Certificate</h1>
+    <p>Enter your full name exactly as you registered for the <strong>AI &amp; Web3 Launchpad</strong> to retrieve your certificate of participation.</p>
+
+    <% if (error) { %>
+    <div class="cl-error"><i data-feather="alert-circle"></i> <%= error %></div>
+    <% } %>
+
+    <form method="POST" action="/certificate">
+      <div class="cl-field">
+        <label>Full Name</label>
+        <input type="text" name="fullName" placeholder="Enter your full name exactly as registered" required autocomplete="name">
+      </div>
+      <button type="submit" class="cl-submit">
+        <i data-feather="search"></i> Retrieve Certificate
+      </button>
+    </form>
+    <p class="cl-note">Your name must match what you submitted during registration. Contact us on Telegram if you have any issues.</p>
+  </div>
+</div>
+
+<%- include('partials/footer') %>
