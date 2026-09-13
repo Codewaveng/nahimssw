@@ -12,7 +12,7 @@ const { PDFDocument, StandardFonts, rgb } = require('pdf-lib');
 
 const {
   Site, Executive, Event, News, Chapter,
-  Material, VideoLecture, Sports, Admin, Letter
+  Material, VideoLecture, Sports, Admin, Letter, Registration
 } = require('./models');
 
 const app  = express();
@@ -759,6 +759,49 @@ app.post('/admin/letters/generate', requireAdmin, async (req, res) => {
 app.post('/admin/letters/delete/:id', requireAdmin, async (req, res) => {
   await Letter.findByIdAndDelete(req.params.id);
   res.redirect('/admin/letters?success=Letter record deleted');
+});
+
+// ── Registration: AI & Web3 Launchpad ────────────────────────
+app.get('/register/ai-web3-launchpad', (req, res) => {
+  res.render('register', { site: res.locals.site });
+});
+
+app.post('/register/ai-web3-launchpad', async (req, res) => {
+  const { fullName, school, region, state, knowsWeb3, knowsAI, knowsTech } = req.body;
+  if (!fullName || !school || !region || !state) {
+    return res.render('register', { site: res.locals.site, error: 'Please fill in all required fields.' });
+  }
+  await Registration.create({
+    fullName: fullName.trim(),
+    school:   school.trim(),
+    region, state,
+    knowsWeb3:  knowsWeb3  === 'yes',
+    knowsAI:    knowsAI    === 'yes',
+    knowsTech:  knowsTech  === 'yes'
+  });
+  res.redirect('/register/ai-web3-launchpad/success');
+});
+
+app.get('/register/ai-web3-launchpad/success', (req, res) => {
+  res.render('register-success', { site: res.locals.site });
+});
+
+// ── Admin: Registrations ──────────────────────────────────────
+app.get('/admin/registrations', requireAdmin, async (req, res) => {
+  const registrations = await Registration.find().sort({ createdAt: -1 });
+  const stats = {
+    total:    registrations.length,
+    web3:     registrations.filter(r => r.knowsWeb3).length,
+    ai:       registrations.filter(r => r.knowsAI).length,
+    tech:     registrations.filter(r => r.knowsTech).length,
+    sw:       registrations.filter(r => r.region === 'Southwest (Zone D)').length
+  };
+  res.render('admin/registrations', { active: 'registrations', registrations, stats, success: req.query.success || null });
+});
+
+app.post('/admin/registrations/delete/:id', requireAdmin, async (req, res) => {
+  await Registration.findByIdAndDelete(req.params.id);
+  res.redirect('/admin/registrations?success=Registration deleted');
 });
 
 // ── Error handler ─────────────────────────────────────────────

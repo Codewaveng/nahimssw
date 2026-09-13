@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>You're In! 🎉 — AI & Web3 Launchpad</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{background:#070d1f;color:#fff;font-family:'Plus Jakarta Sans',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow-x:hidden;padding:20px}
+    :root{--green:#0B6E4F;--neon:#4ade80;--purple:#7c3aed;--gold:#f59e0b}
+
+    /* ── CONFETTI ── */
+    .confetti-wrap{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden}
+    .confetto{position:absolute;top:-10px;width:10px;height:10px;opacity:0;animation:confettiFall linear infinite}
+    @keyframes confettiFall{0%{opacity:1;transform:translateY(0) rotate(0deg) scale(1)}100%{opacity:0;transform:translateY(110vh) rotate(720deg) scale(.5)}}
+
+    /* ── ORBS ── */
+    .orb{position:fixed;border-radius:50%;filter:blur(90px);pointer-events:none}
+    .o1{width:400px;height:400px;background:rgba(74,222,128,0.12);top:-80px;right:-80px}
+    .o2{width:350px;height:350px;background:rgba(124,58,237,0.15);bottom:-60px;left:-60px}
+
+    /* ── CARD ── */
+    .card{position:relative;z-index:1;max-width:560px;width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:28px;padding:48px 36px 40px;text-align:center;backdrop-filter:blur(20px);animation:popIn .7s cubic-bezier(.34,1.56,.64,1) both}
+    .card::before{content:'';position:absolute;top:0;left:10%;right:10%;height:2px;background:linear-gradient(90deg,#4ade80,#22d3ee,#a78bfa,#fbbf24);border-radius:999px}
+    @keyframes popIn{0%{opacity:0;transform:scale(.85) translateY(30px)}100%{opacity:1;transform:scale(1) translateY(0)}}
+
+    /* ── CHECK ANIMATION ── */
+    .check-wrap{width:90px;height:90px;border-radius:50%;background:linear-gradient(135deg,rgba(74,222,128,0.2),rgba(34,211,238,0.2));border:2px solid rgba(74,222,128,0.5);display:flex;align-items:center;justify-content:center;margin:0 auto 24px;animation:checkPop .8s .3s cubic-bezier(.34,1.56,.64,1) both;position:relative}
+    .check-wrap::after{content:'';position:absolute;inset:-8px;border-radius:50%;border:2px solid rgba(74,222,128,0.2);animation:ringPulse 2s 1s ease-in-out infinite}
+    @keyframes checkPop{0%{opacity:0;transform:scale(0)}100%{opacity:1;transform:scale(1)}}
+    @keyframes ringPulse{0%,100%{transform:scale(1);opacity:.5}50%{transform:scale(1.15);opacity:.2}}
+    .check-icon{font-size:38px;animation:iconBounce .5s .8s cubic-bezier(.34,1.56,.64,1) both}
+    @keyframes iconBounce{0%{transform:scale(0)}100%{transform:scale(1)}}
+
+    /* ── TEXT ── */
+    .success-eyebrow{font-size:11px;font-weight:700;letter-spacing:2px;color:rgba(74,222,128,0.8);text-transform:uppercase;margin-bottom:10px;animation:fadeUp .5s .4s both}
+    .success-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(28px,6vw,42px);font-weight:700;margin-bottom:12px;animation:fadeUp .5s .5s both}
+    .success-title .hi{background:linear-gradient(135deg,#4ade80,#22d3ee);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .success-desc{font-size:15px;color:rgba(255,255,255,0.6);line-height:1.6;margin-bottom:32px;animation:fadeUp .5s .6s both}
+
+    /* ── TELEGRAM CTA ── */
+    .tg-section{background:linear-gradient(135deg,rgba(37,211,102,0.1),rgba(0,136,204,0.15));border:2px solid rgba(37,211,102,0.4);border-radius:20px;padding:28px 24px;margin-bottom:24px;animation:fadeUp .6s .7s both;position:relative;overflow:hidden}
+    .tg-section::before{content:'';position:absolute;top:-1px;left:5%;right:5%;height:2px;background:linear-gradient(90deg,transparent,#25d366,transparent)}
+    .tg-alert{display:inline-flex;align-items:center;gap:6px;background:rgba(239,68,68,0.2);border:1px solid rgba(239,68,68,0.5);border-radius:999px;padding:5px 14px;font-size:12px;font-weight:700;color:#fca5a5;letter-spacing:.5px;margin-bottom:14px}
+    .tg-title{font-size:20px;font-weight:800;margin-bottom:8px}
+    .tg-sub{font-size:13px;color:rgba(255,255,255,0.6);line-height:1.5;margin-bottom:20px}
+    .tg-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:16px;background:linear-gradient(135deg,#25d366,#128c7e);border:none;border-radius:14px;color:#fff;font-family:inherit;font-size:16px;font-weight:800;text-decoration:none;cursor:pointer;transition:transform .2s,box-shadow .2s;letter-spacing:.3px}
+    .tg-btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(37,211,102,0.35)}
+    .tg-btn svg{width:22px;height:22px;flex-shrink:0}
+    .tg-warn{font-size:12px;color:rgba(255,255,255,0.4);margin-top:12px;line-height:1.5}
+    .tg-warn strong{color:#fbbf24}
+
+    /* ── EVENT DETAILS ── */
+    .details-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:28px;animation:fadeUp .5s .9s both}
+    @media(max-width:400px){.details-grid{grid-template-columns:1fr}}
+    .detail-item{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:14px;text-align:left}
+    .detail-label{font-size:10px;font-weight:700;letter-spacing:.5px;color:rgba(255,255,255,0.35);text-transform:uppercase;margin-bottom:4px}
+    .detail-value{font-size:14px;font-weight:700}
+
+    /* ── FOOTER LINKS ── */
+    .success-links{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;animation:fadeUp .5s 1s both}
+    .success-links a{font-size:13px;color:rgba(255,255,255,0.4);text-decoration:none;transition:color .2s;display:flex;align-items:center;gap:5px}
+    .success-links a:hover{color:#4ade80}
+
+    @keyframes fadeUp{0%{opacity:0;transform:translateY(16px)}100%{opacity:1;transform:translateY(0)}}
+  </style>
+</head>
+<body>
+
+<!-- Confetti -->
+<div class="confetti-wrap" id="confetti"></div>
+<div class="orb o1"></div>
+<div class="orb o2"></div>
+
+<div class="card">
+
+  <div class="check-wrap"><div class="check-icon">🎉</div></div>
+
+  <div class="success-eyebrow">Registration Confirmed</div>
+  <h1 class="success-title">You're <span class="hi">officially in</span><br>the Launchpad!</h1>
+  <p class="success-desc">
+    Welcome to the <strong>AI &amp; Web3 Launchpad</strong> — the first-ever virtual tech event by NAHIMS SW.
+    Your seat is secured. Now do the ONE thing that matters 👇
+  </p>
+
+  <!-- Event details -->
+  <div class="details-grid">
+    <div class="detail-item">
+      <div class="detail-label">📅 Event Dates</div>
+      <div class="detail-value">Sept 16 – 19, 2026</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-label">🌐 Format</div>
+      <div class="detail-value">100% Virtual</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-label">🏆 Prize Pool</div>
+      <div class="detail-value" style="color:#fbbf24">₦100,000</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-label">📜 Certificate</div>
+      <div class="detail-value" style="color:#4ade80">Guaranteed</div>
+    </div>
+  </div>
+
+  <!-- Telegram CTA -->
+  <div class="tg-section">
+    <div><div class="tg-alert">⚠️ REQUIRED ACTION</div></div>
+    <div class="tg-title">Join the Telegram Channel Now</div>
+    <div class="tg-sub">
+      All classes, sessions, announcements, and materials for the event will happen exclusively on Telegram.
+      <strong style="color:#fff">If you don't join, you miss everything.</strong>
+    </div>
+    <a href="https://t.me/nahimsswtechhub" target="_blank" class="tg-btn">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+      Join NAHIMS SW Tech Hub on Telegram
+    </a>
+    <div class="tg-warn">
+      Can't click? Copy the link: <strong>t.me/nahimsswtechhub</strong><br>
+      Join <strong>before September 16</strong> to receive pre-event materials.
+    </div>
+  </div>
+
+  <div class="success-links">
+    <a href="/">🏠 Back to NAHIMS SW</a>
+    <a href="/news">📰 Read Our News</a>
+    <a href="/register/ai-web3-launchpad">➕ Register Another Person</a>
+  </div>
+
+</div>
+
+<script>
+// Confetti
+const colors = ['#4ade80','#22d3ee','#a78bfa','#f472b6','#fbbf24','#fff','#f87171'];
+const shapes = ['border-radius:50%','border-radius:2px','border-radius:0','border-radius:999px'];
+const container = document.getElementById('confetti');
+for (let i = 0; i < 80; i++) {
+  const c = document.createElement('div');
+  c.className = 'confetto';
+  const size = Math.random()*10+5;
+  c.style.cssText = [
+    `left:${Math.random()*100}%`,
+    `width:${size}px`,
+    `height:${size * (Math.random()*.8+.3)}px`,
+    `background:${colors[Math.floor(Math.random()*colors.length)]}`,
+    shapes[Math.floor(Math.random()*shapes.length)],
+    `animation-duration:${Math.random()*4+3}s`,
+    `animation-delay:${Math.random()*5}s`,
+    `opacity:0`
+  ].join(';');
+  container.appendChild(c);
+}
+</script>
+</body>
+</html>

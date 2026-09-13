@@ -141,6 +141,18 @@ const AdminSchema = new Schema({
   name:     String
 });
 
+// ── Event Registration ────────────────────────────────────────
+const RegistrationSchema = new Schema({
+  fullName:    { type: String, required: true },
+  school:      { type: String, required: true },
+  region:      { type: String, required: true },
+  state:       { type: String, required: true },
+  knowsWeb3:   { type: Boolean, default: false },
+  knowsAI:     { type: Boolean, default: false },
+  knowsTech:   { type: Boolean, default: false },
+  createdAt:   { type: Date, default: Date.now }
+});
+
 // ── Letter History ────────────────────────────────────────────
 const LetterSchema = new Schema({
   subject:     { type: String, required: true },
@@ -151,6 +163,7 @@ const LetterSchema = new Schema({
 
 module.exports = {
   Site:         mongoose.model('Site',         SiteSchema),
+  Registration: mongoose.model('Registration', RegistrationSchema),
   Executive:    mongoose.model('Executive',    ExecutiveSchema),
   Event:        mongoose.model('Event',        EventSchema),
   News:         mongoose.model('News',         NewsSchema),

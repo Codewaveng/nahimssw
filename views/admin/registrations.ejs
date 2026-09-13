@@ -1,0 +1,109 @@
+<%- include('layout-start', {title: 'Registrations'}) %>
+
+<div class="admin-page-header">
+  <div>
+    <h1 class="admin-page-title">AI &amp; Web3 Launchpad Registrations</h1>
+    <p class="admin-page-sub">Students registered for Sept 16–19, 2026 virtual event</p>
+  </div>
+  <a href="/register/ai-web3-launchpad" target="_blank" class="btn-admin-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+    View Registration Page
+  </a>
+</div>
+
+<% if (success) { %>
+<div class="admin-alert admin-alert-success" style="margin-bottom:20px"><%= success %></div>
+<% } %>
+
+<!-- Stats -->
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;margin-bottom:28px">
+  <div class="admin-stat-card">
+    <div class="admin-stat-num" style="color:#4ade80"><%= stats.total %></div>
+    <div class="admin-stat-lbl">Total Registered</div>
+  </div>
+  <div class="admin-stat-card">
+    <div class="admin-stat-num" style="color:#a78bfa"><%= stats.web3 %></div>
+    <div class="admin-stat-lbl">Know Web3</div>
+  </div>
+  <div class="admin-stat-card">
+    <div class="admin-stat-num" style="color:#22d3ee"><%= stats.ai %></div>
+    <div class="admin-stat-lbl">Know AI</div>
+  </div>
+  <div class="admin-stat-card">
+    <div class="admin-stat-num" style="color:#fb923c"><%= stats.tech %></div>
+    <div class="admin-stat-lbl">Have Tech Bg</div>
+  </div>
+  <div class="admin-stat-card">
+    <div class="admin-stat-num" style="color:#0B6E4F"><%= stats.sw %></div>
+    <div class="admin-stat-lbl">From SW Zone</div>
+  </div>
+</div>
+
+<!-- Table -->
+<div class="admin-table-wrap">
+  <% if (registrations.length === 0) { %>
+  <div style="text-align:center;padding:60px 20px;color:var(--text-muted)">
+    <div style="font-size:48px;margin-bottom:12px">🚀</div>
+    <div style="font-weight:600;font-size:16px;margin-bottom:6px">No registrations yet</div>
+    <div style="font-size:14px">Share the registration link to get students signing up!</div>
+    <a href="/register/ai-web3-launchpad" target="_blank" style="display:inline-block;margin-top:16px;padding:10px 22px;background:var(--green);color:#fff;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px">Open Registration Page</a>
+  </div>
+  <% } else { %>
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Full Name</th>
+        <th>School</th>
+        <th>Region</th>
+        <th>State</th>
+        <th style="text-align:center">Web3</th>
+        <th style="text-align:center">AI</th>
+        <th style="text-align:center">Tech</th>
+        <th>Registered</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% registrations.forEach((r, i) => { %>
+      <tr>
+        <td style="color:var(--text-muted);font-size:13px"><%= registrations.length - i %></td>
+        <td><strong><%= r.fullName %></strong></td>
+        <td style="font-size:13px;color:var(--text-muted);max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><%= r.school %></td>
+        <td>
+          <span style="display:inline-block;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;background:<%= r.region === 'Southwest (Zone D)' ? 'rgba(11,110,79,0.15)' : 'rgba(100,116,139,0.15)' %>;color:<%= r.region === 'Southwest (Zone D)' ? '#4ade80' : 'var(--text-muted)' %>">
+            <%= r.region === 'Southwest (Zone D)' ? '🌿 SW' : r.region %>
+          </span>
+        </td>
+        <td style="font-size:13px"><%= r.state %></td>
+        <td style="text-align:center"><%= r.knowsWeb3 ? '✅' : '❌' %></td>
+        <td style="text-align:center"><%= r.knowsAI  ? '✅' : '❌' %></td>
+        <td style="text-align:center"><%= r.knowsTech ? '✅' : '❌' %></td>
+        <td style="font-size:12px;color:var(--text-muted);white-space:nowrap">
+          <%= new Date(r.createdAt).toLocaleDateString('en-NG',{day:'numeric',month:'short',year:'numeric'}) %>
+          <br><span style="font-size:11px"><%= new Date(r.createdAt).toLocaleTimeString('en-NG',{hour:'2-digit',minute:'2-digit'}) %></span>
+        </td>
+        <td>
+          <form method="POST" action="/admin/registrations/delete/<%= r._id %>" onsubmit="return confirm('Delete this registration?')">
+            <button type="submit" style="background:none;border:none;cursor:pointer;color:var(--text-muted);padding:4px 8px;border-radius:6px;transition:color .15s,background .15s" onmouseover="this.style.color='#ef4444';this.style.background='rgba(239,68,68,0.1)'" onmouseout="this.style.color='';this.style.background=''">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+            </button>
+          </form>
+        </td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+  <div style="padding:14px 20px;font-size:13px;color:var(--text-muted);border-top:1px solid var(--border)">
+    Showing <strong><%= registrations.length %></strong> registration<%= registrations.length !== 1 ? 's' : '' %> total
+  </div>
+  <% } %>
+</div>
+
+<style>
+.admin-stat-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px 16px;text-align:center}
+.admin-stat-num{font-size:32px;font-weight:800;line-height:1;margin-bottom:4px}
+.admin-stat-lbl{font-size:12px;color:var(--text-muted);font-weight:600}
+</style>
+
+<%- include('layout-end') %>
