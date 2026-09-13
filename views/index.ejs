@@ -166,7 +166,7 @@
     <% } %>
 
     <div class="cards-grid" style="margin-top: 28px;">
-      <% featuredEvents.filter(e => e.category !== 'Convention').forEach((event, i) => { %>
+      <% featuredEvents.filter(e => !convention || e._id.toString() !== convention._id.toString()).forEach((event, i) => { %>
       <div class="event-card animate-on-scroll" style="animation-delay: <%= i * 100 %>ms">
         <div class="event-img">
           <% if (event.image) { %>
@@ -181,7 +181,7 @@
         <div class="event-body">
           <div class="event-organizer"><i data-feather="user"></i> <%= event.organizer %></div>
           <h3><%= event.title %></h3>
-          <p><%= event.description.substring(0, 160) %>...</p>
+          <p><%= (event.description || '').substring(0, 160) %></p>
           <div class="event-meta">
             <div class="event-meta-item"><i data-feather="calendar"></i> <%= new Date(event.date).toLocaleDateString('en-NG', {year:'numeric',month:'short',day:'numeric'}) %></div>
             <div class="event-meta-item"><i data-feather="map-pin"></i> <%= event.location %></div>
