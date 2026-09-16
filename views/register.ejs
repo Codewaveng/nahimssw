@@ -215,9 +215,29 @@
   </div>
 </div>
 
-<!-- ═══ REGISTRATION FORM ═══════════════════════════════════════ -->
+<!-- ═══ REGISTRATION FORM / CLOSED ════════════════════════════ -->
 <div style="background: var(--gray-light); padding: 70px 0;">
   <div class="section" style="padding: 0 1.5rem;">
+
+  <% if (typeof closed !== 'undefined' && closed) { %>
+    <!-- CLOSED STATE -->
+    <div style="max-width: 600px; margin: 0 auto; text-align: center;" class="animate-on-scroll">
+      <div style="width:72px;height:72px;border-radius:50%;background:#FEF2F2;border:2px solid #FECACA;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;">
+        <i data-feather="lock" style="width:28px;height:28px;color:#DC2626;"></i>
+      </div>
+      <div class="section-tag" style="margin:0 auto 14px;background:#FEF2F2;color:#DC2626;border-color:#FECACA;"><i data-feather="x-circle"></i> Registration Closed</div>
+      <h2 style="font-size:clamp(22px,4vw,32px);font-weight:900;color:var(--dark);margin-bottom:12px;">Registration is now closed</h2>
+      <p style="font-size:15px;color:var(--gray);line-height:1.7;max-width:460px;margin:0 auto 28px;">
+        The registration window for the <strong style="color:var(--dark);">AI &amp; Web3 Launchpad</strong> has closed.
+        Thank you to everyone who signed up — we will see you at the event! Stay tuned for the next one.
+      </p>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+        <a href="/" class="btn btn-primary"><i data-feather="home"></i> Back to Home</a>
+        <a href="https://t.me/+S3mJoE4XA8FmZDI8" target="_blank" rel="noopener" class="btn btn-outline"><i data-feather="message-circle"></i> Join Telegram Channel</a>
+      </div>
+    </div>
+  <% } else { %>
+
     <div class="section-header animate-on-scroll" style="margin-bottom:36px;">
       <div class="section-tag"><i data-feather="edit-3"></i> Register</div>
       <h2>Secure Your Spot</h2>
@@ -339,6 +359,8 @@
         </p>
       </form>
     </div>
+
+  <% } %>
   </div>
 </div>
 

@@ -763,10 +763,11 @@ app.post('/admin/letters/delete/:id', requireAdmin, async (req, res) => {
 
 // ── Registration: AI & Web3 Launchpad ────────────────────────
 app.get('/register/ai-web3-launchpad', (req, res) => {
-  res.render('register', { site: res.locals.site, page: 'register' });
+  res.render('register', { site: res.locals.site, page: 'register', closed: true });
 });
 
 app.post('/register/ai-web3-launchpad', async (req, res) => {
+  return res.render('register', { site: res.locals.site, page: 'register', closed: true, error: null });
   const { fullName, school, region, state, knowsWeb3, knowsAI, knowsTech } = req.body;
   if (!fullName || !school || !region || !state) {
     return res.render('register', { site: res.locals.site, page: 'register', error: 'Please fill in all required fields.' });
