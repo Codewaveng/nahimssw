@@ -2,6 +2,7 @@ if (!globalThis.crypto) globalThis.crypto = require('crypto').webcrypto;
 require('dotenv').config();
 const express    = require('express');
 const session    = require('express-session');
+const MongoStore = require('connect-mongo');
 const bodyParser = require('body-parser');
 const multer     = require('multer');
 const path       = require('path');
@@ -34,7 +35,8 @@ app.use(session({
   secret: process.env.SESSION_SECRET || 'nahims-sw-secret-2026',
   resave: false,
   saveUninitialized: false,
-  cookie: { maxAge: 24 * 60 * 60 * 1000 }
+  store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI }),
+  cookie: { maxAge: 7 * 24 * 60 * 60 * 1000 }
 }));
 
 // ── File upload ───────────────────────────────────────────────
