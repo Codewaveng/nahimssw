@@ -2,7 +2,7 @@ if (!globalThis.crypto) globalThis.crypto = require('crypto').webcrypto;
 require('dotenv').config();
 const express    = require('express');
 const session    = require('express-session');
-const MongoStore = require('connect-mongo');
+const { MongoStore } = require('connect-mongo');
 const bodyParser = require('body-parser');
 const multer     = require('multer');
 const path       = require('path');
