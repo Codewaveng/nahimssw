@@ -12,7 +12,7 @@
   </style>
 </head>
 <body>
-  <header class="toolbar"><span id="downloadStatus">Certificate issued · preparing your download…</span><nav class="actions"><a class="back" href="/certificate">Issue another</a><a id="downloadCertificate" class="download" href="/certificate/download/<%= certificate._id %>" download="NAHIMS-SW-Certificate.pdf">Download PDF</a></nav></header>
+  <header class="toolbar"><span id="downloadStatus">Preparing your certificate PDF…</span><nav class="actions"><a class="back" href="/certificate">Issue another</a><a id="downloadCertificate" class="download" href="/certificate/download/<%= certificate._id %>" download="NAHIMS-SW-Certificate.pdf">Save PDF to phone</a></nav></header>
   <main class="wrap">
     <article class="cert">
       <div class="seal">NAHIMS SW</div>
@@ -32,36 +32,55 @@
         <div class="serial">CERTIFICATE NO. <%= certificate.certificateNumber %></div>
       </div>
     </article>
-    <p class="note">Your certificate record has been saved. If automatic download is blocked by your browser, tap “Download PDF” above.</p>
+    <p class="note">Your certificate record is saved. Tap “Save PDF to phone” to open your device’s save options. On iPhone choose Save to Files; on Android choose an available save or download option.</p>
   </main>
   <script>
     const downloadLink = document.getElementById('downloadCertificate');
     const downloadStatus = document.getElementById('downloadStatus');
-    let downloadStarted = false;
-    async function downloadCertificate() {
-      if (downloadStarted) return;
-      downloadStarted = true;
-      try {
-        const response = await fetch(downloadLink.href, { credentials: 'same-origin' });
-        if (!response.ok) throw new Error('Download request failed');
-        const file = await response.blob();
-        const url = URL.createObjectURL(file);
-        const saveLink = document.createElement('a');
-        saveLink.href = url;
-        saveLink.download = 'NAHIMS-SW-Certificate-<%= certificate.fullName.replace(/[^a-zA-Z0-9]+/g, "-").replace(/^-|-$/g, "") %>.pdf';
-        document.body.appendChild(saveLink);
-        saveLink.click();
-        saveLink.remove();
-        setTimeout(() => URL.revokeObjectURL(url), 60000);
-        downloadStatus.textContent = 'Download started. If you do not see the file, tap Download PDF.';
-        setTimeout(() => { downloadStarted = false; }, 1200);
-      } catch (error) {
-        downloadStarted = false;
-        downloadStatus.textContent = 'Tap “Download PDF” to save your certificate';
-      }
+    let certificateFile = null;
+    let certificateUrl = null;
+    const filename = 'NAHIMS-SW-Certificate-<%= certificate.fullName.replace(/[^a-zA-Z0-9]+/g, "-").replace(/^-|-$/g, "") %>.pdf';
+    downloadLink.setAttribute('aria-disabled', 'true');
+    downloadLink.style.pointerEvents = 'none';
+    function directDownload() {
+      const saveLink = document.createElement('a');
+      saveLink.href = certificateUrl;
+      saveLink.download = filename;
+      document.body.appendChild(saveLink);
+      saveLink.click();
+      saveLink.remove();
     }
-    downloadLink.addEventListener('click', event => { event.preventDefault(); downloadStarted = false; downloadCertificate(); });
-    window.addEventListener('load', () => setTimeout(downloadCertificate, 450));
+    fetch(downloadLink.href, { credentials: 'same-origin' })
+      .then(response => { if (!response.ok) throw new Error('Download request failed'); return response.blob(); })
+      .then(blob => {
+        certificateFile = new File([blob], filename, { type: 'application/pdf' });
+        certificateUrl = URL.createObjectURL(blob);
+        let canShareFile = false;
+        try { canShareFile = !!(navigator.share && navigator.canShare && navigator.canShare({ files: [certificateFile] })); } catch (error) {}
+        downloadLink.removeAttribute('aria-disabled');
+        downloadLink.style.pointerEvents = '';
+        downloadLink.textContent = canShareFile ? 'Save PDF to phone' : 'Download PDF';
+        downloadStatus.textContent = canShareFile ? 'Your PDF is ready. Tap Save PDF to open your phone’s save options.' : 'Your PDF is ready to download.';
+        if (!canShareFile) directDownload();
+      })
+      .catch(() => {
+        downloadLink.removeAttribute('aria-disabled');
+        downloadLink.style.pointerEvents = '';
+        downloadStatus.textContent = 'Tap the button to download your certificate PDF.';
+      });
+
+    downloadLink.addEventListener('click', event => {
+      event.preventDefault();
+      if (!certificateFile) { downloadStatus.textContent = 'Your PDF is still being prepared. Please tap again in a moment.'; return; }
+      if (navigator.share && navigator.canShare && navigator.canShare({ files: [certificateFile] })) {
+        navigator.share({ files: [certificateFile], title: 'NAHIMS SW Certificate' })
+          .then(() => { downloadStatus.textContent = 'Choose Save to Files or another save option in the menu.'; })
+          .catch(error => { if (error.name !== 'AbortError') downloadStatus.textContent = 'The save menu could not open. Tap again to retry.'; });
+        return;
+      }
+      directDownload();
+      downloadStatus.textContent = 'PDF download started. Check your Downloads or Files app.';
+    });
   </script>
 </body>
 </html>
