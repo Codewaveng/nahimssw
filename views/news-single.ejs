@@ -21,6 +21,14 @@
     <% article.content.split('\n').forEach(para => { if(para.trim()) { %><p><%= para %></p><% } }); %>
   </div>
 
+  <% if (article.slug === 'nahims-sw-naira-2-million-stx-buzz-rewards-southwest-students-2026') { %>
+  <div style="margin-top:28px;padding:22px;border-radius:12px;background:#f0f8f4;border:1px solid #cfe5d8;">
+    <h2 style="margin:0 0 8px;">Join the free student campaign</h2>
+    <p style="margin:0 0 16px;">Contact the NAHIMS SW General Secretary on WhatsApp for participation details.</p>
+    <a class="btn btn-green" href="https://wa.me/2347048594341?text=Hello%20Comrade%20Abdulfatah%2C%20I%20would%20like%20details%20about%20the%20STX%20Buzz%20campaign." target="_blank" rel="noopener"><i data-feather="message-circle"></i> Message Comrade Abdulfatah</a>
+  </div>
+  <% } %>
+
   <div style="margin-top:40px;padding-top:24px;border-top:1px solid var(--border);">
     <a href="/news" class="btn btn-green btn-sm"><i data-feather="arrow-left"></i> All News</a>
   </div>

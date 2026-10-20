@@ -101,7 +101,7 @@ app.get('/', async (req, res) => {
   const [mainExecs, featuredEvents, latestNews] = await Promise.all([
     Executive.find({ type: 'main' }).sort({ order: 1 }).limit(3),
     Event.find({ published: true, featured: true }).sort({ date: -1 }),
-    News.find({ published: true }).sort({ date: -1 }).limit(3)
+    News.find({ published: true }).sort({ date: -1, _id: -1 }).limit(4)
   ]);
   res.render('index', { site: res.locals.site, page: 'home', executives: mainExecs, featuredEvents, latestNews });
 });
@@ -133,7 +133,7 @@ app.get('/academic', async (req, res) => {
 
 // News list
 app.get('/news', async (req, res) => {
-  const articles = await News.find({ published: true }).sort({ date: -1 });
+  const articles = await News.find({ published: true }).sort({ date: -1, _id: -1 });
   res.render('news', { site: res.locals.site, page: 'news', articles });
 });
 
@@ -141,7 +141,12 @@ app.get('/news', async (req, res) => {
 app.get('/news/:slug', async (req, res) => {
   const article = await News.findOne({ slug: req.params.slug, published: true });
   if (!article) return res.redirect('/news');
-  res.render('news-single', { site: res.locals.site, page: 'news', article });
+  res.render('news-single', {
+    site: res.locals.site,
+    page: 'news',
+    article,
+    metaDescription: article.excerpt
+  });
 });
 
 // Event single
@@ -863,27 +868,23 @@ app.get('/certificate/download/:id', async (req, res) => {
   center('POGIL College of Health Technology, Oke-Eri, Ijebu-Ode, Ogun State', bold, 11, 212, green);
   center('20 October 2026', regular, 13, 190, ink);
 
-  // Separate role seals; these are designed organizational marks, not handwritten signatures.
-  const drawSeal = (cx, role1, role2) => {
-    page.drawCircle({ x: cx, y: 139, size: 34, borderColor: gold, borderWidth: 2, color: rgb(1, 0.99, 0.95) });
-    page.drawCircle({ x: cx, y: 139, size: 28, borderColor: emerald, borderWidth: 0.8 });
-    for (const [label, font, size, y, color] of [
-      ['NAHIMS SW', bold, 7, 149, green], [role1, bold, 5.2, 139, emerald],
-      [role2, bold, 5.2, 130, emerald], ['2026', regular, 5.5, 120, gold]
-    ]) {
-      const x = cx - font.widthOfTextAtSize(label, size) / 2;
-      page.drawText(label, { x, y, font, size, color });
-    }
-  };
   const leftCx = 222;
   const rightCx = width - 222;
-  drawSeal(leftCx, 'GENERAL SECRETARY', 'SOUTHWEST ZONE');
-  drawSeal(rightCx, 'DIRECTOR OF TECH', 'SOUTHWEST ZONE');
+  const genSecSignature = await pdfDoc.embedJpg(fs.readFileSync(path.join(__dirname, 'public', 'gensecsign.jpg')));
+  const techDirectorSignature = await pdfDoc.embedJpg(fs.readFileSync(path.join(__dirname, 'public', 'dotsign.jpg')));
+  const drawSignature = (image, cx, maxWidth, maxHeight) => {
+    const scale = Math.min(maxWidth / image.width, maxHeight / image.height);
+    const imageWidth = image.width * scale;
+    const imageHeight = image.height * scale;
+    page.drawImage(image, { x: cx - imageWidth / 2, y: 98, width: imageWidth, height: imageHeight });
+  };
+  drawSignature(genSecSignature, leftCx, 150, 48);
+  drawSignature(techDirectorSignature, rightCx, 150, 58);
   page.drawLine({ start: { x: 118, y: 94 }, end: { x: 326, y: 94 }, thickness: 0.8, color: green });
   page.drawLine({ start: { x: width - 326, y: 94 }, end: { x: width - 118, y: 94 }, thickness: 0.8, color: green });
   page.drawText('Comrade Abdulfatah Abdullahi', { x: 118, y: 78, font: bold, size: 10, color: green });
   page.drawText('General Secretary, NAHIMS SW', { x: 118, y: 64, font: regular, size: 9, color: ink });
-  page.drawText('Comrade Kolawole Abdullahi', { x: width - 326, y: 78, font: bold, size: 10, color: green });
+  page.drawText('Comrade Kolawole Abdullahi Adeshina', { x: width - 326, y: 78, font: bold, size: 9, color: green });
   page.drawText('Director of Technology, NAHIMS SW', { x: width - 326, y: 64, font: regular, size: 9, color: ink });
   page.drawText(`Certificate No. ${certificate.certificateNumber}`, { x: 30, y: 32, font: regular, size: 7, color: rgb(0.4, 0.43, 0.46) });
 

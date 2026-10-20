@@ -4,7 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><%= typeof title !== 'undefined' ? title + ' – ' : '' %>NAHIMS SW | <%= site.fullName %></title>
-  <meta name="description" content="Official website of NAHIMS Southwest Zone (Zone D) – 2026/2027 NEW DAWN Administration.">
+  <meta name="description" content="<%= typeof metaDescription !== 'undefined' && metaDescription ? metaDescription : 'Official website of NAHIMS Southwest Zone (Zone D) – 2026/2027 NEW DAWN Administration.' %>">
+  <meta property="og:title" content="<%= typeof title !== 'undefined' && title ? title + ' | NAHIMS SW' : 'NAHIMS SW' %>">
+  <meta property="og:description" content="<%= typeof metaDescription !== 'undefined' && metaDescription ? metaDescription : 'Official updates, announcements and opportunities from NAHIMS Southwest Zone.' %>">
+  <meta property="og:type" content="<%= typeof article !== 'undefined' ? 'article' : 'website' %>">
   <meta name="theme-color" content="#0B6E4F">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
