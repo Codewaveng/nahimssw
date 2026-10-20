@@ -863,17 +863,28 @@ app.get('/certificate/download/:id', async (req, res) => {
   center('POGIL College of Health Technology, Oke-Eri, Ijebu-Ode, Ogun State', bold, 11, 212, green);
   center('20 October 2026', regular, 13, 190, ink);
 
-  // Decorative NAHIMS SW seal and two signature blocks.
-  page.drawCircle({ x: width / 2, y: 118, size: 34, borderColor: gold, borderWidth: 2, color: rgb(1, 0.99, 0.95) });
-  page.drawCircle({ x: width / 2, y: 118, size: 27, borderColor: emerald, borderWidth: 0.8 });
-  center('NAHIMS', bold, 8, 121, green);
-  center('SW • 2026', regular, 6, 109, gold);
-  page.drawLine({ start: { x: 118, y: 112 }, end: { x: 310, y: 112 }, thickness: 0.8, color: green });
-  page.drawLine({ start: { x: width - 310, y: 112 }, end: { x: width - 118, y: 112 }, thickness: 0.8, color: green });
-  page.drawText('Comrade Abdulfatah Abdullahi', { x: 118, y: 94, font: bold, size: 10, color: green });
-  page.drawText('General Secretary, NAHIMS SW', { x: 118, y: 79, font: regular, size: 9, color: ink });
-  page.drawText('Comrade Kolawole Abdullahi', { x: width - 310, y: 94, font: bold, size: 10, color: green });
-  page.drawText('Director of Technology, NAHIMS SW', { x: width - 310, y: 79, font: regular, size: 9, color: ink });
+  // Separate role seals; these are designed organizational marks, not handwritten signatures.
+  const drawSeal = (cx, role1, role2) => {
+    page.drawCircle({ x: cx, y: 139, size: 34, borderColor: gold, borderWidth: 2, color: rgb(1, 0.99, 0.95) });
+    page.drawCircle({ x: cx, y: 139, size: 28, borderColor: emerald, borderWidth: 0.8 });
+    for (const [label, font, size, y, color] of [
+      ['NAHIMS SW', bold, 7, 149, green], [role1, bold, 5.2, 139, emerald],
+      [role2, bold, 5.2, 130, emerald], ['2026', regular, 5.5, 120, gold]
+    ]) {
+      const x = cx - font.widthOfTextAtSize(label, size) / 2;
+      page.drawText(label, { x, y, font, size, color });
+    }
+  };
+  const leftCx = 222;
+  const rightCx = width - 222;
+  drawSeal(leftCx, 'GENERAL SECRETARY', 'SOUTHWEST ZONE');
+  drawSeal(rightCx, 'DIRECTOR OF TECH', 'SOUTHWEST ZONE');
+  page.drawLine({ start: { x: 118, y: 94 }, end: { x: 326, y: 94 }, thickness: 0.8, color: green });
+  page.drawLine({ start: { x: width - 326, y: 94 }, end: { x: width - 118, y: 94 }, thickness: 0.8, color: green });
+  page.drawText('Comrade Abdulfatah Abdullahi', { x: 118, y: 78, font: bold, size: 10, color: green });
+  page.drawText('General Secretary, NAHIMS SW', { x: 118, y: 64, font: regular, size: 9, color: ink });
+  page.drawText('Comrade Kolawole Abdullahi', { x: width - 326, y: 78, font: bold, size: 10, color: green });
+  page.drawText('Director of Technology, NAHIMS SW', { x: width - 326, y: 64, font: regular, size: 9, color: ink });
   page.drawText(`Certificate No. ${certificate.certificateNumber}`, { x: 30, y: 32, font: regular, size: 7, color: rgb(0.4, 0.43, 0.46) });
 
   const bytes = await pdfDoc.save();
