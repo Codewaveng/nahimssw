@@ -1,6 +1,7 @@
 if (!globalThis.crypto) globalThis.crypto = require('crypto').webcrypto;
 require('dotenv').config();
 const express    = require('express');
+const crypto     = require('crypto');
 const session    = require('express-session');
 const { MongoStore } = require('connect-mongo');
 const bodyParser = require('body-parser');
@@ -13,7 +14,7 @@ const { PDFDocument, StandardFonts, rgb } = require('pdf-lib');
 
 const {
   Site, Executive, Event, News, Chapter,
-  Material, VideoLecture, Sports, Admin, Letter, Registration
+  Material, VideoLecture, Sports, Admin, Letter, Registration, Certificate
 } = require('./models');
 
 const app  = express();
@@ -807,22 +808,79 @@ app.post('/admin/registrations/delete/:id', requireAdmin, async (req, res) => {
   res.redirect('/admin/registrations?success=Registration deleted');
 });
 
-// ── Certificate ───────────────────────────────────────────────
+// ── NAHIMS SW Tech Event certificate ───────────────────────────
 app.get('/certificate', (req, res) => {
   res.render('certificate', { page: 'certificate', error: null });
 });
 
 app.post('/certificate', async (req, res) => {
-  const name = (req.body.fullName || '').trim();
+  const name = (req.body.fullName || '').replace(/\s+/g, ' ').trim();
   if (!name) {
     return res.render('certificate', { page: 'certificate', error: 'Please enter your full name.' });
   }
-  const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  const reg = await Registration.findOne({ fullName: { $regex: new RegExp('^' + escaped + '$', 'i') } });
-  if (!reg) {
-    return res.render('certificate', { page: 'certificate', error: 'No registration found for that name. Please check your spelling exactly as you registered.' });
+  if (name.length > 120) {
+    return res.render('certificate', { page: 'certificate', error: 'Please enter a name under 120 characters.' });
   }
-  res.render('certificate-view', { page: 'certificate', reg });
+  const certificate = await Certificate.create({
+    fullName: name,
+    certificateNumber: `NAHIMS-SW-TECH-2026-${crypto.randomBytes(4).toString('hex').toUpperCase()}`
+  });
+  res.render('certificate-view', { page: 'certificate', certificate });
+});
+
+app.get('/certificate/download/:id', async (req, res) => {
+  const certificate = await Certificate.findById(req.params.id);
+  if (!certificate) return res.status(404).send('Certificate not found.');
+
+  const pdfDoc = await PDFDocument.create();
+  const page = pdfDoc.addPage([841.89, 595.28]);
+  const { width, height } = page.getSize();
+  const regular = await pdfDoc.embedFont(StandardFonts.Helvetica);
+  const bold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+  const italic = await pdfDoc.embedFont(StandardFonts.TimesRomanItalic);
+  const green = rgb(0.03, 0.24, 0.18);
+  const emerald = rgb(0.04, 0.43, 0.31);
+  const gold = rgb(0.76, 0.57, 0.18);
+  const ink = rgb(0.17, 0.2, 0.23);
+  const center = (text, font, size, y, color = ink) => {
+    while (size > 8 && font.widthOfTextAtSize(text, size) > width - 100) size -= 1;
+    const x = (width - font.widthOfTextAtSize(text, size)) / 2;
+    page.drawText(text, { x, y, font, size, color });
+  };
+
+  page.drawRectangle({ x: 18, y: 18, width: width - 36, height: height - 36, borderColor: green, borderWidth: 3 });
+  page.drawRectangle({ x: 27, y: 27, width: width - 54, height: height - 54, borderColor: gold, borderWidth: 1 });
+  center('NATIONAL ASSOCIATION OF HEALTH INFORMATION MANAGEMENT STUDENTS', bold, 16, 526, green);
+  center('SOUTHWEST ZONE  ·  ZONE D', regular, 10, 506, emerald);
+  page.drawLine({ start: { x: 170, y: 486 }, end: { x: width - 170, y: 486 }, thickness: 1.5, color: gold });
+  center('CERTIFICATE OF ATTENDANCE', bold, 28, 442, green);
+  center('This certificate is proudly presented to', italic, 17, 400);
+  center(certificate.fullName, bold, 34, 348, emerald);
+  page.drawLine({ start: { x: 210, y: 334 }, end: { x: width - 210, y: 334 }, thickness: 1, color: gold });
+  center('in recognition of their attendance and engagement at the', regular, 15, 302);
+  center('NAHIMS SW TECH EVENT', bold, 22, 270, green);
+  center('a gathering celebrating innovation, digital skills and the future of health information management.', regular, 12, 246);
+  center('POGIL College of Health Technology, Oke-Eri, Ijebu-Ode, Ogun State', bold, 11, 212, green);
+  center('20 October 2026', regular, 13, 190, ink);
+
+  // Decorative NAHIMS SW seal and two signature blocks.
+  page.drawCircle({ x: width / 2, y: 118, size: 34, borderColor: gold, borderWidth: 2, color: rgb(1, 0.99, 0.95) });
+  page.drawCircle({ x: width / 2, y: 118, size: 27, borderColor: emerald, borderWidth: 0.8 });
+  center('NAHIMS', bold, 8, 121, green);
+  center('SW • 2026', regular, 6, 109, gold);
+  page.drawLine({ start: { x: 118, y: 112 }, end: { x: 310, y: 112 }, thickness: 0.8, color: green });
+  page.drawLine({ start: { x: width - 310, y: 112 }, end: { x: width - 118, y: 112 }, thickness: 0.8, color: green });
+  page.drawText('Comrade Abdulfatah Abdullahi', { x: 118, y: 94, font: bold, size: 10, color: green });
+  page.drawText('General Secretary, NAHIMS SW', { x: 118, y: 79, font: regular, size: 9, color: ink });
+  page.drawText('Comrade Kolawole Abdullahi', { x: width - 310, y: 94, font: bold, size: 10, color: green });
+  page.drawText('Director of Technology, NAHIMS SW', { x: width - 310, y: 79, font: regular, size: 9, color: ink });
+  page.drawText(`Certificate No. ${certificate.certificateNumber}`, { x: 30, y: 32, font: regular, size: 7, color: rgb(0.4, 0.43, 0.46) });
+
+  const bytes = await pdfDoc.save();
+  const safeName = certificate.fullName.replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '');
+  res.setHeader('Content-Type', 'application/pdf');
+  res.setHeader('Content-Disposition', `attachment; filename="NAHIMS-SW-Certificate-${safeName}.pdf"`);
+  res.end(Buffer.from(bytes));
 });
 
 // ── Error handler ─────────────────────────────────────────────

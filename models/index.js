@@ -161,6 +161,15 @@ const LetterSchema = new Schema({
   createdAt:   { type: Date, default: Date.now }
 });
 
+const CertificateSchema = new Schema({
+  fullName: { type: String, required: true, trim: true },
+  certificateNumber: { type: String, required: true, unique: true },
+  event: { type: String, default: 'NAHIMS SW Tech Event' },
+  venue: { type: String, default: 'POGIL College of Health Technology, Oke-Eri, Ijebu-Ode, Ogun State' },
+  eventDate: { type: Date, default: new Date('2026-10-20T00:00:00.000Z') },
+  issuedAt: { type: Date, default: Date.now }
+});
+
 module.exports = {
   Site:         mongoose.model('Site',         SiteSchema),
   Registration: mongoose.model('Registration', RegistrationSchema),
@@ -172,5 +181,6 @@ module.exports = {
   VideoLecture: mongoose.model('VideoLecture', VideoLectureSchema),
   Sports:       mongoose.model('Sports',       SportsSchema),
   Admin:        mongoose.model('Admin',        AdminSchema),
-  Letter:       mongoose.model('Letter',       LetterSchema)
+  Letter:       mongoose.model('Letter',       LetterSchema),
+  Certificate:  mongoose.model('Certificate',  CertificateSchema)
 };
