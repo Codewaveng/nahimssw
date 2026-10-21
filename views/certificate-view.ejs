@@ -16,7 +16,7 @@
   </style>
 </head>
 <body>
-  <header class="toolbar"><span id="downloadStatus">Preparing your certificate PDF…</span><nav class="actions"><a class="back" href="/certificate">Issue another</a><a id="downloadCertificate" class="download" href="/certificate/download/<%= certificate._id %>" download="NAHIMS-SW-Certificate.pdf">Save PDF to phone</a></nav></header>
+  <header class="toolbar"><span id="downloadStatus">Preparing your certificate PDF…</span><nav class="actions"><a class="back" href="<%= certificate.event === 'Onboard3 Connect: Royal Institute #1' ? '/certificate/royal-institute' : '/certificate' %>">Issue another</a><a id="downloadCertificate" class="download" href="/certificate/download/<%= certificate._id %>" download="NAHIMS-SW-Certificate.pdf">Save PDF to phone</a></nav></header>
   <main class="wrap">
     <article class="cert">
       <div class="seal">NAHIMS SW</div>
@@ -27,8 +27,8 @@
         <p class="intro">This is to certify that</p>
         <div class="name"><%= certificate.fullName %></div>
         <div class="rule"></div>
-        <p class="body">has attended and participated in the <strong>NAHIMS SW Tech Event</strong>, contributing to a gathering dedicated to digital innovation, technology skills and the advancement of health information management.</p>
-        <div class="event">NAHIMS SW TECH EVENT<small>POGIL College of Health Technology, Oke-Eri, Ijebu-Ode, Ogun State · 20 October 2026</small></div>
+        <p class="body">has attended and participated in <strong><%= certificate.event %></strong>, contributing to a gathering dedicated to digital innovation, technology skills and the advancement of health information management.</p>
+        <div class="event"><%= certificate.event.toUpperCase() %><small><%= certificate.venue %> · <%= new Date(certificate.eventDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }) %></small></div>
         <div class="signatures">
           <div class="signature"><img class="signature-image" src="/gensecsign.jpg" alt="Signature of Comrade Abdulfatah Abdullahi"><div class="signature-rule"></div><b>Comrade Abdulfatah Abdullahi</b><span>General Secretary, NAHIMS SW</span></div>
           <div class="signature"><img class="signature-image" src="/dotsign.jpg" alt="Signature of Comrade Kolawole Abdullahi Adeshina"><div class="signature-rule"></div><b>Comrade Kolawole Abdullahi Adeshina</b><span>Director of Technology, NAHIMS SW</span></div>

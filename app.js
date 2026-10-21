@@ -815,20 +815,34 @@ app.post('/admin/registrations/delete/:id', requireAdmin, async (req, res) => {
 
 // ── NAHIMS SW Tech Event certificate ───────────────────────────
 app.get('/certificate', (req, res) => {
-  res.render('certificate', { page: 'certificate', error: null });
+  res.render('certificate', { page: 'certificate', error: null, school: 'pogil' });
 });
 
-app.post('/certificate', async (req, res) => {
+const royalInstituteCertificate = {
+  event: 'Onboard3 Connect: Royal Institute #1',
+  venue: 'Royal Institute of Health Technology, Ifo, Ogun State',
+  eventDate: new Date('2026-10-21T00:00:00.000Z'),
+  certificatePrefix: 'NAHIMS-SW-ROYAL-2026'
+};
+
+app.get('/certificate/royal-institute', (req, res) => {
+  res.render('certificate', { page: 'certificate', error: null, school: 'royal' });
+});
+
+app.post(['/certificate', '/certificate/royal-institute'], async (req, res) => {
+  const isRoyal = req.path === '/certificate/royal-institute';
+  const school = isRoyal ? 'royal' : 'pogil';
   const name = (req.body.fullName || '').replace(/\s+/g, ' ').trim();
   if (!name) {
-    return res.render('certificate', { page: 'certificate', error: 'Please enter your full name.' });
+    return res.render('certificate', { page: 'certificate', error: 'Please enter your full name.', school });
   }
   if (name.length > 120) {
-    return res.render('certificate', { page: 'certificate', error: 'Please enter a name under 120 characters.' });
+    return res.render('certificate', { page: 'certificate', error: 'Please enter a name under 120 characters.', school });
   }
   const certificate = await Certificate.create({
     fullName: name,
-    certificateNumber: `NAHIMS-SW-TECH-2026-${crypto.randomBytes(4).toString('hex').toUpperCase()}`
+    ...(isRoyal ? royalInstituteCertificate : {}),
+    certificateNumber: `${isRoyal ? royalInstituteCertificate.certificatePrefix : 'NAHIMS-SW-TECH-2026'}-${crypto.randomBytes(4).toString('hex').toUpperCase()}`
   });
   res.render('certificate-view', { page: 'certificate', certificate });
 });
@@ -863,10 +877,10 @@ app.get('/certificate/download/:id', async (req, res) => {
   center(certificate.fullName, bold, 34, 348, emerald);
   page.drawLine({ start: { x: 210, y: 334 }, end: { x: width - 210, y: 334 }, thickness: 1, color: gold });
   center('in recognition of their attendance and engagement at the', regular, 15, 302);
-  center('NAHIMS SW TECH EVENT', bold, 22, 270, green);
+  center(certificate.event.toUpperCase(), bold, 22, 270, green);
   center('a gathering celebrating innovation, digital skills and the future of health information management.', regular, 12, 246);
-  center('POGIL College of Health Technology, Oke-Eri, Ijebu-Ode, Ogun State', bold, 11, 212, green);
-  center('20 October 2026', regular, 13, 190, ink);
+  center(certificate.venue, bold, 11, 212, green);
+  center(new Date(certificate.eventDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }), regular, 13, 190, ink);
 
   const leftCx = 222;
   const rightCx = width - 222;
