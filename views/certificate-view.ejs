@@ -16,7 +16,7 @@
   </style>
 </head>
 <body>
-  <header class="toolbar"><span id="downloadStatus">Preparing your certificate PDF…</span><nav class="actions"><a class="back" href="<%= certificate.event === 'Onboard3 Connect: Royal Institute #1' ? '/certificate/royal-institute' : '/certificate' %>">Issue another</a><a id="downloadCertificate" class="download" href="/certificate/download/<%= certificate._id %>" download="NAHIMS-SW-Certificate.pdf">Save PDF to phone</a></nav></header>
+  <header class="toolbar"><span id="downloadStatus">Preparing your certificate PDF…</span><nav class="actions"><a class="back" href="<%= certificate.event === 'Onboard3 Connect: Royal Institute #1' ? '/certificate/royal-institute' : certificate.event === 'Onboard3 Connect: De Potter #1' ? '/certificate/de-potter' : '/certificate' %>">Issue another</a><a id="downloadCertificate" class="download" href="/certificate/download/<%= certificate._id %>" download="NAHIMS-SW-Certificate.pdf">Save PDF to phone</a></nav></header>
   <main class="wrap">
     <article class="cert">
       <div class="seal">NAHIMS SW</div>

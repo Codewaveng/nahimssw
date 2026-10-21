@@ -824,14 +824,24 @@ const royalInstituteCertificate = {
   eventDate: new Date('2026-10-21T00:00:00.000Z'),
   certificatePrefix: 'NAHIMS-SW-ROYAL-2026'
 };
+const dePotterCertificate = {
+  event: 'Onboard3 Connect: De Potter #1',
+  venue: 'De Potter College of Health Technology, Ijebu-Ode, Ogun State',
+  eventDate: new Date('2026-10-22T00:00:00.000Z'),
+  certificatePrefix: 'NAHIMS-SW-DEPOTTER-2026'
+};
 
 app.get('/certificate/royal-institute', (req, res) => {
   res.render('certificate', { page: 'certificate', error: null, school: 'royal' });
 });
+app.get('/certificate/de-potter', (req, res) => {
+  res.render('certificate', { page: 'certificate', error: null, school: 'depotter' });
+});
 
-app.post(['/certificate', '/certificate/royal-institute'], async (req, res) => {
+app.post(['/certificate', '/certificate/royal-institute', '/certificate/de-potter'], async (req, res) => {
   const isRoyal = req.path === '/certificate/royal-institute';
-  const school = isRoyal ? 'royal' : 'pogil';
+  const isDePotter = req.path === '/certificate/de-potter';
+  const school = isRoyal ? 'royal' : isDePotter ? 'depotter' : 'pogil';
   const name = (req.body.fullName || '').replace(/\s+/g, ' ').trim();
   if (!name) {
     return res.render('certificate', { page: 'certificate', error: 'Please enter your full name.', school });
@@ -841,8 +851,8 @@ app.post(['/certificate', '/certificate/royal-institute'], async (req, res) => {
   }
   const certificate = await Certificate.create({
     fullName: name,
-    ...(isRoyal ? royalInstituteCertificate : {}),
-    certificateNumber: `${isRoyal ? royalInstituteCertificate.certificatePrefix : 'NAHIMS-SW-TECH-2026'}-${crypto.randomBytes(4).toString('hex').toUpperCase()}`
+    ...(isRoyal ? royalInstituteCertificate : isDePotter ? dePotterCertificate : {}),
+    certificateNumber: `${isRoyal ? royalInstituteCertificate.certificatePrefix : isDePotter ? dePotterCertificate.certificatePrefix : 'NAHIMS-SW-TECH-2026'}-${crypto.randomBytes(4).toString('hex').toUpperCase()}`
   });
   res.render('certificate-view', { page: 'certificate', certificate });
 });
