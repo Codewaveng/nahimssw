@@ -100,7 +100,7 @@
 .sp-sec-label { display: inline-flex; align-items: center; gap: 6px; background: var(--green-light); color: var(--green); padding: 5px 14px; border-radius: 100px; font-size: 11px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 14px; }
 .sp-h2 { font-size: clamp(1.4rem, 3.5vw, 2rem); font-weight: 900; color: var(--dark); margin-bottom: 8px; }
 .sp-desc { font-size: .9rem; color: var(--gray); line-height: 1.7; margin-bottom: 36px; }
-.sp-tiers { display: grid; grid-template-columns: repeat(5,1fr); gap: 14px; }
+.sp-tiers { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; }
 .sp-tier {
   background: #fff; border: 2px solid var(--border); border-radius: var(--radius-lg);
   padding: 24px 16px; text-align: center; transition: var(--transition); position: relative; overflow: hidden;
@@ -138,7 +138,7 @@
 
 /* ── Responsive ── */
 @media(max-width:900px) {
-  .sp-tiers { grid-template-columns: repeat(3,1fr); }
+  .sp-tiers { grid-template-columns: repeat(4,1fr); }
   .sp-stats-inner { grid-template-columns: repeat(2,1fr); }
 }
 @media(max-width:680px) {
@@ -146,7 +146,7 @@
   .sp-tiers { grid-template-columns: repeat(2,1fr); }
 }
 @media(max-width:420px) {
-  .sp-tiers { grid-template-columns: 1fr 1fr; }
+  .sp-tiers { grid-template-columns: repeat(2,1fr); }
   .sp-acct-num { letter-spacing: 3px; }
 }
 </style>
@@ -159,7 +159,7 @@
       NAHIMS SW — 2026/2027 NEW DAWN
     </div>
     <h1 class="sp-h1">Help Us Reach Every<br><span>Health Student in Nigeria</span></h1>
-    <p class="sp-sub">We've run tech events across 7 states with zero government funding. Your support — any amount — makes the next event possible.</p>
+    <p class="sp-sub">We've run tech events across 7 states with zero government funding. ₦1k or ₦200k — your support makes the next event possible.</p>
     <div class="sp-hero-btns">
       <a href="#donate" class="sp-btn-gold">
         <i data-feather="heart" style="width:16px;height:16px"></i> Donate Now
@@ -248,26 +248,38 @@
         Donation Levels
       </div>
       <h2 class="sp-h2">Every Naira Goes a Long Way</h2>
-      <p class="sp-desc">No amount is too small — ₦500 covers one student's materials, ₦100k funds an entire state event end-to-end.</p>
+      <p class="sp-desc">Every level matters — ₦1k gets us started, ₦200k funds a full state tour end-to-end.</p>
     </div>
     <div class="sp-tiers rv">
       <div class="sp-tier">
         <div class="sp-tier-ico"><i data-feather="feather" style="width:18px;height:18px"></i></div>
-        <div class="sp-tier-amt">₦500</div>
-        <div class="sp-tier-name">Seed</div>
-        <div class="sp-tier-desc">Student materials for one workshop. Small but mighty.</div>
+        <div class="sp-tier-amt">₦1,000</div>
+        <div class="sp-tier-name">Starter</div>
+        <div class="sp-tier-desc">Covers printing costs for event materials.</div>
       </div>
       <div class="sp-tier">
         <div class="sp-tier-ico"><i data-feather="zap" style="width:18px;height:18px"></i></div>
-        <div class="sp-tier-amt">₦1,000</div>
+        <div class="sp-tier-amt">₦2,000</div>
         <div class="sp-tier-name">Spark</div>
-        <div class="sp-tier-desc">Prints flyers and banners for one event.</div>
+        <div class="sp-tier-desc">Flyers, banners, and social media promotion for one event.</div>
+      </div>
+      <div class="sp-tier">
+        <div class="sp-tier-ico"><i data-feather="users" style="width:18px;height:18px"></i></div>
+        <div class="sp-tier-amt">₦5,000</div>
+        <div class="sp-tier-name">Supporter</div>
+        <div class="sp-tier-desc">Student refreshments and workshop handouts for a session.</div>
       </div>
       <div class="sp-tier gold">
         <div class="sp-tier-ico"><i data-feather="trending-up" style="width:18px;height:18px"></i></div>
         <div class="sp-tier-amt">₦10,000</div>
         <div class="sp-tier-name">Change Agent</div>
-        <div class="sp-tier-desc">Covers a student's materials plus venue logistics for a meetup.</div>
+        <div class="sp-tier-desc">Venue logistics and materials for a full campus meetup.</div>
+      </div>
+      <div class="sp-tier">
+        <div class="sp-tier-ico"><i data-feather="target" style="width:18px;height:18px"></i></div>
+        <div class="sp-tier-amt">₦20,000</div>
+        <div class="sp-tier-name">Booster</div>
+        <div class="sp-tier-desc">Covers speaker honorarium and coordination for one event.</div>
       </div>
       <div class="sp-tier">
         <div class="sp-tier-ico"><i data-feather="send" style="width:18px;height:18px"></i></div>
@@ -280,6 +292,12 @@
         <div class="sp-tier-amt">₦100,000</div>
         <div class="sp-tier-name">Titan</div>
         <div class="sp-tier-desc">Funds one complete event — venue, speakers, certs, logistics.</div>
+      </div>
+      <div class="sp-tier gold">
+        <div class="sp-tier-ico"><i data-feather="star" style="width:18px;height:18px"></i></div>
+        <div class="sp-tier-amt">₦200,000</div>
+        <div class="sp-tier-name">Legacy</div>
+        <div class="sp-tier-desc">Sponsors a full state tour — multiple campuses, end-to-end.</div>
       </div>
     </div>
   </div>
