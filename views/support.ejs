@@ -2,884 +2,401 @@
 <%- include('partials/navbar') %>
 
 <style>
-/* ══════════════════ SUPPORT PAGE ══════════════════ */
-
-/* ── Hero ── */
+/* ══ SUPPORT PAGE ══ */
 .sp-hero {
+  background: linear-gradient(135deg, #054030 0%, #0B6E4F 55%, #0C3547 100%);
+  padding: 72px 24px 60px;
+  text-align: center;
   position: relative;
-  min-height: 92vh;
-  background: linear-gradient(135deg, #054030 0%, #0B6E4F 40%, #085041 70%, #0C3547 100%);
-  display: flex; align-items: center; justify-content: center;
-  overflow: hidden; text-align: center;
+  overflow: hidden;
 }
 .sp-hero::before {
   content: '';
   position: absolute; inset: 0;
-  background:
-    radial-gradient(ellipse at 20% 50%, rgba(29,158,117,.35) 0%, transparent 60%),
-    radial-gradient(ellipse at 80% 20%, rgba(239,159,39,.25) 0%, transparent 50%),
-    radial-gradient(ellipse at 60% 80%, rgba(11,110,79,.4) 0%, transparent 60%);
-  animation: heroGrad 9s ease-in-out infinite alternate;
+  background: radial-gradient(ellipse at 25% 60%, rgba(29,158,117,.25) 0%, transparent 55%),
+              radial-gradient(ellipse at 75% 30%, rgba(239,159,39,.18) 0%, transparent 50%);
+  pointer-events: none;
 }
-@keyframes heroGrad { 0%{opacity:.5;transform:scale(1)} 100%{opacity:1;transform:scale(1.12)} }
-
-.sp-grid-bg {
-  position: absolute; inset: 0; pointer-events: none;
-  background-image:
-    linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
-  background-size: 60px 60px;
-}
-.sp-particles { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
-.sp-particle {
-  position: absolute; border-radius: 50%;
-  background: rgba(255,255,255,.07);
-  animation: particleRise linear infinite;
-}
-@keyframes particleRise {
-  0%   { transform: translateY(100vh) rotate(0deg);   opacity: 0; }
-  10%  { opacity: 1; }
-  90%  { opacity: 1; }
-  100% { transform: translateY(-120px) rotate(720deg); opacity: 0; }
-}
-
-.sp-hero-inner {
-  position: relative; z-index: 10;
-  max-width: 840px; padding: 2rem 1.5rem;
-}
+.sp-hero-inner { position: relative; z-index: 2; max-width: 680px; margin: auto; }
 .sp-badge {
-  display: inline-flex; align-items: center; gap: 8px;
+  display: inline-flex; align-items: center; gap: 7px;
   background: rgba(239,159,39,.18); border: 1px solid rgba(239,159,39,.4);
-  color: #EF9F27; padding: 8px 22px; border-radius: 100px;
+  color: #EF9F27; padding: 6px 18px; border-radius: 100px;
   font-size: 11px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase;
-  margin-bottom: 28px;
-  animation: badgePulse 2.5s ease-in-out infinite;
+  margin-bottom: 22px;
 }
-@keyframes badgePulse {
-  0%,100%{ box-shadow: 0 0 0 0 rgba(239,159,39,.3); }
-  50%    { box-shadow: 0 0 0 10px rgba(239,159,39,0); }
+.sp-h1 {
+  font-size: clamp(1.8rem, 5vw, 3rem); font-weight: 900; color: #fff;
+  line-height: 1.1; margin-bottom: 14px; letter-spacing: -.5px;
 }
-.sp-hero-h1 {
-  font-size: clamp(2.1rem, 6.5vw, 4rem);
-  font-weight: 900; color: #fff; line-height: 1.08;
-  margin-bottom: 20px; letter-spacing: -1px;
-}
-.sp-hero-h1 span {
-  background: linear-gradient(135deg, #EF9F27, #FFD580);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-.sp-hero-sub {
-  font-size: 1.1rem; color: rgba(255,255,255,.75);
-  max-width: 600px; margin: 0 auto 36px; line-height: 1.75;
-}
-.sp-hero-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
-
+.sp-h1 span { background: linear-gradient(135deg, #EF9F27, #FFD580); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.sp-sub { font-size: .95rem; color: rgba(255,255,255,.7); line-height: 1.7; margin-bottom: 30px; }
+.sp-hero-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
 .sp-btn-gold {
-  display: inline-flex; align-items: center; gap: 10px;
-  background: linear-gradient(135deg, #EF9F27, #BA7517);
-  color: #fff; padding: 16px 38px; border-radius: 100px;
-  font-size: 15px; font-weight: 800; text-decoration: none;
-  box-shadow: 0 8px 32px rgba(239,159,39,.45);
-  transition: all .3s;
-  animation: goldGlow 2.5s ease-in-out infinite;
+  display: inline-flex; align-items: center; gap: 8px;
+  background: linear-gradient(135deg, #EF9F27, #BA7517); color: #fff;
+  padding: 14px 32px; border-radius: 100px; font-size: 14px; font-weight: 800;
+  text-decoration: none; box-shadow: 0 6px 24px rgba(239,159,39,.4);
+  transition: all .25s;
 }
-@keyframes goldGlow {
-  0%,100%{ box-shadow: 0 8px 32px rgba(239,159,39,.45); }
-  50%    { box-shadow: 0 8px 56px rgba(239,159,39,.75), 0 0 24px rgba(239,159,39,.3); }
-}
-.sp-btn-gold:hover { transform: translateY(-4px) scale(1.03); box-shadow: 0 18px 56px rgba(239,159,39,.65); }
-
+.sp-btn-gold:hover { transform: translateY(-3px); box-shadow: 0 12px 36px rgba(239,159,39,.55); }
 .sp-btn-ghost {
-  display: inline-flex; align-items: center; gap: 10px;
-  background: rgba(255,255,255,.1); border: 1.5px solid rgba(255,255,255,.3);
-  color: #fff; padding: 16px 36px; border-radius: 100px;
-  font-size: 15px; font-weight: 700; text-decoration: none;
-  backdrop-filter: blur(10px); transition: all .3s;
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,.1); border: 1.5px solid rgba(255,255,255,.25);
+  color: #fff; padding: 14px 30px; border-radius: 100px;
+  font-size: 14px; font-weight: 700; text-decoration: none; transition: all .25s;
 }
-.sp-btn-ghost:hover { background: rgba(255,255,255,.22); border-color: rgba(255,255,255,.55); transform: translateY(-3px); }
+.sp-btn-ghost:hover { background: rgba(255,255,255,.2); transform: translateY(-3px); }
 
-.sp-scroll-hint {
-  position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
-  display: flex; flex-direction: column; align-items: center; gap: 6px;
-  color: rgba(255,255,255,.35); font-size: 10px; font-weight: 600; letter-spacing: 1.5px;
-  animation: scrollBounce 2s ease-in-out infinite;
-}
-@keyframes scrollBounce {
-  0%,100%{ transform: translateX(-50%) translateY(0); }
-  50%    { transform: translateX(-50%) translateY(9px); }
-}
-.sp-scroll-line { width: 2px; height: 42px; background: linear-gradient(to bottom, rgba(255,255,255,.35), transparent); }
-
-/* ── Urgency strip ── */
-.sp-urgency {
-  background: linear-gradient(90deg, #7F1D1D, #991B1B, #7F1D1D);
-  background-size: 200% 100%;
-  animation: urgencySlide 4s linear infinite;
-  color: #fff; text-align: center; padding: 14px 20px;
-}
-@keyframes urgencySlide { 0%{background-position:0%} 100%{background-position:200%} }
-.sp-urgency-inner { max-width: 700px; margin: auto; display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap; }
-.sp-urgency span { font-size: 13.5px; font-weight: 600; }
-.sp-blink { width: 8px; height: 8px; background: #FCA5A5; border-radius: 50%; animation: blink 1s ease-in-out infinite; flex-shrink: 0; }
-@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
-
-/* ── Stats ── */
-.sp-stats { background: #fff; padding: 48px 24px; box-shadow: var(--shadow); position: relative; z-index: 5; }
-.sp-stats-inner { max-width: 1100px; margin: auto; display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; }
-.sp-stat {
-  text-align: center; padding: 26px 20px; border-radius: var(--radius);
-  background: var(--gray-light); transition: var(--transition); position: relative; overflow: hidden;
-}
-.sp-stat::after {
-  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
-  background: linear-gradient(90deg, var(--green), var(--green-mid));
-  transform: scaleX(0); transition: transform .4s ease;
-}
-.sp-stat:hover::after { transform: scaleX(1); }
-.sp-stat:hover { background: var(--green-light); transform: translateY(-5px); box-shadow: var(--shadow); }
-.sp-stat-num { font-size: 2.4rem; font-weight: 900; color: var(--green); line-height: 1; font-family: Tahoma, sans-serif; }
-.sp-stat-lbl { font-size: 11px; color: var(--gray); font-weight: 700; margin-top: 7px; text-transform: uppercase; letter-spacing: .6px; }
-
-/* ── Section ── */
-.sp-sec { padding: 80px 24px; }
-.sp-sec-alt { background: var(--gray-light); }
-.sp-wrap { max-width: 1100px; margin: auto; }
-.sp-tag {
+/* ── Account (priority section) ── */
+.sp-acct-sec { background: var(--green-deeper, #054030); padding: 56px 24px; }
+.sp-acct-wrap { max-width: 680px; margin: auto; text-align: center; }
+.sp-acct-top-label {
   display: inline-flex; align-items: center; gap: 7px;
-  background: var(--green-light); color: var(--green);
-  padding: 6px 16px; border-radius: 100px;
-  font-size: 11px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;
-  margin-bottom: 16px;
+  background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.18);
+  color: rgba(255,255,255,.75); padding: 6px 18px; border-radius: 100px;
+  font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+  margin-bottom: 24px;
 }
-.sp-h2 { font-size: clamp(1.6rem, 4vw, 2.5rem); font-weight: 900; color: var(--dark); line-height: 1.12; margin-bottom: 14px; }
-.sp-lead { font-size: 1rem; color: var(--gray); line-height: 1.75; max-width: 580px; margin-bottom: 48px; }
-
-/* ── Reveal ── */
-.rv { opacity: 0; transform: translateY(34px); transition: opacity .65s ease, transform .65s ease; }
-.rv.on { opacity: 1; transform: translateY(0); }
-
-/* ── Gallery ── */
-.sp-gallery {
-  display: grid; grid-template-columns: 2fr 1fr 1fr;
-  gap: 10px; border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 52px;
-}
-.sp-gal-item { position: relative; overflow: hidden; }
-.sp-gal-item:first-child { grid-row: span 2; }
-.sp-gal-img { width: 100%; height: 220px; object-fit: cover; display: block; transition: transform .5s ease; }
-.sp-gal-item:first-child .sp-gal-img { height: 452px; }
-.sp-gal-item:hover .sp-gal-img { transform: scale(1.08); }
-.sp-gal-ov {
-  position: absolute; inset: 0;
-  background: linear-gradient(to top, rgba(5,64,48,.65), transparent);
-  opacity: 0; transition: opacity .3s;
-  display: flex; align-items: flex-end; padding: 14px;
-}
-.sp-gal-item:hover .sp-gal-ov { opacity: 1; }
-.sp-gal-lbl { color: #fff; font-size: 11px; font-weight: 700; }
-
-/* ── Event cards ── */
-.sp-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px,1fr)); gap: 22px; }
-.sp-card {
-  background: #fff; border-radius: var(--radius-lg); overflow: hidden;
-  border: 1.5px solid var(--border); box-shadow: var(--shadow-sm); transition: var(--transition);
-}
-.sp-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-lg); border-color: var(--green-mid); }
-.sp-card-imgwrap { overflow: hidden; position: relative; }
-.sp-card-img { width: 100%; height: 200px; object-fit: cover; display: block; transition: transform .4s ease; }
-.sp-card:hover .sp-card-img { transform: scale(1.06); }
-.sp-card-bage {
-  position: absolute; top: 12px; left: 12px;
-  background: rgba(11,110,79,.92); color: #fff;
-  padding: 5px 12px; border-radius: 100px;
-  font-size: 10px; font-weight: 700; letter-spacing: .4px;
-  backdrop-filter: blur(4px);
-}
-.sp-card-body { padding: 20px 22px 24px; }
-.sp-card-state { font-size: 11px; font-weight: 700; color: var(--green-mid); text-transform: uppercase; letter-spacing: .8px; margin-bottom: 6px; display: flex; align-items: center; gap: 5px; }
-.sp-card-title { font-size: 15px; font-weight: 800; color: var(--dark); margin-bottom: 8px; line-height: 1.3; }
-.sp-card-desc { font-size: 13px; color: var(--gray); line-height: 1.65; margin-bottom: 14px; }
-.sp-card-meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-.sp-pill { display: inline-flex; align-items: center; gap: 5px; background: var(--green-light); color: var(--green); padding: 4px 10px; border-radius: 100px; font-size: 11px; font-weight: 700; }
-.sp-pill-gold { background: var(--gold-light); color: var(--gold-dark); }
-
-/* ── States strip ── */
-.sp-states { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 32px; }
-.sp-state {
+.sp-acct-bank-pill {
   display: inline-flex; align-items: center; gap: 7px;
-  padding: 10px 20px; border-radius: 100px; font-size: 13px; font-weight: 700; transition: var(--transition);
+  background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15);
+  color: rgba(255,255,255,.8); padding: 7px 18px; border-radius: 100px;
+  font-size: 12px; font-weight: 700; margin-bottom: 18px;
 }
-.sp-state.done { background: var(--green-light); color: var(--green); border: 1.5px solid rgba(29,158,117,.3); }
-.sp-state.done:hover { background: var(--green); color: #fff; transform: scale(1.06); }
-.sp-state.next { background: #FFF7ED; color: #B45309; border: 1.5px dashed #EF9F27; animation: nextPulse 2.5s ease-in-out infinite; }
-@keyframes nextPulse { 0%,100%{box-shadow:0 0 0 0 rgba(239,159,39,.2)} 50%{box-shadow:0 0 0 7px rgba(239,159,39,0)} }
-.sp-state.next:hover { background: #FAEEDA; transform: scale(1.06); }
+.sp-acct-num {
+  font-size: clamp(2rem, 7vw, 3.2rem); font-weight: 900; letter-spacing: 6px;
+  font-family: 'Courier New', monospace; color: #fff; margin-bottom: 10px;
+  animation: numGlow 3s ease-in-out infinite;
+}
+@keyframes numGlow { 0%,100%{text-shadow:none} 50%{text-shadow:0 0 28px rgba(255,255,255,.25)} }
+.sp-acct-name { font-size: 1.1rem; font-weight: 800; color: rgba(255,255,255,.9); margin-bottom: 28px; }
+.sp-acct-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 32px; }
+.sp-copy-btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: rgba(255,255,255,.1); border: 1.5px solid rgba(255,255,255,.22);
+  color: #fff; padding: 11px 24px; border-radius: 100px;
+  font-size: 13px; font-weight: 700; cursor: pointer; transition: all .25s; font-family: inherit;
+}
+.sp-copy-btn:hover { background: rgba(255,255,255,.22); transform: scale(1.03); }
+.sp-copy-btn.ok { background: rgba(29,158,117,.35); border-color: rgba(29,158,117,.6); }
 
-/* ── Upcoming ── */
-.sp-upcoming { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px,1fr)); gap: 16px; }
-.sp-up-card {
-  background: #fff; border: 1.5px solid var(--border);
-  border-radius: var(--radius); padding: 22px;
-  display: flex; gap: 16px; transition: var(--transition);
-  position: relative; overflow: hidden;
-}
-.sp-up-card::before {
-  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
-  background: linear-gradient(to bottom, var(--gold), var(--gold-mid));
-}
-.sp-up-card:hover { transform: translateX(5px); border-color: var(--gold-mid); box-shadow: var(--shadow); }
-.sp-up-ico { width: 44px; height: 44px; border-radius: var(--radius-sm); background: linear-gradient(135deg, var(--gold-light), #FAEEDA); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0; }
-.sp-up-state { font-size: 13px; font-weight: 800; color: var(--dark); margin-bottom: 4px; }
-.sp-up-desc { font-size: 12px; color: var(--gray); line-height: 1.5; }
-.sp-up-tag { display: inline-block; background: var(--gold-light); color: var(--gold-dark); padding: 2px 9px; border-radius: 4px; font-size: 10px; font-weight: 700; margin-top: 7px; }
+.sp-steps { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; }
+.sp-step { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); border-radius: 10px; padding: 16px 12px; text-align: center; }
+.sp-step-n { width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,.12); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 900; margin: 0 auto 10px; color: #fff; }
+.sp-step-t { font-size: 11px; color: rgba(255,255,255,.65); line-height: 1.5; }
+
+/* ── Stats strip ── */
+.sp-stats { background: #fff; padding: 40px 24px; border-bottom: 1px solid var(--border); }
+.sp-stats-inner { max-width: 900px; margin: auto; display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; }
+.sp-stat { text-align: center; padding: 20px 16px; border-radius: var(--radius); background: var(--gray-light); transition: var(--transition); }
+.sp-stat:hover { background: var(--green-light); transform: translateY(-4px); }
+.sp-stat-num { font-size: 2.1rem; font-weight: 900; color: var(--green); line-height: 1; font-family: Tahoma, sans-serif; }
+.sp-stat-lbl { font-size: 11px; color: var(--gray); font-weight: 700; margin-top: 6px; text-transform: uppercase; letter-spacing: .5px; }
 
 /* ── Tiers ── */
-.sp-tiers { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px,1fr)); gap: 16px; margin-bottom: 48px; }
+.sp-tiers-sec { padding: 60px 24px; background: var(--gray-light); }
+.sp-wrap { max-width: 900px; margin: auto; }
+.sp-sec-label { display: inline-flex; align-items: center; gap: 6px; background: var(--green-light); color: var(--green); padding: 5px 14px; border-radius: 100px; font-size: 11px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 14px; }
+.sp-h2 { font-size: clamp(1.4rem, 3.5vw, 2rem); font-weight: 900; color: var(--dark); margin-bottom: 8px; }
+.sp-desc { font-size: .9rem; color: var(--gray); line-height: 1.7; margin-bottom: 36px; }
+.sp-tiers { display: grid; grid-template-columns: repeat(5,1fr); gap: 14px; }
 .sp-tier {
   background: #fff; border: 2px solid var(--border); border-radius: var(--radius-lg);
-  padding: 28px 20px; text-align: center; transition: var(--transition);
-  position: relative; overflow: hidden; cursor: default;
+  padding: 24px 16px; text-align: center; transition: var(--transition); position: relative; overflow: hidden;
 }
 .sp-tier::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, var(--green-light), transparent); opacity: 0; transition: opacity .3s; }
 .sp-tier:hover::before { opacity: 1; }
-.sp-tier:hover { border-color: var(--green); transform: translateY(-7px) scale(1.02); box-shadow: 0 14px 44px rgba(11,110,79,.14); }
+.sp-tier:hover { border-color: var(--green); transform: translateY(-6px); box-shadow: 0 12px 36px rgba(11,110,79,.12); }
 .sp-tier.gold { border-color: var(--gold); background: linear-gradient(135deg, #FFFBF0, #FFF7E0); }
-.sp-tier.gold:hover { border-color: var(--gold-dark); box-shadow: 0 14px 44px rgba(186,117,23,.2); }
-.sp-tier-ico { font-size: 2rem; margin-bottom: 12px; display: block; animation: tierFloat 3.5s ease-in-out infinite; }
-@keyframes tierFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
-.sp-tier-amt { font-size: 1.65rem; font-weight: 900; color: var(--green); font-family: Tahoma, sans-serif; line-height: 1; margin-bottom: 7px; position: relative; z-index: 1; }
+.sp-tier.gold:hover { border-color: var(--gold-dark); box-shadow: 0 12px 36px rgba(186,117,23,.18); }
+.sp-tier-ico { width: 40px; height: 40px; border-radius: 50%; background: var(--green-light); display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; color: var(--green); }
+.sp-tier.gold .sp-tier-ico { background: var(--gold-light); color: var(--gold-dark); }
+.sp-tier-amt { font-size: 1.45rem; font-weight: 900; color: var(--green); font-family: Tahoma, sans-serif; line-height: 1; margin-bottom: 6px; position: relative; z-index: 1; }
 .sp-tier.gold .sp-tier-amt { color: var(--gold-dark); }
-.sp-tier-name { font-size: 12px; font-weight: 800; color: var(--dark); margin-bottom: 9px; position: relative; z-index: 1; }
+.sp-tier-name { font-size: 11px; font-weight: 800; color: var(--dark); margin-bottom: 8px; text-transform: uppercase; letter-spacing: .4px; position: relative; z-index: 1; }
 .sp-tier-desc { font-size: 11px; color: var(--gray); line-height: 1.55; position: relative; z-index: 1; }
 
-/* ── Progress bar ── */
-.sp-prog-wrap { margin-top: 0; }
-.sp-prog-labels { display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; margin-bottom: 8px; }
-.sp-prog-labels span:first-child { color: var(--green); }
-.sp-prog-labels span:last-child { color: var(--gray); }
-.sp-prog-bar { height: 11px; background: var(--border); border-radius: 100px; overflow: hidden; }
-.sp-prog-fill {
-  height: 100%; background: linear-gradient(90deg, var(--green), var(--green-mid));
-  border-radius: 100px; width: 0%; transition: width 1.8s cubic-bezier(.4,0,.2,1);
-  position: relative; overflow: hidden;
-}
-.sp-prog-fill::after {
-  content: ''; position: absolute; inset: 0;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,.45), transparent);
-  animation: shimmer 1.8s linear infinite;
-}
-@keyframes shimmer { 0%{transform:translateX(-100%)} 100%{transform:translateX(200%)} }
+/* ── Work grid ── */
+.sp-work-sec { padding: 60px 24px; }
+.sp-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); gap: 18px; }
+.sp-card { background: #fff; border-radius: var(--radius-lg); overflow: hidden; border: 1.5px solid var(--border); transition: var(--transition); }
+.sp-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); border-color: var(--green-mid); }
+.sp-card-imgwrap { overflow: hidden; position: relative; }
+.sp-card-img { width: 100%; height: 180px; object-fit: cover; display: block; transition: transform .4s ease; }
+.sp-card:hover .sp-card-img { transform: scale(1.06); }
+.sp-card-bage { position: absolute; top: 10px; left: 10px; background: rgba(11,110,79,.92); color: #fff; padding: 4px 10px; border-radius: 100px; font-size: 10px; font-weight: 700; }
+.sp-card-body { padding: 16px 18px 20px; }
+.sp-card-state { font-size: 11px; font-weight: 700; color: var(--green-mid); text-transform: uppercase; letter-spacing: .7px; margin-bottom: 5px; display: flex; align-items: center; gap: 4px; }
+.sp-card-title { font-size: 13.5px; font-weight: 800; color: var(--dark); margin-bottom: 6px; line-height: 1.3; }
+.sp-card-meta { display: flex; gap: 8px; flex-wrap: wrap; }
+.sp-pill { display: inline-flex; align-items: center; background: var(--green-light); color: var(--green); padding: 3px 9px; border-radius: 100px; font-size: 10px; font-weight: 700; }
 
-/* ── Account box ── */
-.sp-acct {
-  background: linear-gradient(135deg, #054030, #085041, #0C3547);
-  color: #fff; border-radius: var(--radius-lg);
-  padding: 52px 44px; text-align: center;
-  position: relative; overflow: hidden;
-}
-.sp-acct::before {
-  content: ''; position: absolute; inset: 0;
-  background:
-    radial-gradient(ellipse at 20% 30%, rgba(255,255,255,.07) 0%, transparent 55%),
-    radial-gradient(ellipse at 80% 70%, rgba(239,159,39,.12) 0%, transparent 50%);
-  pointer-events: none;
-}
-.sp-acct-label { font-size: 11px; font-weight: 700; opacity: .55; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 10px; }
-.sp-acct-bank {
-  display: inline-flex; align-items: center; gap: 8px;
-  background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2);
-  padding: 8px 22px; border-radius: 100px; font-size: 13px; font-weight: 700;
-  margin-bottom: 24px; position: relative; z-index: 1;
-}
-.sp-acct-num {
-  font-size: 2.6rem; font-weight: 900; letter-spacing: 5px;
-  font-family: 'Courier New', monospace; margin-bottom: 10px; position: relative; z-index: 1;
-  animation: numGlow 3.5s ease-in-out infinite;
-}
-@keyframes numGlow { 0%,100%{text-shadow:none} 50%{text-shadow:0 0 24px rgba(255,255,255,.3)} }
-.sp-acct-name { font-size: 1.15rem; font-weight: 800; opacity: .9; margin-bottom: 30px; position: relative; z-index: 1; }
-.sp-acct-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 36px; position: relative; z-index: 1; }
-.sp-copy-btn {
-  display: inline-flex; align-items: center; gap: 8px;
-  background: rgba(255,255,255,.12); border: 1.5px solid rgba(255,255,255,.25);
-  color: #fff; padding: 12px 28px; border-radius: 100px;
-  font-size: 13px; font-weight: 700; cursor: pointer; transition: all .3s; font-family: inherit;
-}
-.sp-copy-btn:hover { background: rgba(255,255,255,.24); transform: scale(1.04); }
-.sp-copy-btn.ok { background: rgba(29,158,117,.35); border-color: rgba(29,158,117,.6); }
-.sp-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px,1fr)); gap: 16px; position: relative; z-index: 1; }
-.sp-step { background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.1); border-radius: var(--radius); padding: 20px; text-align: center; }
-.sp-step-n { width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,.14); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 900; margin: 0 auto 12px; }
-.sp-step-t { font-size: 12px; opacity: .72; line-height: 1.55; }
-.sp-acct-note { margin-top: 24px; padding: 16px 20px; background: rgba(255,255,255,.07); border-radius: var(--radius); border: 1px solid rgba(255,255,255,.1); font-size: 13px; opacity: .72; line-height: 1.6; position: relative; z-index: 1; }
-
-/* ── Quotes ── */
-.sp-quotes { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 20px; margin-top: 44px; }
-.sp-quote { background: #fff; border: 1.5px solid var(--border); border-left: 4px solid var(--green); border-radius: var(--radius); padding: 24px; transition: var(--transition); }
-.sp-quote:hover { transform: translateY(-5px); box-shadow: var(--shadow); }
-.sp-quote-txt { font-size: 14px; color: var(--dark2); line-height: 1.72; font-style: italic; margin-bottom: 14px; }
-.sp-quote-who { font-size: 12px; font-weight: 800; color: var(--green); }
-.sp-quote-role { font-size: 11px; color: var(--gray); margin-top: 2px; }
-
-/* ── Final CTA ── */
-.sp-cta {
-  background: linear-gradient(135deg, #054030 0%, #0C3547 100%);
-  color: #fff; text-align: center; padding: 100px 24px;
-  position: relative; overflow: hidden;
-}
-.sp-cta::before {
-  content: ''; position: absolute; inset: 0;
-  background:
-    radial-gradient(circle at 30% 50%, rgba(29,158,117,.3) 0%, transparent 50%),
-    radial-gradient(circle at 70% 50%, rgba(12,53,71,.4) 0%, transparent 50%);
-  animation: ctaBg 7s ease-in-out infinite alternate;
-}
-@keyframes ctaBg { 0%{opacity:.4} 100%{opacity:1} }
-.sp-cta-inner { position: relative; z-index: 2; max-width: 720px; margin: auto; }
-.sp-cta h2 { font-size: clamp(1.9rem, 5vw, 3rem); font-weight: 900; margin-bottom: 18px; }
-.sp-cta p { font-size: 1.05rem; opacity: .72; margin-bottom: 40px; line-height: 1.75; }
-
-/* ── Why it matters ── */
-.sp-why-body { font-size: 1rem; color: var(--gray); line-height: 1.82; }
-.sp-why-body strong { color: var(--dark); }
+/* ── Reveal ── */
+.rv { opacity: 0; transform: translateY(28px); transition: opacity .6s ease, transform .6s ease; }
+.rv.on { opacity: 1; transform: translateY(0); }
 
 /* ── Responsive ── */
-@media(max-width:900px){
+@media(max-width:900px) {
+  .sp-tiers { grid-template-columns: repeat(3,1fr); }
   .sp-stats-inner { grid-template-columns: repeat(2,1fr); }
 }
-@media(max-width:768px){
-  .sp-gallery { grid-template-columns: 1fr 1fr; }
-  .sp-gal-item:first-child { grid-row: span 1; }
-  .sp-gal-item:first-child .sp-gal-img { height: 200px; }
-  .sp-gal-img { height: 180px; }
-  .sp-acct { padding: 36px 20px; }
-  .sp-acct-num { font-size: 1.9rem; letter-spacing: 3px; }
+@media(max-width:680px) {
+  .sp-steps { grid-template-columns: repeat(2,1fr); }
   .sp-tiers { grid-template-columns: repeat(2,1fr); }
 }
-@media(max-width:540px){
-  .sp-gallery { grid-template-columns: 1fr; }
-  .sp-gal-item:first-child { grid-row: span 1; }
-  .sp-gal-item:first-child .sp-gal-img { height: 220px; }
-  .sp-tiers { grid-template-columns: repeat(2,1fr); }
+@media(max-width:420px) {
+  .sp-tiers { grid-template-columns: 1fr 1fr; }
+  .sp-acct-num { letter-spacing: 3px; }
 }
 </style>
 
-<!-- ░░ URGENCY ░░ -->
-<div class="sp-urgency">
-  <div class="sp-urgency-inner">
-    <div class="sp-blink"></div>
-    <span>⚡ Help us reach <strong>Ekiti · Lagos · Ondo · Kwara · Osun</strong> and beyond — your donation makes the next event possible</span>
-    <div class="sp-blink"></div>
-  </div>
-</div>
-
-<!-- ░░ HERO ░░ -->
+<!-- HERO -->
 <section class="sp-hero">
-  <div class="sp-grid-bg"></div>
-  <div class="sp-particles" id="spParticles"></div>
-
   <div class="sp-hero-inner">
     <div class="sp-badge">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-      NAHIMS SW — 2026/2027 NEW DAWN ADMINISTRATION
+      <i data-feather="star" style="width:11px;height:11px"></i>
+      NAHIMS SW — 2026/2027 NEW DAWN
     </div>
-
-    <h1 class="sp-hero-h1">
-      We Are Building the<br>
-      <span>Future of Health Students</span><br>
-      Across Nigeria — Help Us
-    </h1>
-
-    <p class="sp-hero-sub">
-      From Ogun to Kwara to Ondo, we've empowered thousands of Health Information Management students with tech, knowledge, and opportunity — with zero government funding. ₦500 or ₦100,000, every naira gets us closer to the next event.
-    </p>
-
+    <h1 class="sp-h1">Help Us Reach Every<br><span>Health Student in Nigeria</span></h1>
+    <p class="sp-sub">We've run tech events across 7 states with zero government funding. Your support — any amount — makes the next event possible.</p>
     <div class="sp-hero-btns">
       <a href="#donate" class="sp-btn-gold">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-        Support the Movement
+        <i data-feather="heart" style="width:16px;height:16px"></i> Donate Now
       </a>
       <a href="#our-work" class="sp-btn-ghost">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
-        See What We've Done
+        <i data-feather="eye" style="width:16px;height:16px"></i> See Our Work
       </a>
     </div>
-  </div>
-
-  <div class="sp-scroll-hint">
-    <div class="sp-scroll-line"></div>
-    SCROLL
   </div>
 </section>
 
-<!-- ░░ STATS ░░ -->
+<!-- ACCOUNT DETAILS — FIRST THING AFTER HERO -->
+<section class="sp-acct-sec" id="donate">
+  <div class="sp-acct-wrap rv">
+    <div class="sp-acct-top-label">
+      <i data-feather="credit-card" style="width:12px;height:12px"></i>
+      Bank Transfer — Direct &amp; Instant
+    </div>
+    <div class="sp-acct-bank-pill">
+      <i data-feather="credit-card" style="width:12px;height:12px"></i>
+      Moniepoint MFB
+    </div>
+    <div class="sp-acct-num" id="accNum">8062684091</div>
+    <div class="sp-acct-name">Salome Omolaso Ogunderu</div>
+
+    <div class="sp-acct-btns">
+      <button class="sp-copy-btn" id="copyAccBtn" onclick="spCopyAcc()">
+        <i data-feather="copy" style="width:13px;height:13px"></i>
+        Copy Account Number
+      </button>
+      <button class="sp-copy-btn" onclick="spShareDetails()">
+        <i data-feather="share-2" style="width:13px;height:13px"></i>
+        Share Details
+      </button>
+    </div>
+
+    <div class="sp-steps">
+      <div class="sp-step">
+        <div class="sp-step-n">1</div>
+        <div class="sp-step-t">Open your banking app or dial your bank's USSD code</div>
+      </div>
+      <div class="sp-step">
+        <div class="sp-step-n">2</div>
+        <div class="sp-step-t">Transfer any amount to <strong style="color:#fff">8062684091</strong> — Moniepoint</div>
+      </div>
+      <div class="sp-step">
+        <div class="sp-step-n">3</div>
+        <div class="sp-step-t">Confirm: <strong style="color:#fff">Salome Omolaso Ogunderu</strong></div>
+      </div>
+      <div class="sp-step">
+        <div class="sp-step-n">4</div>
+        <div class="sp-step-t">Send your receipt to <strong style="color:#fff">+234 7048594341</strong> on WhatsApp</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
 <section class="sp-stats">
   <div class="sp-stats-inner">
     <div class="sp-stat rv">
       <div class="sp-stat-num" data-count="3000">0</div>
       <div class="sp-stat-lbl">Students Reached</div>
     </div>
-    <div class="sp-stat rv" style="transition-delay:.1s">
+    <div class="sp-stat rv" style="transition-delay:.08s">
       <div class="sp-stat-num" data-count="12">0</div>
-      <div class="sp-stat-lbl">Chapters &amp; Schools</div>
+      <div class="sp-stat-lbl">Chapters</div>
     </div>
-    <div class="sp-stat rv" style="transition-delay:.2s">
+    <div class="sp-stat rv" style="transition-delay:.16s">
       <div class="sp-stat-num" data-count="6">0</div>
-      <div class="sp-stat-lbl">Tech Events Completed</div>
+      <div class="sp-stat-lbl">Tech Events Done</div>
     </div>
-    <div class="sp-stat rv" style="transition-delay:.3s">
+    <div class="sp-stat rv" style="transition-delay:.24s">
       <div class="sp-stat-num" data-count="7">0</div>
-      <div class="sp-stat-lbl">SW States Covered</div>
+      <div class="sp-stat-lbl">States Covered</div>
     </div>
   </div>
 </section>
 
-<!-- ░░ OUR WORK ░░ -->
-<section class="sp-sec" id="our-work">
+<!-- DONATION TIERS -->
+<section class="sp-tiers-sec">
   <div class="sp-wrap">
     <div class="rv">
-      <div class="sp-tag">
-        <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-        What We've Built
-      </div>
-      <h2 class="sp-h2">Real Impact. Real Students. Real Change.</h2>
-      <p class="sp-lead">We didn't just talk about change — we showed up, booked halls, and delivered events that students in these states will never forget.</p>
-    </div>
-
-    <!-- Gallery -->
-    <div class="sp-gallery rv">
-      <div class="sp-gal-item">
-        <img src="/photo_2026-11-03_23-36-13.jpg" alt="NAHIMS SW Tech Event Kwara" class="sp-gal-img">
-        <div class="sp-gal-ov"><span class="sp-gal-lbl">Web3 &amp; AI Meetup — Live in Action</span></div>
-      </div>
-      <div class="sp-gal-item">
-        <img src="/photo_2026-11-03_23-42-21.jpg" alt="NAHIMS SW Students Engaged" class="sp-gal-img">
-        <div class="sp-gal-ov"><span class="sp-gal-lbl">Students learning together</span></div>
-      </div>
-      <div class="sp-gal-item">
-        <img src="/techevnt.jpg" alt="Tech Event" class="sp-gal-img">
-        <div class="sp-gal-ov"><span class="sp-gal-lbl">Tech &amp; Innovation Drive</span></div>
-      </div>
-      <div class="sp-gal-item">
-        <img src="/images/events/1781429958429.jpeg" alt="NAHIMS SW Annual Convention" class="sp-gal-img">
-        <div class="sp-gal-ov"><span class="sp-gal-lbl">Annual Convention 2026 — Akure</span></div>
-      </div>
-      <div class="sp-gal-item">
-        <img src="/images/events/1781430132583.jpg" alt="Convention delegates" class="sp-gal-img">
-        <div class="sp-gal-ov"><span class="sp-gal-lbl">100+ Delegates, 12 Schools</span></div>
-      </div>
-    </div>
-
-    <!-- Event cards -->
-    <div class="sp-cards">
-
-      <!-- Ogun -->
-      <div class="sp-card rv">
-        <div class="sp-card-imgwrap">
-          <img src="/techevnt.jpg" alt="Ogun State Web3 Event" class="sp-card-img">
-          <div class="sp-card-bage">✅ Completed</div>
-        </div>
-        <div class="sp-card-body">
-          <div class="sp-card-state">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            Ogun State — FUNAAB / OOU Abeokuta
-          </div>
-          <div class="sp-card-title">Web3 &amp; AI Launchpad — Ogun State Campus Tour</div>
-          <div class="sp-card-desc">We brought blockchain, AI, and digital career education to Health students in Abeokuta — igniting a spark in students who had never encountered Web3 before this day.</div>
-          <div class="sp-card-meta">
-            <span class="sp-pill">150+ Attendees</span>
-            <span class="sp-pill">Free Entry</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Kwara UITH -->
-      <div class="sp-card rv" style="transition-delay:.1s">
-        <div class="sp-card-imgwrap">
-          <img src="/photo_2026-11-03_23-36-13.jpg" alt="UITH Kwara Web3 Meetup" class="sp-card-img">
-          <div class="sp-card-bage">✅ Completed</div>
-        </div>
-        <div class="sp-card-body">
-          <div class="sp-card-state">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            Kwara State — UITH, Ilorin
-          </div>
-          <div class="sp-card-title">Onboard3 Web3 Meetup at UITH</div>
-          <div class="sp-card-desc">Over <strong>180 students</strong> packed the hall at University of Ilorin Teaching Hospital. We covered Web3, blockchain, AI and career pathways — 95% satisfaction rating. Pure fire.</div>
-          <div class="sp-card-meta">
-            <span class="sp-pill">180+ Attendees</span>
-            <span class="sp-pill">95% Satisfaction</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Osun OSCOHEALTH -->
-      <div class="sp-card rv" style="transition-delay:.2s">
-        <div class="sp-card-imgwrap">
-          <img src="/photo_2026-11-03_23-42-21.jpg" alt="Osun OSCOHEALTH Web3" class="sp-card-img">
-          <div class="sp-card-bage">✅ Completed</div>
-        </div>
-        <div class="sp-card-body">
-          <div class="sp-card-state">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            Osun State — OSCOHEALTH, Ilesa
-          </div>
-          <div class="sp-card-title">Onboard3 Web3 Meetup — OSCOHEALTH</div>
-          <div class="sp-card-desc">Covered blockchain, AI, and career pathways for health students. Building the bridge between traditional health education and the digital economy — right in Ilesa.</div>
-          <div class="sp-card-meta">
-            <span class="sp-pill">Web3 Education</span>
-            <span class="sp-pill">AI Careers</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Annual Convention Ondo -->
-      <div class="sp-card rv" style="transition-delay:.1s">
-        <div class="sp-card-imgwrap">
-          <img src="/images/events/1781429958429.jpeg" alt="Annual Convention Akure Ondo" class="sp-card-img">
-          <div class="sp-card-bage">✅ Completed</div>
-        </div>
-        <div class="sp-card-body">
-          <div class="sp-card-state">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            Ondo State — CHTA, Akure
-          </div>
-          <div class="sp-card-title">NAHIMS SW Annual Convention 2026</div>
-          <div class="sp-card-desc">A historic 5-day zonal convention — <strong>100+ delegates</strong> from 12 schools, elections, sports tournament, cultural night, and academic sessions. The biggest gathering we've ever hosted.</div>
-          <div class="sp-card-meta">
-            <span class="sp-pill">100+ Delegates</span>
-            <span class="sp-pill">5-Day Event</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Pad A Girl -->
-      <div class="sp-card rv" style="transition-delay:.2s">
-        <div class="sp-card-imgwrap">
-          <img src="/nahimsss.jpg" alt="Pad A Girl Initiative" class="sp-card-img" style="object-position:center top">
-          <div class="sp-card-bage">✅ Completed</div>
-        </div>
-        <div class="sp-card-body">
-          <div class="sp-card-state">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            All SW Chapters — Zonewide
-          </div>
-          <div class="sp-card-title">Pad A Girl — Menstrual Hygiene Outreach</div>
-          <div class="sp-card-desc">Our welfare team reached <strong>500+ female students</strong> across 6 chapters — free sanitary pads, health counselling, and education. Because healthcare starts with dignity.</div>
-          <div class="sp-card-meta">
-            <span class="sp-pill">500+ Women</span>
-            <span class="sp-pill">6 Chapters</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- AI Web3 Launchpad Virtual -->
-      <div class="sp-card rv" style="transition-delay:.3s">
-        <div class="sp-card-imgwrap">
-          <img src="/images/events/techevnt.jpg" alt="AI Web3 Launchpad Virtual" class="sp-card-img">
-          <div class="sp-card-bage" style="background:rgba(186,117,23,.92)">🏆 ₦100k Prize Pool</div>
-        </div>
-        <div class="sp-card-body">
-          <div class="sp-card-state">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            Nationwide — Virtual Competition
-          </div>
-          <div class="sp-card-title">AI &amp; Web3 Launchpad — Nigeria-wide Bootcamp</div>
-          <div class="sp-card-desc">Our biggest event yet — a 4-day virtual intensive open to ALL Nigerian students, with a <strong>₦100,000 prize pool</strong>. Every participant received a free certificate.</div>
-          <div class="sp-card-meta">
-            <span class="sp-pill sp-pill-gold">₦100k Prize</span>
-            <span class="sp-pill">Nationwide</span>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- States done vs planned -->
-    <div style="margin-top:60px" class="rv">
-      <div class="sp-tag" style="background:#E5E7EB;color:#374151;">Our State-by-State Progress</div>
-      <h3 style="font-size:1.3rem;font-weight:800;margin-bottom:20px;">Where We've Been — Where We're Going</h3>
-      <div class="sp-states">
-        <div class="sp-state done">✅ Ogun State</div>
-        <div class="sp-state done">✅ Kwara State</div>
-        <div class="sp-state done">✅ Osun State</div>
-        <div class="sp-state done">✅ Ondo State</div>
-        <div class="sp-state done">✅ Lagos State</div>
-        <div class="sp-state done">✅ Oyo State</div>
-        <div class="sp-state done">✅ Edo State</div>
-        <div class="sp-state next">🔜 Ekiti State — EKSU</div>
-        <div class="sp-state next">🔜 More Osun Campuses</div>
-        <div class="sp-state next">🔜 More Lagos Campuses</div>
-        <div class="sp-state next">🔜 Deeper Kwara Push</div>
-        <div class="sp-state next">🔜 National Expansion</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ░░ UPCOMING MISSIONS ░░ -->
-<section class="sp-sec sp-sec-alt">
-  <div class="sp-wrap">
-    <div class="rv">
-      <div class="sp-tag" style="background:#FFF7ED;color:#B45309;border:1px solid #EF9F27">🚀 Coming Soon</div>
-      <h2 class="sp-h2">Our Next Missions</h2>
-      <p class="sp-lead">We've laid the foundation. These are the next fronts we're taking the message to — and we need your fuel to get there.</p>
-    </div>
-
-    <div class="sp-upcoming">
-      <div class="sp-up-card rv">
-        <div class="sp-up-ico">🏥</div>
-        <div>
-          <div class="sp-up-state">Kwara State — Deeper Push</div>
-          <div class="sp-up-desc">More campuses in Ilorin — expanding our Web3 &amp; AI education beyond UITH to every health school in Kwara.</div>
-          <span class="sp-up-tag">Tech Event</span>
-        </div>
-      </div>
-      <div class="sp-up-card rv" style="transition-delay:.1s">
-        <div class="sp-up-ico">🌟</div>
-        <div>
-          <div class="sp-up-state">Osun State — OAU &amp; UNIOSUN</div>
-          <div class="sp-up-desc">OAU Ile-Ife and UNIOSUN Osogbo — bringing our biggest meetup yet to Osun's health community.</div>
-          <span class="sp-up-tag">Tech Event</span>
-        </div>
-      </div>
-      <div class="sp-up-card rv" style="transition-delay:.2s">
-        <div class="sp-up-ico">⚡</div>
-        <div>
-          <div class="sp-up-state">Ondo State — FUTA Akure</div>
-          <div class="sp-up-desc">Post-convention hands-on AI and health informatics workshop at Federal University of Technology, Akure.</div>
-          <span class="sp-up-tag">Workshop</span>
-        </div>
-      </div>
-      <div class="sp-up-card rv" style="transition-delay:.3s">
-        <div class="sp-up-ico">🎯</div>
-        <div>
-          <div class="sp-up-state">Ekiti State — EKSU</div>
-          <div class="sp-up-desc">The first-ever major tech event at Ekiti State University. We're taking the revolution to EKSU health students.</div>
-          <span class="sp-up-tag">First-Time!</span>
-        </div>
-      </div>
-      <div class="sp-up-card rv" style="transition-delay:.1s">
-        <div class="sp-up-ico">🏙️</div>
-        <div>
-          <div class="sp-up-state">Lagos State — UNILAG + LASU</div>
-          <div class="sp-up-desc">Nigeria's biggest city deserves our biggest event — a full-day summit for health students across Lagos.</div>
-          <span class="sp-up-tag">Summit</span>
-        </div>
-      </div>
-      <div class="sp-up-card rv" style="transition-delay:.2s">
-        <div class="sp-up-ico">🌍</div>
-        <div>
-          <div class="sp-up-state">Beyond the Southwest</div>
-          <div class="sp-up-desc">Every health student in Nigeria deserves this. We're planning to take the movement to other zones nationwide.</div>
-          <span class="sp-up-tag">Long Term</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ░░ DONATION TIERS ░░ -->
-<section class="sp-sec" id="donate">
-  <div class="sp-wrap">
-    <div class="rv" style="text-align:center;margin-bottom:48px">
-      <div class="sp-tag" style="margin:0 auto 16px">
-        <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-        Support the Movement
+      <div class="sp-sec-label">
+        <i data-feather="gift" style="width:11px;height:11px"></i>
+        Donation Levels
       </div>
       <h2 class="sp-h2">Every Naira Goes a Long Way</h2>
-      <p style="font-size:1rem;color:var(--gray);line-height:1.75;max-width:560px;margin:0 auto">No amount is too small. Whether it's ₦500 or ₦100,000 — you are literally changing the trajectory of a student's life. Pick your level.</p>
+      <p class="sp-desc">No amount is too small — ₦500 covers one student's materials, ₦100k funds an entire state event end-to-end.</p>
     </div>
-
     <div class="sp-tiers rv">
       <div class="sp-tier">
-        <span class="sp-tier-ico">🌱</span>
+        <div class="sp-tier-ico"><i data-feather="feather" style="width:18px;height:18px"></i></div>
         <div class="sp-tier-amt">₦500</div>
-        <div class="sp-tier-name">Seed Supporter</div>
-        <div class="sp-tier-desc">Covers one student's materials for a workshop. Small but mighty — this is how movements start.</div>
+        <div class="sp-tier-name">Seed</div>
+        <div class="sp-tier-desc">Student materials for one workshop. Small but mighty.</div>
       </div>
       <div class="sp-tier">
-        <span class="sp-tier-ico">💡</span>
+        <div class="sp-tier-ico"><i data-feather="zap" style="width:18px;height:18px"></i></div>
         <div class="sp-tier-amt">₦1,000</div>
-        <div class="sp-tier-name">Spark Donor</div>
-        <div class="sp-tier-desc">Helps print event flyers and banners. Your ₦1k literally gets your name in the room.</div>
+        <div class="sp-tier-name">Spark</div>
+        <div class="sp-tier-desc">Prints flyers and banners for one event.</div>
       </div>
       <div class="sp-tier gold">
-        <span class="sp-tier-ico">🔥</span>
+        <div class="sp-tier-ico"><i data-feather="trending-up" style="width:18px;height:18px"></i></div>
         <div class="sp-tier-amt">₦10,000</div>
         <div class="sp-tier-name">Change Agent</div>
-        <div class="sp-tier-desc">Sponsors a student's materials and helps fund venue logistics for a full meetup. This is real fuel.</div>
+        <div class="sp-tier-desc">Covers a student's materials plus venue logistics for a meetup.</div>
       </div>
       <div class="sp-tier">
-        <span class="sp-tier-ico">🚀</span>
+        <div class="sp-tier-ico"><i data-feather="send" style="width:18px;height:18px"></i></div>
         <div class="sp-tier-amt">₦50,000</div>
-        <div class="sp-tier-name">Mission Sponsor</div>
-        <div class="sp-tier-desc">Covers travel, accommodation, and logistics for a full state event. You're personally sending us on a mission.</div>
+        <div class="sp-tier-name">Mission</div>
+        <div class="sp-tier-desc">Travel, accommodation, and logistics for a full state event.</div>
       </div>
       <div class="sp-tier">
-        <span class="sp-tier-ico">👑</span>
+        <div class="sp-tier-ico"><i data-feather="award" style="width:18px;height:18px"></i></div>
         <div class="sp-tier-amt">₦100,000</div>
-        <div class="sp-tier-name">Impact Titan</div>
-        <div class="sp-tier-desc">Funds an entire event end-to-end — venue, speakers, logistics, certificates. Your name is in that history.</div>
-      </div>
-    </div>
-
-    <!-- Progress bar -->
-    <div class="sp-prog-wrap rv">
-      <div class="sp-prog-labels">
-        <span>Campaign Progress — Reaching More States</span>
-        <span>Help us hit our goal</span>
-      </div>
-      <div class="sp-prog-bar">
-        <div class="sp-prog-fill" id="progFill"></div>
-      </div>
-      <p style="text-align:center;margin-top:12px;font-size:13px;color:var(--gray)">Every donation pushes this bar forward. Be the reason it moves today.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ░░ HOW TO DONATE ░░ -->
-<section class="sp-sec sp-sec-alt">
-  <div class="sp-wrap">
-    <div class="rv" style="text-align:center;margin-bottom:40px">
-      <div class="sp-tag" style="margin:0 auto 16px">
-        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
-        Donate Now
-      </div>
-      <h2 class="sp-h2">Transfer Direct — No Middleman, No Fees</h2>
-      <p style="font-size:1rem;color:var(--gray);line-height:1.75;max-width:560px;margin:0 auto">100% of your donation goes directly toward our events, logistics, materials, and student support. We keep it transparent, we keep it real.</p>
-    </div>
-
-    <div class="sp-acct rv">
-      <div class="sp-acct-label">Bank Transfer Details</div>
-      <div class="sp-acct-bank">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
-        Moniepoint MFB
-      </div>
-      <div class="sp-acct-num" id="accNum">8062684091</div>
-      <div class="sp-acct-name">Salome Omolaso Ogunderu</div>
-
-      <div class="sp-acct-btns">
-        <button class="sp-copy-btn" id="copyAccBtn" onclick="spCopyAcc()">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-          Copy Account Number
-        </button>
-        <button class="sp-copy-btn" onclick="spShareDetails()">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
-          Share Details
-        </button>
-      </div>
-
-      <div class="sp-steps">
-        <div class="sp-step">
-          <div class="sp-step-n">1</div>
-          <div class="sp-step-t">Open your banking app or dial your bank's USSD transfer code</div>
-        </div>
-        <div class="sp-step">
-          <div class="sp-step-n">2</div>
-          <div class="sp-step-t">Transfer any amount to <strong>8062684091</strong> — Moniepoint MFB</div>
-        </div>
-        <div class="sp-step">
-          <div class="sp-step-n">3</div>
-          <div class="sp-step-t">Confirm name: <strong>Salome Omolaso Ogunderu</strong> — that's correct ✓</div>
-        </div>
-        <div class="sp-step">
-          <div class="sp-step-n">4</div>
-          <div class="sp-step-t">Screenshot your receipt and send via WhatsApp so we can celebrate your name!</div>
-        </div>
-      </div>
-
-      <div class="sp-acct-note">
-        After donating, please send your name + amount to us on WhatsApp at <strong>+234 7048594341</strong> so we can acknowledge your contribution and keep you posted on the events you helped make possible (optional but very appreciated).
+        <div class="sp-tier-name">Titan</div>
+        <div class="sp-tier-desc">Funds one complete event — venue, speakers, certs, logistics.</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ░░ WHY IT MATTERS ░░ -->
-<section class="sp-sec">
+<!-- OUR WORK -->
+<section class="sp-work-sec" id="our-work">
   <div class="sp-wrap">
-    <div style="max-width:720px" class="rv">
-      <div class="sp-tag">
-        <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-        Why This Matters
+    <div class="rv">
+      <div class="sp-sec-label" style="background:#E5E7EB;color:#374151;">
+        <i data-feather="check-circle" style="width:11px;height:11px"></i>
+        What We've Done
       </div>
-      <h2 class="sp-h2">These Are Not Just Students.<br>They Are Nigeria's Future.</h2>
-      <p class="sp-why-body">
-        Health Information Management students are the people who will manage Nigeria's hospital records, run its digital health systems, and shape how patient data flows across the country. Right now, thousands of them go through four years of school without ever hearing about blockchain, AI, or digital health innovation. <strong>That is the gap we are closing.</strong>
-        <br><br>
-        We do this with zero government funding. Zero corporate sponsorship. Just passion, volunteer energy, and whatever we can pull together ourselves. Every event we've run has been funded by belief — belief that these students deserve more than what the classroom gives them.
-        <br><br>
-        <strong>Your support makes the difference between a dream and a delivered event.</strong> When you send ₦500, a student somewhere in Ekiti or Lagos gets to attend a workshop they otherwise couldn't. When you send ₦50,000, an entire state mission becomes possible. That's not exaggeration — that's the math of how we operate.
+      <h2 class="sp-h2">Events We've Delivered</h2>
+      <p class="sp-desc">Across Ogun, Kwara, Osun, Ondo, Lagos, Oyo — and planning Ekiti, more Lagos campuses, and beyond.</p>
+    </div>
+
+    <div class="sp-cards">
+      <div class="sp-card rv">
+        <div class="sp-card-imgwrap">
+          <img src="/photo_2026-11-03_23-36-13.jpg" alt="UITH Kwara Web3 Meetup" class="sp-card-img">
+          <div class="sp-card-bage">180+ Attendees</div>
+        </div>
+        <div class="sp-card-body">
+          <div class="sp-card-state"><i data-feather="map-pin" style="width:10px;height:10px"></i> Kwara — UITH, Ilorin</div>
+          <div class="sp-card-title">Onboard3 Web3 Meetup at UITH</div>
+          <div class="sp-card-meta"><span class="sp-pill">180+ Students</span><span class="sp-pill">95% Satisfaction</span></div>
+        </div>
+      </div>
+
+      <div class="sp-card rv" style="transition-delay:.08s">
+        <div class="sp-card-imgwrap">
+          <img src="/photo_2026-11-03_23-42-21.jpg" alt="Osun OSCOHEALTH Web3" class="sp-card-img">
+          <div class="sp-card-bage">Completed</div>
+        </div>
+        <div class="sp-card-body">
+          <div class="sp-card-state"><i data-feather="map-pin" style="width:10px;height:10px"></i> Osun — OSCOHEALTH, Ilesa</div>
+          <div class="sp-card-title">Onboard3 Web3 Meetup</div>
+          <div class="sp-card-meta"><span class="sp-pill">Web3 &amp; AI</span><span class="sp-pill">Free Entry</span></div>
+        </div>
+      </div>
+
+      <div class="sp-card rv" style="transition-delay:.16s">
+        <div class="sp-card-imgwrap">
+          <img src="/techevnt.jpg" alt="Ogun State Web3 Event" class="sp-card-img">
+          <div class="sp-card-bage">Completed</div>
+        </div>
+        <div class="sp-card-body">
+          <div class="sp-card-state"><i data-feather="map-pin" style="width:10px;height:10px"></i> Ogun — FUNAAB / OOU</div>
+          <div class="sp-card-title">Web3 &amp; AI Launchpad</div>
+          <div class="sp-card-meta"><span class="sp-pill">150+ Students</span><span class="sp-pill">Free Entry</span></div>
+        </div>
+      </div>
+
+      <div class="sp-card rv" style="transition-delay:.08s">
+        <div class="sp-card-imgwrap">
+          <img src="/images/events/1781429958429.jpeg" alt="Annual Convention Ondo" class="sp-card-img">
+          <div class="sp-card-bage">5-Day Convention</div>
+        </div>
+        <div class="sp-card-body">
+          <div class="sp-card-state"><i data-feather="map-pin" style="width:10px;height:10px"></i> Ondo — CHTA, Akure</div>
+          <div class="sp-card-title">NAHIMS SW Annual Convention 2026</div>
+          <div class="sp-card-meta"><span class="sp-pill">100+ Delegates</span><span class="sp-pill">12 Schools</span></div>
+        </div>
+      </div>
+
+      <div class="sp-card rv" style="transition-delay:.16s">
+        <div class="sp-card-imgwrap">
+          <img src="/nahimsss.jpg" alt="Pad A Girl Initiative" class="sp-card-img" style="object-position:center top">
+          <div class="sp-card-bage">500+ Women</div>
+        </div>
+        <div class="sp-card-body">
+          <div class="sp-card-state"><i data-feather="map-pin" style="width:10px;height:10px"></i> All SW Chapters</div>
+          <div class="sp-card-title">Pad A Girl — Menstrual Hygiene Outreach</div>
+          <div class="sp-card-meta"><span class="sp-pill">500+ Reached</span><span class="sp-pill">6 Chapters</span></div>
+        </div>
+      </div>
+
+      <div class="sp-card rv" style="transition-delay:.24s">
+        <div class="sp-card-imgwrap">
+          <img src="/images/events/techevnt.jpg" alt="AI Web3 Launchpad" class="sp-card-img">
+          <div class="sp-card-bage" style="background:rgba(186,117,23,.92)">₦100k Prize Pool</div>
+        </div>
+        <div class="sp-card-body">
+          <div class="sp-card-state"><i data-feather="globe" style="width:10px;height:10px"></i> Nationwide — Virtual</div>
+          <div class="sp-card-title">AI &amp; Web3 Launchpad Competition</div>
+          <div class="sp-card-meta"><span class="sp-pill">₦100k Prize</span><span class="sp-pill">All Students</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Upcoming -->
+    <div style="margin-top:48px" class="rv">
+      <div class="sp-sec-label" style="background:#FFF7ED;color:#B45309;border:1px solid #EF9F27">
+        <i data-feather="navigation" style="width:11px;height:11px"></i>
+        Coming Next
+      </div>
+      <p style="font-size:.9rem;color:var(--gray);line-height:1.7">
+        Ekiti State (EKSU) · More Kwara campuses · OAU &amp; UNIOSUN Osun · FUTA Akure workshop · UNILAG + LASU summit · National expansion beyond the Southwest.
+        <strong style="color:var(--dark)"> Your donation funds the next one.</strong>
       </p>
-    </div>
-
-    <div class="sp-quotes">
-      <div class="sp-quote rv">
-        <div class="sp-quote-txt">"I had never heard of Web3 before this event. After attending, I went home and started learning Solidity. This event literally changed my direction."</div>
-        <div class="sp-quote-who">— Student, UITH Ilorin Meetup</div>
-        <div class="sp-quote-role">Health Information Management, 300 Level</div>
-      </div>
-      <div class="sp-quote rv" style="transition-delay:.1s">
-        <div class="sp-quote-txt">"I didn't know there was a career path for me in AI. NAHIMS SW showed me the door. Now I'm building my first project. 500 naira is what I wish I could give this team every month."</div>
-        <div class="sp-quote-who">— Student, OSCOHEALTH Ilesa Meetup</div>
-        <div class="sp-quote-role">Health Records Officer in Training</div>
-      </div>
-      <div class="sp-quote rv" style="transition-delay:.2s">
-        <div class="sp-quote-txt">"The convention in Akure was the best experience of my student life. I met delegates from 12 schools and made connections that will last my entire career."</div>
-        <div class="sp-quote-who">— Delegate, Annual Convention 2026</div>
-        <div class="sp-quote-role">FUTA Chapter Representative, Ondo State</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ░░ FINAL CTA ░░ -->
-<section class="sp-cta">
-  <div class="sp-cta-inner">
-    <div class="sp-badge" style="margin:0 auto 24px;width:fit-content">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-      TAKE ACTION NOW
-    </div>
-    <h2>Be Part of This Story</h2>
-    <p>Thousands of students are waiting for the next event. The only thing between us and reaching them is resources. ₦500 or ₦100,000 — both are equally powerful acts of belief in Nigerian youth.</p>
-    <div class="sp-hero-btns">
-      <a href="#donate" class="sp-btn-gold">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-        Donate Now — It Takes 2 Minutes
-      </a>
-      <a href="https://wa.me/2347048594341" class="sp-btn-ghost" target="_blank" rel="noopener">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-        WhatsApp Us
-      </a>
     </div>
   </div>
 </section>
 
 <script>
-/* ── Particles ── */
-(function() {
-  const c = document.getElementById('spParticles');
-  for (let i = 0; i < 22; i++) {
-    const p = document.createElement('div');
-    p.className = 'sp-particle';
-    const s = Math.random() * 65 + 18;
-    p.style.cssText = `width:${s}px;height:${s}px;left:${Math.random()*100}%;animation-duration:${Math.random()*16+10}s;animation-delay:${Math.random()*12}s;`;
-    c.appendChild(p);
-  }
-})();
-
-/* ── Scroll reveal ── */
+/* Scroll reveal */
 const rvEls = document.querySelectorAll('.rv');
 const rvObs = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); rvObs.unobserve(e.target); } });
-}, { threshold: 0.1, rootMargin: '0px 0px -44px 0px' });
+}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
 rvEls.forEach(el => rvObs.observe(el));
 
-/* ── Animated counters ── */
+/* Counters */
 function runCounter(el) {
   const target = +el.dataset.count;
-  const dur = 2000, start = Date.now();
+  const dur = 1800, start = Date.now();
   const t = setInterval(() => {
     const p = Math.min((Date.now()-start)/dur, 1);
     const ease = 1 - Math.pow(1-p, 3);
@@ -890,44 +407,32 @@ function runCounter(el) {
 }
 const ctObs = new IntersectionObserver(entries => {
   entries.forEach(e => {
-    if (e.isIntersecting) {
-      e.target.querySelectorAll('[data-count]').forEach(runCounter);
-      ctObs.unobserve(e.target);
-    }
+    if (e.isIntersecting) { e.target.querySelectorAll('[data-count]').forEach(runCounter); ctObs.unobserve(e.target); }
   });
 }, { threshold: 0.3 });
 document.querySelectorAll('.sp-stats-inner').forEach(el => ctObs.observe(el));
 
-/* ── Progress bar ── */
-const progEl = document.getElementById('progFill');
-if (progEl) {
-  const pObs = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) { setTimeout(() => { progEl.style.width = '38%'; }, 300); pObs.unobserve(e.target); }
-    });
-  }, { threshold: 0.5 });
-  pObs.observe(progEl.closest('.sp-prog-wrap'));
-}
-
-/* ── Copy account ── */
+/* Copy account */
 function spCopyAcc() {
   navigator.clipboard.writeText('8062684091').then(() => {
     const btn = document.getElementById('copyAccBtn');
     btn.classList.add('ok');
-    btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Copied!`;
+    btn.innerHTML = `<i data-feather="check" style="width:13px;height:13px"></i> Copied!`;
+    if (typeof feather !== 'undefined') feather.replace();
     setTimeout(() => {
       btn.classList.remove('ok');
-      btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy Account Number`;
-    }, 2800);
+      btn.innerHTML = `<i data-feather="copy" style="width:13px;height:13px"></i> Copy Account Number`;
+      if (typeof feather !== 'undefined') feather.replace();
+    }, 2500);
   }).catch(() => { prompt('Copy this:', '8062684091'); });
 }
 
 function spShareDetails() {
-  const txt = `NAHIMS SW Donation\n\nBank: Moniepoint MFB\nAccount Number: 8062684091\nAccount Name: Salome Omolaso Ogunderu\n\nEvery contribution goes toward empowering health students across Nigeria.\nLearn more: nahimssw.com/support`;
+  const txt = `NAHIMS SW Donation\n\nBank: Moniepoint MFB\nAccount: 8062684091\nName: Salome Omolaso Ogunderu\n\nSupport health students across Nigeria.`;
   if (navigator.share) {
     navigator.share({ title: 'Support NAHIMS SW', text: txt }).catch(() => {});
   } else {
-    navigator.clipboard.writeText(txt).then(() => alert('Details copied to clipboard! Share with anyone who can help \u{1F49A}'));
+    navigator.clipboard.writeText(txt).then(() => alert('Details copied — share with anyone who can help.'));
   }
 }
 </script>
