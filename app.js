@@ -167,6 +167,11 @@ app.get('/blog', async (req, res) => {
   res.render('blog', { site: res.locals.site, page: 'blog' });
 });
 
+// Support / Fundraising
+app.get('/support', (req, res) => {
+  res.render('support', { site: res.locals.site, page: 'support' });
+});
+
 // ═══════════════════════ ADMIN ROUTES ════════════════════════
 
 app.get('/admin/login', (req, res) => {
