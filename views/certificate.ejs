@@ -26,13 +26,28 @@
   <div class="cert-lookup-card">
     <div class="cert-icon-ring"><i data-feather="award"></i></div>
     <h1>Get Your Certificate</h1>
-    <p>Enter your name to generate your certificate of attendance for the <strong><%= school === 'royal' ? 'Onboard3 Connect: Royal Institute #1' : school === 'depotter' ? 'Onboard3 Connect: De Potter #1' : 'NAHIMS SW Tech Event' %></strong> at <%= school === 'royal' ? 'Royal Institute of Health Technology, Ifo, Ogun State, on 21 October 2026' : school === 'depotter' ? 'De Potter College of Health Technology, Ijebu-Ode, Ogun State, on 22 October 2026' : 'POGIL College of Health Technology, Oke-Eri, Ijebu-Ode, Ogun State, on 20 October 2026' %>.</p>
+    <p>Enter your name to generate your certificate of attendance for the <strong><%=
+      school === 'royal'    ? 'Onboard3 Connect: Royal Institute #1' :
+      school === 'depotter' ? 'Onboard3 Connect: De Potter #1' :
+      school === 'oauthc'   ? 'Onboard3 Connect: OAUTHC #1' :
+                              'NAHIMS SW Tech Event'
+    %></strong> at <%=
+      school === 'royal'    ? 'Royal Institute of Health Technology, Ifo, Ogun State, on 21 October 2026' :
+      school === 'depotter' ? 'De Potter College of Health Technology, Ijebu-Ode, Ogun State, on 22 October 2026' :
+      school === 'oauthc'   ? 'Obafemi Awolowo University Teaching Hospital Complex (OAUTHC), Ile-Ife, Osun State, on 14 November 2026' :
+                              'POGIL College of Health Technology, Oke-Eri, Ijebu-Ode, Ogun State, on 20 October 2026'
+    %>.</p>
 
     <% if (error) { %>
     <div class="cl-error"><i data-feather="alert-circle"></i> <%= error %></div>
     <% } %>
 
-    <form method="POST" action="<%= school === 'royal' ? '/certificate/royal-institute' : school === 'depotter' ? '/certificate/de-potter' : '/certificate' %>">
+    <form method="POST" action="<%=
+      school === 'royal'    ? '/certificate/royal-institute' :
+      school === 'depotter' ? '/certificate/de-potter' :
+      school === 'oauthc'   ? '/certificate/oauthc' :
+                              '/certificate'
+    %>">
       <div class="cl-field">
         <label>Full Name</label>
         <input type="text" name="fullName" placeholder="Enter the name to print on your certificate" required autocomplete="name" maxlength="120">

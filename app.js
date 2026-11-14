@@ -835,6 +835,12 @@ const dePotterCertificate = {
   eventDate: new Date('2026-10-22T00:00:00.000Z'),
   certificatePrefix: 'NAHIMS-SW-DEPOTTER-2026'
 };
+const oauthcCertificate = {
+  event: 'Onboard3 Connect: OAUTHC #1',
+  venue: 'Obafemi Awolowo University Teaching Hospital Complex (OAUTHC), Ile-Ife, Osun State',
+  eventDate: new Date('2026-11-14T00:00:00.000Z'),
+  certificatePrefix: 'NAHIMS-SW-OAUTHC-2026'
+};
 
 app.get('/certificate/royal-institute', (req, res) => {
   res.render('certificate', { page: 'certificate', error: null, school: 'royal' });
@@ -842,11 +848,15 @@ app.get('/certificate/royal-institute', (req, res) => {
 app.get('/certificate/de-potter', (req, res) => {
   res.render('certificate', { page: 'certificate', error: null, school: 'depotter' });
 });
+app.get('/certificate/oauthc', (req, res) => {
+  res.render('certificate', { page: 'certificate', error: null, school: 'oauthc' });
+});
 
-app.post(['/certificate', '/certificate/royal-institute', '/certificate/de-potter'], async (req, res) => {
+app.post(['/certificate', '/certificate/royal-institute', '/certificate/de-potter', '/certificate/oauthc'], async (req, res) => {
   const isRoyal = req.path === '/certificate/royal-institute';
   const isDePotter = req.path === '/certificate/de-potter';
-  const school = isRoyal ? 'royal' : isDePotter ? 'depotter' : 'pogil';
+  const isOauthc = req.path === '/certificate/oauthc';
+  const school = isRoyal ? 'royal' : isDePotter ? 'depotter' : isOauthc ? 'oauthc' : 'pogil';
   const name = (req.body.fullName || '').replace(/\s+/g, ' ').trim();
   if (!name) {
     return res.render('certificate', { page: 'certificate', error: 'Please enter your full name.', school });
@@ -854,10 +864,12 @@ app.post(['/certificate', '/certificate/royal-institute', '/certificate/de-potte
   if (name.length > 120) {
     return res.render('certificate', { page: 'certificate', error: 'Please enter a name under 120 characters.', school });
   }
+  const certConfig = isRoyal ? royalInstituteCertificate : isDePotter ? dePotterCertificate : isOauthc ? oauthcCertificate : {};
+  const certPrefix = isRoyal ? royalInstituteCertificate.certificatePrefix : isDePotter ? dePotterCertificate.certificatePrefix : isOauthc ? oauthcCertificate.certificatePrefix : 'NAHIMS-SW-TECH-2026';
   const certificate = await Certificate.create({
     fullName: name,
-    ...(isRoyal ? royalInstituteCertificate : isDePotter ? dePotterCertificate : {}),
-    certificateNumber: `${isRoyal ? royalInstituteCertificate.certificatePrefix : isDePotter ? dePotterCertificate.certificatePrefix : 'NAHIMS-SW-TECH-2026'}-${crypto.randomBytes(4).toString('hex').toUpperCase()}`
+    ...certConfig,
+    certificateNumber: `${certPrefix}-${crypto.randomBytes(4).toString('hex').toUpperCase()}`
   });
   res.render('certificate-view', { page: 'certificate', certificate });
 });
